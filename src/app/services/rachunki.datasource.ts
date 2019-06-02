@@ -6,7 +6,7 @@ import { catchError, finalize } from 'rxjs/operators';
 import { Rachunek } from '../model/rachunek';
 import { FirebaseService } from './firebase.service';
 
-export class LessonsDataSource implements DataSource<Rachunek> {
+export class RachunkiDataSource implements DataSource<Rachunek> {
   private rachunkiSubject = new BehaviorSubject<Rachunek[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
@@ -23,12 +23,12 @@ export class LessonsDataSource implements DataSource<Rachunek> {
     this.loadingSubject.complete();
   }
 
-  wczytajRachunki(courseId: number, filter = '', sortDirection = 'asc', pageIndex = 0, pageSize = 3) {
+  wczytajRachunki(filter = '', sortDirection = 'asc', pageIndex = 0, pageSize = 3) {
     this.loadingSubject.next(true);
 
     this.firebaseService
       .odczytajRachunki()
       .pipe(catchError(() => of([])), finalize(() => this.loadingSubject.next(false)))
-      .subscribe((lessons) => this.rachunkiSubject.next(lessons));
+      .subscribe((rachunki) => this.rachunkiSubject.next(rachunki));
   }
 }

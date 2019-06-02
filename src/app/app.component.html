@@ -4,30 +4,29 @@
   </h1>
 </div>
 
-<mat-table class="lessons-table mat-elevation-z8" [dataSource]="dataSource">
+<mat-table class="mat-elevation-z8"
+           [dataSource]="dataSource">
 
-  <ng-container matColumnDef="seqNo">
+  <ng-container matColumnDef="id">
     <mat-header-cell *matHeaderCellDef>#</mat-header-cell>
-    <mat-cell *matCellDef="let lesson">{{lesson.seqNo}}</mat-cell>
+    <mat-cell *matCellDef="let rachunek">{{rachunek.id}}</mat-cell>
   </ng-container>
 
-  <ng-container matColumnDef="description">
-    <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-    <mat-cell class="description-cell" *matCellDef="let lesson">{{lesson.description}}</mat-cell>
+  <ng-container matColumnDef="nazwa">
+    <mat-header-cell *matHeaderCellDef>Nazwa</mat-header-cell>
+    <mat-cell *matCellDef="let rachunek">{{rachunek.nazwa}}</mat-cell>
 
   </ng-container>
 
-  <ng-container matColumnDef="duration">
-    <mat-header-cell *matHeaderCellDef>Duration</mat-header-cell>
-    <mat-cell class="duration-cell" *matCellDef="let lesson">{{lesson.duration}}</mat-cell>
+  <ng-container matColumnDef="opis">
+    <mat-header-cell *matHeaderCellDef>Opis</mat-header-cell>
+    <mat-cell *matCellDef="let rachunek">{{rachunek.opis}}</mat-cell>
   </ng-container>
 
   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
   <mat-row *matRowDef="let row; columns: displayedColumns"
-    (click)="onRowClicked(row)">
+           (click)="onRowClicked(row)">
   </mat-row>
 
 </mat-table>
-
-<app-login></app-login>

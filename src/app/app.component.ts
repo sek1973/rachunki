@@ -1,25 +1,26 @@
 import { FirebaseService } from './services/firebase.service';
-import { LessonsDataSource } from './services/rachunki.datasource';
+import { RachunkiDataSource } from './services/rachunki.datasource';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrls: [ './app.component.scss' ],
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: [ './app.component.scss' ],
 })
 export class AppComponent implements OnInit {
-	title = 'rachunki';
+  title = 'rachunki';
 
-	dataSource: LessonsDataSource;
-	displayedColumns = [ 'seqNo', 'description', 'duration' ];
+  dataSource: RachunkiDataSource;
+  displayedColumns = [ 'id', 'nazwa', 'opis' ];
 
-	constructor(private firebaseService: FirebaseService) {}
+  constructor(private firebaseService: FirebaseService) {}
 
-	ngOnInit() {
-		this.dataSource = new LessonsDataSource(this.firebaseService);
-	}
+  ngOnInit() {
+    this.dataSource = new RachunkiDataSource(this.firebaseService);
+    this.dataSource.wczytajRachunki();
+  }
 
-	onRowClicked(row) {
-		console.log('Row clicked: ', row);
-	}
+  onRowClicked(row) {
+    console.log('Row clicked: ', row);
+  }
 }
