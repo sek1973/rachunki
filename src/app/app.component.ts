@@ -19,35 +19,8 @@ import { RachunkiDataSource } from './services/rachunki.datasource';
 })
 export class AppComponent implements OnInit {
   title = 'rachunki';
-  expandedRow: any;
-  activeRow: any;
 
-  dataSource: RachunkiDataSource;
-  dataColumns = [ 'id', 'nazwa', 'opis' ];
-  columns = [ '_expand', ...this.dataColumns ];
+  constructor() {}
 
-  constructor(private firebaseService: FirebaseService) {}
-
-  ngOnInit() {
-    this.dataSource = new RachunkiDataSource(this.firebaseService);
-    this.dataSource.wczytajRachunki();
-  }
-
-  onRowClicked(row) {
-    console.log('Row clicked: ', row);
-  }
-
-  onRowClick(row: any) {
-    if (this.activeRow !== row) {
-      this.activeRow = row;
-    }
-  }
-
-  onRowExpandClick(row: any) {
-    if (this.expandedRow === row) {
-      this.expandedRow = undefined;
-    } else {
-      this.expandedRow = row;
-    }
-  }
+  ngOnInit() {}
 }
