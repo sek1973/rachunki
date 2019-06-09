@@ -29,6 +29,8 @@ export class RachunkiDataSource implements DataSource<Rachunek> {
     this.firebaseService
       .odczytajRachunki()
       .pipe(catchError(() => of([])), finalize(() => this.loadingSubject.next(false)))
-      .subscribe((rachunki) => this.rachunkiSubject.next(rachunki));
+      .subscribe((rachunki) => {
+        this.rachunkiSubject.next(rachunki);
+      });
   }
 }

@@ -8,7 +8,7 @@
     <th mat-header-cell
         *matHeaderCellDef>{{column}}</th>
     <td mat-cell
-        *matCellDef="let rachunek">{{rachunek[column]}}</td>
+        *matCellDef="let rachunek">{{pokazWartosc(rachunek, column)}}</td>
   </ng-container>
 
   <ng-container matColumnDef="_expand">
