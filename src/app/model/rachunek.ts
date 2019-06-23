@@ -1,6 +1,8 @@
 import { Jednostka } from './jednostka';
 import { Platnosc } from './platnosc';
-import { Timestamp } from '@google-cloud/firestore';
+import { firestore } from 'firebase';
+
+import Timestamp = firestore.Timestamp;
 
 export interface Rachunek {
   id: number;
