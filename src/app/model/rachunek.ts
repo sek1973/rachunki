@@ -4,17 +4,17 @@ import { firestore } from 'firebase';
 
 import Timestamp = firestore.Timestamp;
 
-export interface Rachunek {
+export interface Bill {
   id: number;
   lp: number;
-  nazwa: string;
-  opis: string;
-  aktywny: boolean;
+  name: string;
+  description: string;
+  active: boolean;
   url: string;
   login: string;
-  haslo: string;
+  password: string;
   udzial: number;
-  kwota: number;
+  sum: number;
   termin: Timestamp;
   przypomnienie: Timestamp;
   ilePrzed: number;

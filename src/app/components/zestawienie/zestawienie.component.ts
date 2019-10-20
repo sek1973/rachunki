@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FirebaseService } from './../../services/firebase.service';
 import { BillsDataSource } from './../../services/rachunki.datasource';
-import { Rachunek } from 'src/app/model/rachunek';
+import { Bill } from 'src/app/model/rachunek';
 
 @Component({
   selector: 'app-zestawienie',
@@ -51,7 +51,7 @@ export class ZestawienieComponent implements OnInit {
     }
   }
 
-  getValue(wiersz: Rachunek, kolumna: string): string {
+  getValue(wiersz: Bill, kolumna: string): string {
     switch (kolumna) {
       case 'termin':
       case 'przypomnienie':
