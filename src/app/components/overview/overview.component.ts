@@ -5,6 +5,11 @@ import { Bill } from 'src/app/model/bill';
 import { FirebaseService } from '../../services/firebase.service';
 import { BillsDataSource } from '../../services/rachunki.datasource';
 
+export interface TableColumn {
+	name: string;
+	header: string;
+}
+
 @Component({
 	selector: 'app-overview',
 	templateUrl: './overview.component.html',
@@ -29,8 +34,12 @@ export class OverviewComponent implements OnInit {
 	activeRow: any;
 
 	dataSource: BillsDataSource;
-	dataColumns = ['name', 'deadline', 'sum'];
-	columns = ['_expand', ...this.dataColumns];
+	dataColumns = [
+		{ name: 'name', header: 'Nazwa' },
+		{ name: 'deadline', header: 'Termin' },
+		{ name: 'sum', header: 'Kwota' }
+	];
+	columns = ['_expand', ...this.dataColumns.map(column => column.name)];
 
 	constructor(private firebaseService: FirebaseService) { }
 
@@ -71,5 +80,9 @@ export class OverviewComponent implements OnInit {
 			default:
 				return row[column];
 		}
+	}
+
+	getId(row: Bill): number {
+		return row.id;
 	}
 }
