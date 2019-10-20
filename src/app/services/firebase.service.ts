@@ -8,9 +8,9 @@ import { Rachunek } from '../model/rachunek';
   providedIn: 'root',
 })
 export class FirebaseService {
-  constructor(public db: AngularFirestore) {}
+  constructor(public db: AngularFirestore) { }
 
-  odczytajRachunki(): Observable<Rachunek[]> {
+  fetchBills(): Observable<Rachunek[]> {
     return this.db.collection<Rachunek>('rachunki').valueChanges();
   }
 }

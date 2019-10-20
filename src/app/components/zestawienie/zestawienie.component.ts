@@ -2,7 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit } from '@angular/core';
 
 import { FirebaseService } from './../../services/firebase.service';
-import { RachunkiDataSource } from './../../services/rachunki.datasource';
+import { BillsDataSource } from './../../services/rachunki.datasource';
 import { Rachunek } from 'src/app/model/rachunek';
 
 @Component({
@@ -22,15 +22,15 @@ export class ZestawienieComponent implements OnInit {
   expandedRow: any;
   activeRow: any;
 
-  dataSource: RachunkiDataSource;
+  dataSource: BillsDataSource;
   dataColumns = ['nazwa', 'termin', 'kwota'];
   columns = ['_expand', ...this.dataColumns];
 
   constructor(private firebaseService: FirebaseService) { }
 
   ngOnInit() {
-    this.dataSource = new RachunkiDataSource(this.firebaseService);
-    this.dataSource.wczytajRachunki();
+    this.dataSource = new BillsDataSource(this.firebaseService);
+    this.dataSource.loadBills();
   }
 
   onRowClicked(row) {
