@@ -8,7 +8,7 @@ import { Rachunek } from 'src/app/model/rachunek';
 @Component({
   selector: 'app-zestawienie',
   templateUrl: './zestawienie.component.html',
-  styleUrls: [ './zestawienie.component.scss' ],
+  styleUrls: ['./zestawienie.component.scss'],
   // animation fix based on: https://github.com/angular/material2/issues/11990
   animations: [
     trigger('detailExpand', [
@@ -23,10 +23,10 @@ export class ZestawienieComponent implements OnInit {
   activeRow: any;
 
   dataSource: RachunkiDataSource;
-  dataColumns = [ 'nazwa', 'termin', 'kwota' ];
-  columns = [ '_expand', ...this.dataColumns ];
+  dataColumns = ['nazwa', 'termin', 'kwota'];
+  columns = ['_expand', ...this.dataColumns];
 
-  constructor(private firebaseService: FirebaseService) {}
+  constructor(private firebaseService: FirebaseService) { }
 
   ngOnInit() {
     this.dataSource = new RachunkiDataSource(this.firebaseService);
@@ -51,7 +51,7 @@ export class ZestawienieComponent implements OnInit {
     }
   }
 
-  pokazWartosc(wiersz: Rachunek, kolumna: string): string {
+  getValue(wiersz: Rachunek, kolumna: string): string {
     switch (kolumna) {
       case 'termin':
       case 'przypomnienie':
