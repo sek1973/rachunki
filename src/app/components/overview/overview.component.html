@@ -11,7 +11,7 @@
       <ng-container *ngSwitchCase="'name'">
         <td mat-cell
             *matCellDef="let rachunek">
-          <a routerLink="/rachunek/{{getId(rachunek)}}"
+          <a [routerLink]="['/rachunek', getId(rachunek)]"
              routerLinkActive="active">{{getValue(rachunek, column.name)}}</a>
         </td>
       </ng-container>

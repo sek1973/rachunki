@@ -1,18 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
+import { FirebaseService } from './../../services/firebase.service';
 
 @Component({
 	selector: 'app-rachunek',
 	templateUrl: './bill.component.html',
 	styleUrls: ['./bill.component.scss']
 })
-export class BillComponent implements OnInit {
-
+export class BillComponent implements OnInit, OnDestroy {
+	private subscription = Subscription.EMPTY;
 	form: FormGroup = new FormGroup({ name: new FormControl() });
 
-	constructor() { }
+	constructor(private route: ActivatedRoute,
+		private router: Router,
+		private firebaseService: FirebaseService) { }
 
 	ngOnInit() {
+		this.subscription = this.route.paramMap.pipe(switchMap(param => {
+			const params = param['params'];
+			const id = params ? params['id'] : undefined;
+			return this.firebaseService.fetchPayments(id);
+		})).subscribe(val => { console.log('payments data:', val); });
+	}
+
+	ngOnDestroy() {
+		this.subscription.unsubscribe();
 	}
 
 	getErrorMessage(...path: string[]): string {
