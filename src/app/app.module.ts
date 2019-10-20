@@ -1,16 +1,15 @@
-import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireModule } from '@angular/fire';
 import 'hammerjs';
 
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import {
-  MatInputModule,
-  MatPaginatorModule,
-  MatProgressSpinnerModule,
-  MatSortModule,
-  MatTableModule,
+	MatInputModule,
+	MatPaginatorModule,
+	MatProgressSpinnerModule,
+	MatSortModule,
+	MatTableModule,
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,45 +17,45 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
+import { BillComponent } from './components/bill/bill.component';
 import { LoginComponent } from './components/login/login.component';
-import { RachunekComponent } from './components/rachunek/rachunek.component';
-import { ZestawienieComponent } from './components/zestawienie/zestawienie.component';
+import { OverviewComponent } from './components/overview/overview.component';
 import { FirebaseService } from './services/firebase.service';
 
 const appRoutes: Routes = [
-  { path: 'zestawienie', component: ZestawienieComponent },
-  {
-    path: 'rachunek/:id',
-    component: RachunekComponent,
-    data: { title: 'Rachunek' },
-  },
-  {
-    path: '',
-    redirectTo: '/zestawienie',
-    pathMatch: 'full',
-  },
+	{ path: 'zestawienie', component: OverviewComponent },
+	{
+		path: 'rachunek/:id',
+		component: BillComponent,
+		data: { title: 'Rachunek' },
+	},
+	{
+		path: '',
+		redirectTo: '/zestawienie',
+		pathMatch: 'full',
+	},
 ];
 
 @NgModule({
-  declarations: [ AppComponent, LoginComponent, RachunekComponent, ZestawienieComponent ],
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot(
-      appRoutes,
-      { enableTracing: true }, // <-- debugging purposes only
-    ),
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    MatInputModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatProgressSpinnerModule,
-    AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-  ],
-  providers: [ FirebaseService ],
-  bootstrap: [ AppComponent ],
+	declarations: [AppComponent, LoginComponent, BillComponent, OverviewComponent],
+	imports: [
+		BrowserModule,
+		RouterModule.forRoot(
+			appRoutes,
+			{ enableTracing: true }, // <-- debugging purposes only
+		),
+		BrowserModule,
+		BrowserAnimationsModule,
+		HttpClientModule,
+		MatInputModule,
+		MatTableModule,
+		MatPaginatorModule,
+		MatSortModule,
+		MatProgressSpinnerModule,
+		AngularFireModule.initializeApp(environment.firebase),
+		AngularFirestoreModule,
+	],
+	providers: [FirebaseService],
+	bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

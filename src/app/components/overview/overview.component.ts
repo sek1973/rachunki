@@ -2,13 +2,13 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit } from '@angular/core';
 import { Bill } from 'src/app/model/bill';
 
-import { FirebaseService } from './../../services/firebase.service';
-import { BillsDataSource } from './../../services/rachunki.datasource';
+import { FirebaseService } from '../../services/firebase.service';
+import { BillsDataSource } from '../../services/rachunki.datasource';
 
 @Component({
-	selector: 'app-zestawienie',
-	templateUrl: './zestawienie.component.html',
-	styleUrls: ['./zestawienie.component.scss'],
+	selector: 'app-overview',
+	templateUrl: './overview.component.html',
+	styleUrls: ['./overview.component.scss'],
 	// animation fix based on: https://github.com/angular/material2/issues/11990
 	animations: [
 		trigger('detailExpand', [
@@ -24,7 +24,7 @@ import { BillsDataSource } from './../../services/rachunki.datasource';
 		]),
 	],
 })
-export class ZestawienieComponent implements OnInit {
+export class OverviewComponent implements OnInit {
 	expandedRow: any;
 	activeRow: any;
 
@@ -57,19 +57,19 @@ export class ZestawienieComponent implements OnInit {
 		}
 	}
 
-	getValue(wiersz: Bill, kolumna: string): string {
-		switch (kolumna) {
+	getValue(row: Bill, column: string): string {
+		switch (column) {
 			case 'deadline':
 			case 'remindOn':
-				return wiersz[kolumna].toDate().toISOString().substring(0, 10);
+				return row[column].toDate().toISOString().substring(0, 10);
 			case 'sum':
 				const formatter = new Intl.NumberFormat('pl-PL', {
 					style: 'currency',
 					currency: 'PLN',
 				});
-				return formatter.format(wiersz[kolumna]);
+				return formatter.format(row[column]);
 			default:
-				return wiersz[kolumna];
+				return row[column];
 		}
 	}
 }
