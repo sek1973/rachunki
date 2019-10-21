@@ -1,21 +1,6 @@
-<div class="form-item"
-     [ngClass]="{'item--no-line': noLine}"
-     [formGroup]="form">
-  <label for="name">
-    Nazwa
-  </label>
-
-  <mat-form-field>
-    <input matInput
-           [matTooltip]="'Podaj nazwę rachunku do opłacania, np. Gaz.'"
-           [matTooltipShowDelay]="1000"
-           [matTooltipHideDelay]="1000"
-           matTooltipClass="adva-tooltip"
-           id="name"
-           placeholder="Nazwa rachunku do opłacania (np. gaz.)"
-           formControlName="name">
-    <mat-error>
-      {{getErrorMessage('name')}}
-    </mat-error>
-  </mat-form-field>
-</div>
+<app-input-text [formGroup]="form"
+                [path]="['name']"
+                tooltipText="Podaj nazwę rachunku do opłacania, np. Gaz."
+                placeholderText="Nazwa rachunku do opłacania (np. gaz.)"
+                labelText="Nazwa">
+</app-input-text>

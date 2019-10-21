@@ -24,11 +24,12 @@ import { BillComponent } from './components/bill/bill.component';
 import { LoginComponent } from './components/login/login.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { FirebaseService } from './services/firebase.service';
+import { InputTextComponent } from './components/inputs/input-text/input-text.component';
 
 const appRoutes: Routes = routes;
 
 @NgModule({
-	declarations: [AppComponent, LoginComponent, BillComponent, OverviewComponent],
+	declarations: [AppComponent, LoginComponent, BillComponent, OverviewComponent, InputTextComponent],
 	imports: [
 		BrowserModule,
 		RouterModule.forRoot(
