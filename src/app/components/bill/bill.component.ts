@@ -13,7 +13,11 @@ import { FirebaseService } from './../../services/firebase.service';
 })
 export class BillComponent implements OnInit, OnDestroy {
 	private subscription = Subscription.EMPTY;
-	form: FormGroup = new FormGroup({ name: new FormControl() });
+	form: FormGroup = new FormGroup({
+		name: new FormControl(),
+		description: new FormControl(),
+		url: new FormControl()
+	});
 
 	constructor(private route: ActivatedRoute,
 		private router: Router,
@@ -23,8 +27,16 @@ export class BillComponent implements OnInit, OnDestroy {
 		this.subscription = this.route.paramMap.pipe(switchMap(param => {
 			const params = param['params'];
 			const id = params ? params['id'] : undefined;
-			return this.firebaseService.fetchPayments(id);
-		})).subscribe(val => { console.log('payments data:', val); });
+			return this.firebaseService.fetchBill(id);
+		})).subscribe(bill => {
+			this.form.patchValue({
+				id: bill.id,
+				name: bill.name,
+				description: bill.description,
+				url: bill.url
+			});
+			console.log('bill data:', bill);
+		});
 	}
 
 	ngOnDestroy() {

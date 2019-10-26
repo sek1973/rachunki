@@ -4,3 +4,15 @@
                 placeholderText="Nazwa rachunku do opłacania (np. gaz.)"
                 labelText="Nazwa">
 </app-input-text>
+<app-input-text [formGroup]="form"
+                [path]="['description']"
+                tooltipText="Dodaj opcjonalny opis rachunku."
+                placeholderText="Opis / uwagi"
+                labelText="Opis">
+</app-input-text>
+<app-input-text [formGroup]="form"
+                [path]="['url']"
+                tooltipText="Podaj adres www dla rachunku np. 24.energa.pl (strona do logowania)"
+                placeholderText="Adres www rachunku - strona do logowania"
+                labelText="Adres www">
+</app-input-text>
