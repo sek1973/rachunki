@@ -1,16 +1,28 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { Bill } from '../model/bill';
 import { Payment } from '../model/payment';
-import { mergeMap, map } from 'rxjs/operators';
 
 @Injectable({
 	providedIn: 'root',
 })
 export class FirebaseService {
-	constructor(public db: AngularFirestore) { }
+	private billsSubject = new BehaviorSubject<Bill[]>([]);
+
+	constructor(public db: AngularFirestore) {
+		this.fetchBills()
+			.pipe(catchError(() => of([])))
+			.subscribe((bills) => {
+				this.billsSubject.next(bills);
+			});
+	}
+
+	get billsObservable() {
+		return this.billsSubject.asObservable();
+	}
 
 	fetchBills(): Observable<Bill[]> {
 		return this.db.collection<Bill>('bills')

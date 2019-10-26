@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, mergeMap, map } from 'rxjs/operators';
 
 import { FirebaseService } from './../../services/firebase.service';
 
@@ -24,18 +24,22 @@ export class BillComponent implements OnInit, OnDestroy {
 		private firebaseService: FirebaseService) { }
 
 	ngOnInit() {
+		let id: number;
 		this.subscription = this.route.paramMap.pipe(switchMap(param => {
 			const params = param['params'];
-			const id = params ? params['id'] : undefined;
-			return this.firebaseService.fetchBill(id);
-		})).subscribe(bill => {
-			this.form.patchValue({
-				id: bill.id,
-				name: bill.name,
-				description: bill.description,
-				url: bill.url
-			});
-			console.log('bill data:', bill);
+			id = params ? +params['id'] : undefined;
+			return this.firebaseService.billsObservable;
+		})).subscribe(bills => {
+			if (bills && bills.length) {
+				const bill = bills.find(b => b.id === id);
+				this.form.patchValue({
+					id: bill.id,
+					name: bill.name,
+					description: bill.description,
+					url: bill.url
+				});
+				console.log('bill data:', bill);
+			}
 		});
 	}
 

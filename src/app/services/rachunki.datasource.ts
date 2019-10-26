@@ -27,10 +27,10 @@ export class BillsDataSource implements DataSource<Bill> {
 		this.loadingSubject.next(true);
 
 		this.firebaseService
-			.fetchBills()
-			.pipe(catchError(() => of([])), finalize(() => this.loadingSubject.next(false)))
+			.billsObservable
 			.subscribe((rachunki) => {
 				this.billsSubject.next(rachunki);
+				this.loadingSubject.next(false);
 			});
 	}
 }
