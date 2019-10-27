@@ -14,6 +14,7 @@ import {
 	MatSortModule,
 	MatTableModule,
 	MatTooltipModule,
+	MatButtonModule,
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -39,7 +40,7 @@ const appRoutes: Routes = routes;
 		BrowserModule,
 		RouterModule.forRoot(
 			appRoutes,
-			{ enableTracing: true }, // <-- debugging purposes only
+			{ enableTracing: false },
 		),
 		BrowserModule,
 		BrowserAnimationsModule,
@@ -50,6 +51,7 @@ const appRoutes: Routes = routes;
 		MatPaginatorModule,
 		MatSortModule,
 		MatProgressSpinnerModule,
+		MatButtonModule,
 		MatPasswordStrengthModule.forRoot(),
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFirestoreModule,

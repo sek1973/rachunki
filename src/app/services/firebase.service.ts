@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { firestore } from 'firebase';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { Bill } from '../model/bill';
 import { Payment } from '../model/payment';
+
+import Timestamp = firestore.Timestamp;
 
 @Injectable({
 	providedIn: 'root',
@@ -54,5 +57,22 @@ export class FirebaseService {
 				.pipe(mergeMap(bill => this.fetchPaymentsForBill(bill)));
 		}
 		return of(null);
+	}
+
+	updateBill(bill: Bill) {
+		this.db.collection('bills').doc(bill.uid).set({
+			id: bill.id,
+			name: bill.name || '',
+			description: bill.description || '',
+			active: bill.active || false,
+			url: bill.url || '',
+			login: bill.login || '',
+			password: bill.password || '',
+			share: bill.share || 1,
+			sum: bill.sum || 0,
+			deadline: bill.deadline || Timestamp.fromDate(new Date())
+		})
+			.then(() => console.log('Document successfully written!'))
+			.catch((error) => console.error('Error writing document: ', error));
 	}
 }

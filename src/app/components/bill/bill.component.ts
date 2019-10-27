@@ -19,12 +19,16 @@ export class BillComponent implements OnInit, OnDestroy {
 
 	bill: Bill;
 	form: FormGroup = new FormGroup({
+		id: new FormControl,
+		uid: new FormControl,
 		name: new FormControl(),
 		description: new FormControl(),
 		url: new FormControl(),
 		active: new FormControl(),
 		login: new FormControl(),
-		password: new FormControl()
+		password: new FormControl(),
+		share: new FormControl(),
+		sum: new FormControl()
 	});
 
 	constructor(private route: ActivatedRoute,
@@ -42,6 +46,7 @@ export class BillComponent implements OnInit, OnDestroy {
 				this.bill = bills.find(b => b.id === id);
 				this.form.patchValue({
 					id: this.bill.id,
+					uid: this.bill.uid,
 					name: this.bill.name,
 					description: this.bill.description,
 					url: this.bill.url,
@@ -61,6 +66,10 @@ export class BillComponent implements OnInit, OnDestroy {
 	getTitle(): string {
 		const title = getSafe(() => this.bill.name);
 		return title || 'Rachunek bez nazwy';
+	}
+
+	saveBill() {
+		this.firebaseService.updateBill(this.form.value);
 	}
 
 	getErrorMessage(...path: string[]): string {

@@ -4,6 +4,7 @@ import { Bill } from 'src/app/model/bill';
 
 import { FirebaseService } from '../../services/firebase.service';
 import { BillsDataSource } from '../../services/rachunki.datasource';
+import undefined = require('firebase/empty-import');
 
 export interface TableColumn {
 	name: string;
@@ -70,7 +71,7 @@ export class OverviewComponent implements OnInit {
 		switch (column) {
 			case 'deadline':
 			case 'remindOn':
-				return row[column].toDate().toISOString().substring(0, 10);
+				return row[column] ? row[column].toDate().toISOString().substring(0, 10) : undefined;
 			case 'sum':
 				const formatter = new Intl.NumberFormat('pl-PL', {
 					style: 'currency',

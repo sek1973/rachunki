@@ -6,6 +6,7 @@ import { Unit } from './unit';
 import Timestamp = firestore.Timestamp;
 
 export interface Bill {
+	uid: string;
 	id: number;
 	lp: number;
 	name: string;
