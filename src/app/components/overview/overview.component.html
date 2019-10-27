@@ -1,6 +1,9 @@
 <a mat-raised-button
-   color="warn"
-   [routerLink]="['/rachunek']">+</a>
+   color="primary"
+   [routerLink]="['/rachunek']">Nowy rachunek</a>
+<button mat-raised-button
+        color="warn"
+        (click)="deleteBill()">Usuń rachunek</button>
 
 <table mat-table
        class="mat-elevation-z8"

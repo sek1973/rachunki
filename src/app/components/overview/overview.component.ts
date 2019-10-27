@@ -50,10 +50,6 @@ export class OverviewComponent implements OnInit {
 	}
 
 	onRowClicked(row) {
-		console.log('Row clicked: ', row);
-	}
-
-	onRowClick(row: any) {
 		if (this.activeRow !== row) {
 			this.activeRow = row;
 		}
@@ -85,5 +81,11 @@ export class OverviewComponent implements OnInit {
 
 	getId(row: Bill): number {
 		return row.id;
+	}
+
+	deleteBill() {
+		if (this.activeRow) {
+			this.firebaseService.deleteBill(this.activeRow);
+		}
 	}
 }
