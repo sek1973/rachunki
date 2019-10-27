@@ -91,11 +91,7 @@ export class FirebaseService {
 			.catch((error) => console.error('Error writing document: ', error));
 	}
 
-	deleteBill(bill: Bill) {
-		if (bill) {
-			this.db.collection('bills').doc(bill.uid).delete()
-				.then(() => console.log('Document successfully deleted!'))
-				.catch((error) => console.error('Error deleting document: ', error));
-		}
+	deleteBill(bill: Bill): Promise<void> {
+		return this.db.collection('bills').doc(bill.uid).delete();
 	}
 }

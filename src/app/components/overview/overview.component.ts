@@ -4,7 +4,6 @@ import { Bill } from 'src/app/model/bill';
 
 import { FirebaseService } from '../../services/firebase.service';
 import { BillsDataSource } from '../../services/rachunki.datasource';
-import undefined = require('firebase/empty-import');
 
 export interface TableColumn {
 	name: string;
@@ -85,7 +84,12 @@ export class OverviewComponent implements OnInit {
 
 	deleteBill() {
 		if (this.activeRow) {
-			this.firebaseService.deleteBill(this.activeRow);
+			this.firebaseService.deleteBill(this.activeRow)
+				.then(() => {
+					console.log('Document successfully deleted!');
+					this.activeRow = undefined;
+				}).catch((error) => console.error('Error deleting document: ', error));
 		}
 	}
+
 }
