@@ -1,12 +1,12 @@
-import { Bill } from './../../model/bill';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { switchMap, mergeMap, map } from 'rxjs/operators';
-
-import { FirebaseService } from './../../services/firebase.service';
+import { switchMap } from 'rxjs/operators';
 import { getSafe } from 'src/app/helpers';
+
+import { Bill } from './../../model/bill';
+import { FirebaseService } from './../../services/firebase.service';
 
 @Component({
 	selector: 'app-rachunek',
@@ -21,7 +21,10 @@ export class BillComponent implements OnInit, OnDestroy {
 	form: FormGroup = new FormGroup({
 		name: new FormControl(),
 		description: new FormControl(),
-		url: new FormControl()
+		url: new FormControl(),
+		active: new FormControl(),
+		login: new FormControl(),
+		password: new FormControl()
 	});
 
 	constructor(private route: ActivatedRoute,
@@ -41,7 +44,10 @@ export class BillComponent implements OnInit, OnDestroy {
 					id: this.bill.id,
 					name: this.bill.name,
 					description: this.bill.description,
-					url: this.bill.url
+					url: this.bill.url,
+					active: this.bill.active,
+					login: this.bill.login,
+					password: this.bill.password
 				});
 				console.log('bill data:', this.bill);
 			}

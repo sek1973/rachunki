@@ -1,5 +1,6 @@
 import 'hammerjs';
 
+import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
@@ -9,6 +10,7 @@ import {
 	MatInputModule,
 	MatPaginatorModule,
 	MatProgressSpinnerModule,
+	MatSlideToggleModule,
 	MatSortModule,
 	MatTableModule,
 	MatTooltipModule,
@@ -21,15 +23,18 @@ import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { routes } from './app.routes';
 import { BillComponent } from './components/bill/bill.component';
+import { InputPasswordComponent } from './components/inputs/input-password/input-password.component';
+import { InputTextComponent } from './components/inputs/input-text/input-text.component';
+import { InputToggleComponent } from './components/inputs/input-toggle/input-toggle.component';
 import { LoginComponent } from './components/login/login.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { FirebaseService } from './services/firebase.service';
-import { InputTextComponent } from './components/inputs/input-text/input-text.component';
 
 const appRoutes: Routes = routes;
 
 @NgModule({
-	declarations: [AppComponent, LoginComponent, BillComponent, OverviewComponent, InputTextComponent],
+	declarations: [AppComponent,
+		LoginComponent, BillComponent, OverviewComponent, InputTextComponent, InputToggleComponent, InputPasswordComponent],
 	imports: [
 		BrowserModule,
 		RouterModule.forRoot(
@@ -41,9 +46,11 @@ const appRoutes: Routes = routes;
 		HttpClientModule,
 		MatInputModule,
 		MatTableModule,
+		MatSlideToggleModule,
 		MatPaginatorModule,
 		MatSortModule,
 		MatProgressSpinnerModule,
+		MatPasswordStrengthModule.forRoot(),
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFirestoreModule,
 		FormsModule,
