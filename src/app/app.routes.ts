@@ -6,6 +6,11 @@ import { OverviewComponent } from './components/overview/overview.component';
 export const routes: Routes = [
 	{ path: 'zestawienie', component: OverviewComponent },
 	{
+		path: 'rachunek',
+		component: BillComponent,
+		data: { title: 'Nowy rachunek' },
+	},
+	{
 		path: 'rachunek/:id',
 		component: BillComponent,
 		data: { title: 'Rachunek' },

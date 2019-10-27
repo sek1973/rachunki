@@ -13,12 +13,14 @@ import Timestamp = firestore.Timestamp;
 	providedIn: 'root',
 })
 export class FirebaseService {
+	private bills: Bill[];
 	private billsSubject = new BehaviorSubject<Bill[]>([]);
 
 	constructor(public db: AngularFirestore) {
 		this.fetchBills()
 			.pipe(catchError(() => of([])))
 			.subscribe((bills) => {
+				this.bills = bills;
 				this.billsSubject.next(bills);
 			});
 	}
@@ -59,8 +61,13 @@ export class FirebaseService {
 		return of(null);
 	}
 
-	updateBill(bill: Bill) {
-		this.db.collection('bills').doc(bill.uid).set({
+	private createBillData(bill: Bill): any {
+		if (bill.id === undefined) {
+			if (this.bills && this.bills.length) {
+				bill.id = Math.max(...this.bills.map(b => b.id)) + 1;
+			} else { bill.id = 0; }
+		}
+		return {
 			id: bill.id,
 			name: bill.name || '',
 			description: bill.description || '',
@@ -71,7 +78,15 @@ export class FirebaseService {
 			share: bill.share || 1,
 			sum: bill.sum || 0,
 			deadline: bill.deadline || Timestamp.fromDate(new Date())
-		})
+		};
+	}
+
+	addBill(bill: Bill): Promise<firestore.DocumentReference> {
+		return this.db.collection('bills').add(this.createBillData(bill));
+	}
+
+	updateBill(bill: Bill) {
+		this.db.collection('bills').doc(bill.uid).set(this.createBillData(bill))
 			.then(() => console.log('Document successfully written!'))
 			.catch((error) => console.error('Error writing document: ', error));
 	}

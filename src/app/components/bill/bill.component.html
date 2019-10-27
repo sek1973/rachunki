@@ -3,6 +3,8 @@
     {{getTitle()}}
   </h1>
 </div>
+<a [routerLink]="['/zestawienie']"
+   routerLinkActive="active">Zestawienie</a>
 <app-input-text [formGroup]="form"
                 [path]="['name']"
                 tooltipText="Podaj nazwę rachunku do opłacania, np. Gaz."

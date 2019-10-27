@@ -5,7 +5,7 @@ import { Unit } from './unit';
 
 import Timestamp = firestore.Timestamp;
 
-export interface Bill {
+export class Bill {
 	uid: string;
 	id: number;
 	lp: number;
@@ -22,4 +22,12 @@ export interface Bill {
 	before: number;
 	unit: Unit;
 	payments: Payment[];
+
+	constructor() {
+		this.name = 'Nowy rachunek';
+		this.active = true;
+		this.sum = 0;
+		this.share = 1;
+		this.deadline = Timestamp.fromDate(new Date());
+	}
 }

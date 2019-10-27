@@ -41,22 +41,35 @@ export class BillComponent implements OnInit, OnDestroy {
 			const params = param['params'];
 			id = params ? +params['id'] : undefined;
 			return this.firebaseService.billsObservable;
-		})).subscribe(bills => {
-			if (bills && bills.length) {
-				this.bill = bills.find(b => b.id === id);
-				this.form.patchValue({
-					id: this.bill.id,
-					uid: this.bill.uid,
-					name: this.bill.name,
-					description: this.bill.description,
-					url: this.bill.url,
-					active: this.bill.active,
-					login: this.bill.login,
-					password: this.bill.password
-				});
-				console.log('bill data:', this.bill);
-			}
-		});
+		}))
+			.subscribe(bills => this.handleData(bills, id)
+			);
+	}
+
+	private handleData(bills: Bill[], id: number) {
+		this.bill = bills.find(b => b.id === id);
+		if (!this.bill) { this.createBill(); }
+		this.loadBill();
+	}
+
+	private loadBill() {
+		if (this.bill) {
+			this.form.patchValue({
+				id: this.bill.id,
+				uid: this.bill.uid,
+				name: this.bill.name,
+				description: this.bill.description,
+				url: this.bill.url,
+				active: this.bill.active,
+				login: this.bill.login,
+				password: this.bill.password
+			});
+			console.log('bill data:', this.bill);
+		}
+	}
+
+	private createBill() {
+		this.bill = new Bill();
 	}
 
 	ngOnDestroy() {
@@ -69,7 +82,19 @@ export class BillComponent implements OnInit, OnDestroy {
 	}
 
 	saveBill() {
-		this.firebaseService.updateBill(this.form.value);
+		this.setBill(this.form.value);
+	}
+
+	setBill(bill: Bill) {
+		if (bill.uid) {
+			this.firebaseService.updateBill(bill);
+		} else {
+			this.firebaseService.addBill(bill)
+				.then((ref) => {
+					console.log('Document successfully added!', ref, bill);
+					this.router.navigate([bill.id], { relativeTo: this.route });
+				}).catch((error) => console.error('Error adding document: ', error));
+		}
 	}
 
 	getErrorMessage(...path: string[]): string {
