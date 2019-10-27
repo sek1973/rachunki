@@ -1,3 +1,4 @@
+import { Bill } from './../../model/bill';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -5,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { switchMap, mergeMap, map } from 'rxjs/operators';
 
 import { FirebaseService } from './../../services/firebase.service';
+import { getSafe } from 'src/app/helpers';
 
 @Component({
 	selector: 'app-rachunek',
@@ -12,7 +14,10 @@ import { FirebaseService } from './../../services/firebase.service';
 	styleUrls: ['./bill.component.scss']
 })
 export class BillComponent implements OnInit, OnDestroy {
+
 	private subscription = Subscription.EMPTY;
+
+	bill: Bill;
 	form: FormGroup = new FormGroup({
 		name: new FormControl(),
 		description: new FormControl(),
@@ -31,20 +36,25 @@ export class BillComponent implements OnInit, OnDestroy {
 			return this.firebaseService.billsObservable;
 		})).subscribe(bills => {
 			if (bills && bills.length) {
-				const bill = bills.find(b => b.id === id);
+				this.bill = bills.find(b => b.id === id);
 				this.form.patchValue({
-					id: bill.id,
-					name: bill.name,
-					description: bill.description,
-					url: bill.url
+					id: this.bill.id,
+					name: this.bill.name,
+					description: this.bill.description,
+					url: this.bill.url
 				});
-				console.log('bill data:', bill);
+				console.log('bill data:', this.bill);
 			}
 		});
 	}
 
 	ngOnDestroy() {
 		this.subscription.unsubscribe();
+	}
+
+	getTitle(): string {
+		const title = getSafe(() => this.bill.name);
+		return title || 'Rachunek bez nazwy';
 	}
 
 	getErrorMessage(...path: string[]): string {
