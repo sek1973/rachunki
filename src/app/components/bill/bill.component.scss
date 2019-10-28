@@ -1,0 +1,55 @@
+.bill-titlebar {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+  align-items: stretch;
+}
+
+.bill-title {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  font-size: 24px;
+  align-items: center;
+  padding: 10px 20px 10px 20px;
+}
+
+.bill-toolbar {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px 20px 10px 20px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-content: stretch;
+}
+
+.form-column-left {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-left: 20px;
+  padding-right: 10px;
+}
+
+.form-column-right {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding-left: 10px;
+  padding-right: 20px;
+}
+
+.toolbar-button {
+  margin-left: 5px;
+  margin-right: 5px;
+}

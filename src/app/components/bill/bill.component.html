@@ -1,60 +1,76 @@
-<div style="text-align:center">
-  <h1>
-    {{getTitle()}}
-  </h1>
+<div class="bill-titlebar">
+  <div class="bill-title">
+    <span>
+      {{getTitle()}}
+    </span>
+  </div>
+  <div class="bill-toolbar">
+    <button mat-raised-button
+            color="primary"
+            class="toolbar-button"
+            (click)="saveBill()">Zapisz</button>
+    <a mat-raised-button
+       color="primary"
+       class="toolbar-button"
+       [routerLink]="['/zestawienie']"
+       routerLinkActive="active">Zestawienie</a>
+  </div>
 </div>
-<a [routerLink]="['/zestawienie']"
-   routerLinkActive="active">Zestawienie</a>
-<app-input-text [formGroup]="form"
-                [path]="['name']"
-                tooltipText="Podaj nazwę rachunku do opłacania, np. Gaz."
-                placeholderText="Nazwa rachunku do opłacania (np. gaz.)"
-                labelText="Nazwa">
-</app-input-text>
-<app-input-text [formGroup]="form"
-                [path]="['description']"
-                tooltipText="Dodaj opcjonalny opis rachunku."
-                placeholderText="Opis / uwagi"
-                labelText="Opis">
-</app-input-text>
-<app-input-toggle [formGroup]="form"
-                  [path]="['active']"
-                  tooltipText="Odznacz, jeżeli rachunek (tymczasowo) nie ma być uwzględniany."
-                  labelText="Aktywny">
-</app-input-toggle>
-<app-input-text [formGroup]="form"
-                [path]="['url']"
-                tooltipText="Podaj adres www dla rachunku np. 24.energa.pl (strona do logowania)"
-                placeholderText="Adres www rachunku - strona do logowania"
-                labelText="Adres www">
-</app-input-text>
-<app-input-text [formGroup]="form"
-                [path]="['login']"
-                tooltipText="Podaj login, którego używasz na stronie logowania dystrybutora"
-                placeholderText="Login do konta u dystrybutora"
-                labelText="Login">
-</app-input-text>
-<app-input-password [formGroup]="form"
-                    [path]="['password']"
-                    tooltipText="Podaj hasło, którego używasz na stronie logowania dystrybutora"
-                    placeholderText="Hasło do konta u dystrybutora"
-                    labelText="Hasło">
-</app-input-password>
-<app-input-text [formGroup]="form"
-                type="number"
-                [path]="['share']"
-                tooltipText="Jeżeli rachunek opłacasz wspólnie, podaj Twój udział"
-                placeholderText="Udział w opłacie"
-                labelText="Udział">
-</app-input-text>
-<app-input-text [formGroup]="form"
-                type="number"
-                [path]="['sum']"
-                tooltipText="Podaj kwotę do zapłacenia"
-                placeholderText="Kwota do zapłacenia"
-                labelText="Kwota">
-</app-input-text>
+<div class="form">
 
-<button mat-raised-button
-        color="primary"
-        (click)="saveBill()">Zapisz</button>
+  <div class="form-column-left">
+    <app-input-text [formGroup]="form"
+                    [path]="['name']"
+                    tooltipText="Podaj nazwę rachunku do opłacania, np. Gaz."
+                    placeholderText="Nazwa rachunku do opłacania (np. gaz.)"
+                    labelText="Nazwa">
+    </app-input-text>
+    <app-input-text [formGroup]="form"
+                    [path]="['description']"
+                    tooltipText="Dodaj opcjonalny opis rachunku."
+                    placeholderText="Opis / uwagi"
+                    labelText="Opis">
+    </app-input-text>
+    <app-input-toggle [formGroup]="form"
+                      [path]="['active']"
+                      tooltipText="Odznacz, jeżeli rachunek (tymczasowo) nie ma być uwzględniany."
+                      labelText="Aktywny">
+    </app-input-toggle>
+    <app-input-text [formGroup]="form"
+                    [path]="['url']"
+                    tooltipText="Podaj adres www dla rachunku np. 24.energa.pl (strona do logowania)"
+                    placeholderText="Adres www rachunku - strona do logowania"
+                    labelText="Adres www">
+    </app-input-text>
+  </div>
+
+  <div class="form-column-right">
+    <app-input-text [formGroup]="form"
+                    [path]="['login']"
+                    tooltipText="Podaj login, którego używasz na stronie logowania dystrybutora"
+                    placeholderText="Login do konta u dystrybutora"
+                    labelText="Login">
+    </app-input-text>
+    <app-input-password [formGroup]="form"
+                        [path]="['password']"
+                        tooltipText="Podaj hasło, którego używasz na stronie logowania dystrybutora"
+                        placeholderText="Hasło do konta u dystrybutora"
+                        labelText="Hasło">
+    </app-input-password>
+    <app-input-text [formGroup]="form"
+                    type="number"
+                    [path]="['share']"
+                    tooltipText="Jeżeli rachunek opłacasz wspólnie, podaj Twój udział"
+                    placeholderText="Udział w opłacie"
+                    labelText="Udział">
+    </app-input-text>
+    <app-input-text [formGroup]="form"
+                    type="number"
+                    [path]="['sum']"
+                    tooltipText="Podaj kwotę do zapłacenia"
+                    placeholderText="Kwota do zapłacenia"
+                    labelText="Kwota">
+    </app-input-text>
+  </div>
+
+</div>

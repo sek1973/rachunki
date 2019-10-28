@@ -1,11 +1,19 @@
-<a mat-raised-button
-   color="primary"
-   [routerLink]="['/rachunek']">Nowy rachunek</a>
-<button mat-raised-button
-        color="warn"
-        (click)="deleteBill()"
-        [disabled]="!activeRow">Usuń rachunek</button>
-
+<div class="table-titlebar">
+  <div class="table-title">
+    Rachunki
+  </div>
+  <div class="table-toolbar">
+    <a mat-raised-button
+       color="primary"
+       class="toolbar-button"
+       [routerLink]="['/rachunek']">Nowy rachunek</a>
+    <button mat-raised-button
+            color="warn"
+            class="toolbar-button"
+            (click)="deleteBill()"
+            [disabled]="!activeRow">Usuń rachunek</button>
+  </div>
+</div>
 <table mat-table
        class="mat-elevation-z8"
        multiTemplateDataRows
