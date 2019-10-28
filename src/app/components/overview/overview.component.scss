@@ -144,3 +144,13 @@ tr.row-row {
   margin-left: 5px;
   margin-right: 5px;
 }
+
+.spinner-container {
+  height: 360px;
+  width: 100%;
+  position: fixed;
+}
+
+.spinner-container mat-spinner {
+  margin: 100px auto 0 auto;
+}

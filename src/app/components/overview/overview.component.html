@@ -14,6 +14,12 @@
             [disabled]="!activeRow">Usuń rachunek</button>
   </div>
 </div>
+
+<div class="spinner-container"
+     *ngIf="dataSource.loading$ | async">
+  <mat-spinner></mat-spinner>
+</div>
+
 <table mat-table
        class="mat-elevation-z8"
        multiTemplateDataRows
