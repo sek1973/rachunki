@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Bill } from 'src/app/model/bill';
 
 import { FirebaseService } from '../../services/firebase.service';
-import { BillsDataSource } from '../../services/rachunki.datasource';
+import { BillsDataSource } from '../../services/bills.datasource';
 
 export interface TableColumn {
 	name: string;

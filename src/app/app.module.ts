@@ -30,12 +30,13 @@ import { InputToggleComponent } from './components/inputs/input-toggle/input-tog
 import { LoginComponent } from './components/login/login.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { FirebaseService } from './services/firebase.service';
+import { PaymentsComponent } from './components/payments/payments.component';
 
 const appRoutes: Routes = routes;
 
 @NgModule({
 	declarations: [AppComponent,
-		LoginComponent, BillComponent, OverviewComponent, InputTextComponent, InputToggleComponent, InputPasswordComponent],
+		LoginComponent, BillComponent, OverviewComponent, InputTextComponent, InputToggleComponent, InputPasswordComponent, PaymentsComponent],
 	imports: [
 		BrowserModule,
 		RouterModule.forRoot(

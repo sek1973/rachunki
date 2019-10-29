@@ -1,8 +1,11 @@
+import { firestore } from 'firebase';
+
+import Timestamp = firestore.Timestamp;
+
 export interface Payment {
-	deadline: Date;
-	paidDate: Date;
-	toPaySum: number;
-	share: number;
-	paidSum: number;
+	uid: string;
+	deadline: Timestamp;
+	paidDate: Timestamp;
+	sum: number;
 	remarks: string;
 }

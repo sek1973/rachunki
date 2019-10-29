@@ -34,9 +34,9 @@ export class FirebaseService {
 			.valueChanges({ idField: 'uid' });
 	}
 
-	fetchPayments(id: number): Observable<Payment[]> {
-		if (id !== undefined) {
-			const query = this.db.collection<Payment>('payments', ref => ref.where('id', '==', id));
+	fetchPayments(uid: string): Observable<Payment[]> {
+		if (uid !== undefined) {
+			const query = this.db.collection<Bill>('bills').doc(uid).collection<Payment>('payments');
 			return query.valueChanges();
 		}
 		return of([]);
@@ -44,7 +44,7 @@ export class FirebaseService {
 
 	fetchPaymentsForBill(bill: Bill): Observable<Bill> {
 		if (bill) {
-			return this.fetchPayments(bill.id).pipe(map(payments => {
+			return this.fetchPayments(bill.uid).pipe(map(payments => {
 				bill.payments = payments;
 				return bill;
 			}));

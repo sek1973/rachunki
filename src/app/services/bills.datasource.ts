@@ -1,7 +1,6 @@
 import { CollectionViewer } from '@angular/cdk/collections';
 import { DataSource } from '@angular/cdk/table';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { catchError, finalize } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 import { Bill } from '../model/bill';
 import { FirebaseService } from './firebase.service';
@@ -28,8 +27,8 @@ export class BillsDataSource implements DataSource<Bill> {
 
 		this.firebaseService
 			.billsObservable
-			.subscribe((rachunki) => {
-				this.billsSubject.next(rachunki);
+			.subscribe((bills) => {
+				this.billsSubject.next(bills);
 				this.loadingSubject.next(false);
 			});
 	}
