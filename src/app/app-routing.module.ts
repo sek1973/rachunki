@@ -1,3 +1,4 @@
+import { LoginComponent } from './components/login/login.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { BillComponent } from './components/bill/bill.component';
 import { OverviewComponent } from './components/overview/overview.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
     redirectTo: '/zestawienie',
     pathMatch: 'full',
   },
+  { path: 'login', component: LoginComponent },
   { path: '**', component: PageNotFoundComponent }
 ];
 
