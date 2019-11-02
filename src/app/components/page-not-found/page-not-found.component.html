@@ -1,1 +1,18 @@
-<h2>Strona nie została znaleziona!</h2>
+<div class="parent">
+  <div class="container">
+    <h2 class="message">Strona nie została znaleziona!</h2>
+    <a mat-raised-button
+       color="primary"
+       class="toolbar-button"
+       [routerLink]="['/zestawienie']"
+       routerLinkActive="active">
+      Zestawienie
+    </a>
+    <button mat-raised-button
+            color="accent"
+            class="toolbar-button"
+            (click)="goBack()">
+      Powrót
+    </button>
+  </div>
+</div>
