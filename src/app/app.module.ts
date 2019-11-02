@@ -7,6 +7,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+	MatButtonModule,
 	MatInputModule,
 	MatPaginatorModule,
 	MatProgressSpinnerModule,
@@ -14,35 +15,38 @@ import {
 	MatSortModule,
 	MatTableModule,
 	MatTooltipModule,
-	MatButtonModule,
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { environment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { routes } from './app.routes';
 import { BillComponent } from './components/bill/bill.component';
 import { InputPasswordComponent } from './components/inputs/input-password/input-password.component';
 import { InputTextComponent } from './components/inputs/input-text/input-text.component';
 import { InputToggleComponent } from './components/inputs/input-toggle/input-toggle.component';
 import { LoginComponent } from './components/login/login.component';
 import { OverviewComponent } from './components/overview/overview.component';
-import { FirebaseService } from './services/firebase.service';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PaymentsComponent } from './components/payments/payments.component';
-
-const appRoutes: Routes = routes;
+import { FirebaseService } from './services/firebase.service';
 
 @NgModule({
-	declarations: [AppComponent,
-		LoginComponent, BillComponent, OverviewComponent, InputTextComponent, InputToggleComponent, InputPasswordComponent, PaymentsComponent],
+	declarations: [
+		AppComponent,
+		LoginComponent,
+		BillComponent,
+		OverviewComponent,
+		InputTextComponent,
+		InputToggleComponent,
+		InputPasswordComponent,
+		PaymentsComponent,
+		PageNotFoundComponent
+	],
 	imports: [
 		BrowserModule,
-		RouterModule.forRoot(
-			appRoutes,
-			{ enableTracing: false },
-		),
 		BrowserModule,
 		BrowserAnimationsModule,
 		HttpClientModule,
@@ -58,7 +62,8 @@ const appRoutes: Routes = routes;
 		AngularFirestoreModule,
 		FormsModule,
 		ReactiveFormsModule,
-		MatTooltipModule
+		MatTooltipModule,
+		AppRoutingModule
 	],
 	providers: [FirebaseService],
 	bootstrap: [AppComponent],
