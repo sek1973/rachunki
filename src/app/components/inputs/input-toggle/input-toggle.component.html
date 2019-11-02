@@ -1,9 +1,5 @@
 <div class="form-item"
      [formGroup]="formGroup">
-  <label [for]="fieldName"
-         class="form-item-label">
-    {{labelText}}
-  </label>
 
   <mat-slide-toggle class="form-item-input"
                     [matTooltip]="tooltipText"
@@ -11,5 +7,6 @@
                     [matTooltipHideDelay]="tooltipHideDelayValue"
                     [id]="fieldName"
                     [formControlName]="fieldName">
+    {{placeholderText}}
   </mat-slide-toggle>
 </div>

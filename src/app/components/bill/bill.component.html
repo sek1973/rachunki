@@ -22,25 +22,22 @@
     <app-input-text [formGroup]="form"
                     [path]="['name']"
                     tooltipText="Podaj nazwę rachunku do opłacania, np. Gaz."
-                    placeholderText="Nazwa rachunku do opłacania (np. gaz.)"
-                    labelText="Nazwa">
+                    placeholderText="Nazwa rachunku do opłacania (np. gaz.)">
     </app-input-text>
     <app-input-text [formGroup]="form"
                     [path]="['description']"
                     tooltipText="Dodaj opcjonalny opis rachunku."
-                    placeholderText="Opis / uwagi"
-                    labelText="Opis">
+                    placeholderText="Opis / uwagi">
     </app-input-text>
     <app-input-toggle [formGroup]="form"
                       [path]="['active']"
                       tooltipText="Odznacz, jeżeli rachunek (tymczasowo) nie ma być uwzględniany."
-                      labelText="Aktywny">
+                      placeholderText="Aktywny">
     </app-input-toggle>
     <app-input-text [formGroup]="form"
                     [path]="['url']"
                     tooltipText="Podaj adres www dla rachunku np. 24.energa.pl (strona do logowania)"
-                    placeholderText="Adres www rachunku - strona do logowania"
-                    labelText="Adres www">
+                    placeholderText="Adres www rachunku - strona do logowania">
     </app-input-text>
   </div>
 
@@ -48,28 +45,24 @@
     <app-input-text [formGroup]="form"
                     [path]="['login']"
                     tooltipText="Podaj login, którego używasz na stronie logowania dystrybutora"
-                    placeholderText="Login do konta u dystrybutora"
-                    labelText="Login">
+                    placeholderText="Login do konta u dystrybutora">
     </app-input-text>
     <app-input-password [formGroup]="form"
                         [path]="['password']"
                         tooltipText="Podaj hasło, którego używasz na stronie logowania dystrybutora"
-                        placeholderText="Hasło do konta u dystrybutora"
-                        labelText="Hasło">
+                        placeholderText="Hasło do konta u dystrybutora">
     </app-input-password>
     <app-input-text [formGroup]="form"
                     type="number"
                     [path]="['share']"
                     tooltipText="Jeżeli rachunek opłacasz wspólnie, podaj Twój udział"
-                    placeholderText="Udział w opłacie"
-                    labelText="Udział">
+                    placeholderText="Udział w opłacie">
     </app-input-text>
     <app-input-text [formGroup]="form"
                     type="number"
                     [path]="['sum']"
                     tooltipText="Podaj kwotę do zapłacenia"
-                    placeholderText="Kwota do zapłacenia"
-                    labelText="Kwota">
+                    placeholderText="Kwota do zapłacenia">
     </app-input-text>
   </div>
 
