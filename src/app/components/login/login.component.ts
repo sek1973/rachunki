@@ -1,3 +1,4 @@
+import { NavigationService } from './../../services/navigation.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 
@@ -21,7 +22,7 @@ export class LoginComponent implements OnInit {
   ]);
   loginForm = new FormGroup({ email: this.emailFormControl, password: this.passwordFormControl });
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private navigationService: NavigationService) { }
 
   ngOnInit() {
   }
@@ -30,7 +31,7 @@ export class LoginComponent implements OnInit {
     const email = form.value.email;
     const password = form.value.password;
     this.authService.login(email, password);
-    this.router.navigate(['/zestawienie']);
+    this.navigationService.goToPreviousPage('/zestawienie');
   }
 
   getErrorMessage(formControl: FormControl): string {

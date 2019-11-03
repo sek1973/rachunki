@@ -2,8 +2,10 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit } from '@angular/core';
 import { Bill } from 'src/app/model/bill';
 
-import { FirebaseService } from '../../services/firebase.service';
 import { BillsDataSource } from '../../services/bills.datasource';
+import { FirebaseService } from '../../services/firebase.service';
+import { AuthService } from './../../services/auth.service';
+import { Router } from '@angular/router';
 
 export interface TableColumn {
 	name: string;
@@ -41,7 +43,9 @@ export class OverviewComponent implements OnInit {
 	];
 	columns = ['_expand', ...this.dataColumns.map(column => column.name)];
 
-	constructor(private firebaseService: FirebaseService) { }
+	constructor(private firebaseService: FirebaseService,
+		private authService: AuthService,
+		private router: Router) { }
 
 	ngOnInit() {
 		this.dataSource = new BillsDataSource(this.firebaseService);
@@ -90,6 +94,11 @@ export class OverviewComponent implements OnInit {
 					this.activeRow = undefined;
 				}).catch((error) => console.error('Error deleting document: ', error));
 		}
+	}
+
+	logout() {
+		this.authService.logout();
+		this.router.navigate(['/login']);
 	}
 
 }

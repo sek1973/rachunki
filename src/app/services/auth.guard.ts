@@ -1,3 +1,4 @@
+import { PreviousUrlService } from './previous-url.service';
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -12,9 +13,13 @@ export class AuthGuard implements CanActivate {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private previousUrlService: PreviousUrlService
   ) { }
 
   canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+    if (state) {
+      this.previousUrlService.previousUrl = state.url;
+    }
     return this.authService.authState$.pipe(map(authState => {
       if (authState !== null) { return true; }
 

@@ -1,8 +1,10 @@
+import { PreviousUrlService } from './services/previous-url.service';
+import { NavigationService } from './services/navigation.service';
 import 'hammerjs';
 
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -67,7 +69,15 @@ import { FirebaseService } from './services/firebase.service';
 	],
 	providers: [
 		FirebaseService,
-		AngularFireAuth
+		AngularFireAuth,
+		NavigationService,
+		PreviousUrlService,
+		{
+			provide: APP_INITIALIZER,
+			useFactory: (ds: PreviousUrlService) => function () { return ds.load(); },
+			deps: [PreviousUrlService],
+			multi: true
+		}
 	],
 	bootstrap: [AppComponent],
 })
