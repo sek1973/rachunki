@@ -34,6 +34,7 @@ import { OverviewComponent } from './components/overview/overview.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PaymentsComponent } from './components/payments/payments.component';
 import { FirebaseService } from './services/firebase.service';
+import { AppSpinnerComponent } from './components/tools/app-spinner/app-spinner.component';
 
 @NgModule({
 	declarations: [
@@ -45,7 +46,8 @@ import { FirebaseService } from './services/firebase.service';
 		InputToggleComponent,
 		InputPasswordComponent,
 		PaymentsComponent,
-		PageNotFoundComponent
+		PageNotFoundComponent,
+		AppSpinnerComponent
 	],
 	imports: [
 		BrowserModule,

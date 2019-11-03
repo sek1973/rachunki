@@ -1,3 +1,4 @@
+import { BehaviorSubject } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 
@@ -10,6 +11,8 @@ import { NavigationService } from './../../services/navigation.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  public loading$ = this.loadingSubject.asObservable();
 
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -28,11 +31,13 @@ export class LoginComponent implements OnInit {
   }
 
   onLogIn(form: NgForm) {
+    this.loadingSubject.next(true);
     const email = form.value.email;
     const password = form.value.password;
     this.authService.login(email, password).then(
       () => {
         this.navigationService.goToPreviousPage('/zestawienie');
+        this.loadingSubject.next(false);
         console.log('logged in');
       },
       rejected => console.error(rejected)
