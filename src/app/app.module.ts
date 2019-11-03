@@ -74,7 +74,7 @@ import { FirebaseService } from './services/firebase.service';
 		PreviousUrlService,
 		{
 			provide: APP_INITIALIZER,
-			useFactory: (ds: PreviousUrlService) => function () { return ds.load(); },
+			useFactory: (ds: PreviousUrlService) => function () { return ds.init(); },
 			deps: [PreviousUrlService],
 			multi: true
 		}

@@ -31,5 +31,7 @@ export class BillsDataSource implements DataSource<Bill> {
 				this.billsSubject.next(bills);
 				this.loadingSubject.next(false);
 			});
+
+		this.firebaseService.loadBills();
 	}
 }

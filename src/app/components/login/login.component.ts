@@ -21,7 +21,8 @@ export class LoginComponent implements OnInit {
   ]);
   loginForm = new FormGroup({ email: this.emailFormControl, password: this.passwordFormControl });
 
-  constructor(private authService: AuthService, private navigationService: NavigationService) { }
+  constructor(private authService: AuthService,
+    private navigationService: NavigationService) { }
 
   ngOnInit() {
   }
@@ -29,8 +30,12 @@ export class LoginComponent implements OnInit {
   onLogIn(form: NgForm) {
     const email = form.value.email;
     const password = form.value.password;
-    this.authService.login(email, password).then(() =>
-      this.navigationService.goToPreviousPage('/zestawienie')
+    this.authService.login(email, password).then(
+      () => {
+        this.navigationService.goToPreviousPage('/zestawienie');
+        console.log('logged in');
+      },
+      rejected => console.error(rejected)
     );
   }
 

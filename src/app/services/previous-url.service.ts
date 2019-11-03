@@ -13,7 +13,7 @@ export class PreviousUrlService {
 
   constructor() { }
 
-  load() {
+  init() {
     return new Promise((resolve, reject) => {
       console.log('Previous Url service loaded.');
       resolve();

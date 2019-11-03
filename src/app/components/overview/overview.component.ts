@@ -97,8 +97,12 @@ export class OverviewComponent implements OnInit {
 	}
 
 	logout() {
-		this.authService.logout();
-		this.router.navigate(['/login']);
+		this.authService.logout().then(
+			() => {
+				this.router.navigate(['/login']);
+				console.log('logged out');
+			},
+			rejected => console.error('logout:', rejected));
 	}
 
 }

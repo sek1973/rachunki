@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { firestore } from 'firebase';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { Bill } from '../model/bill';
@@ -15,9 +15,15 @@ import Timestamp = firestore.Timestamp;
 export class FirebaseService {
 	private bills: Bill[];
 	private billsSubject = new BehaviorSubject<Bill[]>([]);
+	private billsSubscription = Subscription.EMPTY;
 
 	constructor(public db: AngularFirestore) {
-		this.fetchBills()
+		this.loadBills();
+	}
+
+	loadBills() {
+		this.billsSubscription.unsubscribe();
+		this.billsSubscription = this.fetchBills()
 			.pipe(catchError(() => of([])))
 			.subscribe((bills) => {
 				this.bills = bills;
