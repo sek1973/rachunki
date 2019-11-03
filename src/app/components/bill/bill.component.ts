@@ -1,3 +1,4 @@
+import { AuthService } from './../../services/auth.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -33,7 +34,8 @@ export class BillComponent implements OnInit, OnDestroy {
 
 	constructor(private route: ActivatedRoute,
 		private router: Router,
-		private firebaseService: FirebaseService) { }
+		private firebaseService: FirebaseService,
+		private authService: AuthService) { }
 
 	ngOnInit() {
 		let id: number;
@@ -106,6 +108,11 @@ export class BillComponent implements OnInit, OnDestroy {
 			}
 		}
 		return 'Invalid value provided';
+	}
+
+	logout() {
+		this.authService.logout();
+		this.router.navigate(['/login']);
 	}
 
 }
