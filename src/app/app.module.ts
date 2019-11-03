@@ -4,6 +4,7 @@ import { MatPasswordStrengthModule } from '@angular-material-extensions/password
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -18,7 +19,6 @@ import {
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Routes } from '@angular/router';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -65,7 +65,10 @@ import { FirebaseService } from './services/firebase.service';
 		MatTooltipModule,
 		AppRoutingModule
 	],
-	providers: [FirebaseService],
+	providers: [
+		FirebaseService,
+		AngularFireAuth
+	],
 	bootstrap: [AppComponent],
 })
 export class AppModule { }

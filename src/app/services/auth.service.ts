@@ -1,18 +1,36 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { auth } from 'firebase';
+import { auth, User } from 'firebase';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  readonly authState$: Observable<User | null> = this.angularFireAuth.authState;
 
-  constructor(public afAuth: AngularFireAuth) { }
+  constructor(public angularFireAuth: AngularFireAuth) { }
+
+  get user(): User | null {
+    return this.angularFireAuth.auth.currentUser;
+  }
+
+  login(email: string, password: string) {
+    return this.angularFireAuth.auth.signInWithEmailAndPassword(email, password);
+  }
+
+  register(email: string, password: string) {
+    return this.angularFireAuth.auth.createUserWithEmailAndPassword(email, password);
+  }
+
+  logout() {
+    return this.angularFireAuth.auth.signOut();
+  }
 
   doFacebookLogin() {
     return new Promise<any>((resolve, reject) => {
       const provider = new auth.FacebookAuthProvider();
-      this.afAuth.auth
+      this.angularFireAuth.auth
         .signInWithPopup(provider)
         .then(res => {
           resolve(res);
@@ -28,7 +46,7 @@ export class AuthService {
       const provider = new auth.GoogleAuthProvider();
       provider.addScope('profile');
       provider.addScope('email');
-      this.afAuth.auth
+      this.angularFireAuth.auth
         .signInWithPopup(provider)
         .then(res => {
           resolve(res);

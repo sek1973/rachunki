@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, FormControl, Validators, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+
+import { AuthService } from './../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,14 +21,16 @@ export class LoginComponent implements OnInit {
   ]);
   loginForm = new FormGroup({ email: this.emailFormControl, password: this.passwordFormControl });
 
-  constructor() { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
   }
 
-  onSignIn(form: NgForm) {
+  onLogIn(form: NgForm) {
     const email = form.value.email;
     const password = form.value.password;
+    this.authService.login(email, password);
+    this.router.navigate(['/zestawienie']);
   }
 
   getErrorMessage(formControl: FormControl): string {
