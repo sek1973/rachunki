@@ -30,8 +30,9 @@ export class LoginComponent implements OnInit {
   onLogIn(form: NgForm) {
     const email = form.value.email;
     const password = form.value.password;
-    this.authService.login(email, password);
-    this.navigationService.goToPreviousPage('/zestawienie');
+    this.authService.login(email, password).then(() =>
+      this.navigationService.goToPreviousPage('/zestawienie')
+    );
   }
 
   getErrorMessage(formControl: FormControl): string {
