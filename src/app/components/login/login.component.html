@@ -1,4 +1,5 @@
 <div class="parent">
+  <app-spinner [loading$]="loading$"></app-spinner>
   <div class="container">
     <form (ngSubmit)="onLogIn(loginForm)"
           [formGroup]="loginForm"
@@ -33,7 +34,8 @@
               color="primary"
               type="submit"
               [disabled]="!loginForm.valid">Log In</button>
+      <span *ngIf="error"
+            class="error">{{error}}</span>
     </form>
   </div>
-  <app-spinner [loading$]="loading$"></app-spinner>
 </div>

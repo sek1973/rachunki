@@ -1,6 +1,6 @@
-import { BehaviorSubject } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
 import { AuthService } from './../../services/auth.service';
 import { NavigationService } from './../../services/navigation.service';
@@ -13,6 +13,7 @@ import { NavigationService } from './../../services/navigation.service';
 export class LoginComponent implements OnInit {
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public loading$ = this.loadingSubject.asObservable();
+  public error = undefined;
 
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -31,6 +32,7 @@ export class LoginComponent implements OnInit {
   }
 
   onLogIn(form: NgForm) {
+    this.error = undefined;
     this.loadingSubject.next(true);
     const email = form.value.email;
     const password = form.value.password;
@@ -40,7 +42,11 @@ export class LoginComponent implements OnInit {
         this.loadingSubject.next(false);
         console.log('logged in');
       },
-      rejected => console.error(rejected)
+      rejected => {
+        this.error = rejected.message;
+        this.loadingSubject.next(false);
+        console.error(rejected);
+      }
     );
   }
 
