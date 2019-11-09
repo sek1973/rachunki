@@ -5,30 +5,22 @@
           [formGroup]="loginForm"
           class="container form">
       <h2 class="message">Witamy w aplikacji Rachunki!</h2>
-      <mat-form-field class="full-width">
-        <input [formControl]="emailFormControl"
-               matInput
-               placeholder="Email"
-               type="email"
-               id="email"
-               name="email">
-        <mat-hint>Podaj login (adres email)</mat-hint>
-        <mat-error *ngIf="emailFormControl.hasError()">
-          {{getErrorMessage(emailFormControl)}}
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="full-width">
-        <input [formControl]="passwordFormControl"
-               matInput
-               placeholder="Hasło"
-               type="password"
-               id="password"
-               name="password">
-        <mat-hint>Podaj hasło</mat-hint>
-        <mat-error *ngIf="passwordFormControl.hasError()">
-          {{getErrorMessage(emailFormControl)}}
-        </mat-error>
-      </mat-form-field>
+
+      <app-input-text [formGroup]="loginForm"
+                      [path]="['email']"
+                      [type]="'email'"
+                      tooltipText="Podaj adres email - login do aplikacji"
+                      placeholderText="Login (email)"
+                      class="full-width">
+      </app-input-text>
+
+      <app-input-password [formGroup]="loginForm"
+                          [path]="['password']"
+                          tooltipText="Podaj hasło, którego używasz do logowania do aplikacji"
+                          placeholderText="Hasło"
+                          class="full-width">
+      </app-input-password>
+
       <br>
       <button mat-raised-button
               color="primary"

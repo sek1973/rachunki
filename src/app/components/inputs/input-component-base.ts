@@ -50,8 +50,8 @@ export class InputComponentBase implements OnInit {
     const formControl = this.formGroup.get(path);
     if (formControl !== null) {
       const errors = formControl.errors;
-      if (errors) {
-        return errors.values().join('\n');
+      if (errors && errors.values) {
+        return errors.values.join('\n');
       }
     }
     return 'Invalid value provided';
