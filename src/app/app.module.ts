@@ -1,10 +1,8 @@
-import { PreviousUrlService } from './services/previous-url.service';
-import { NavigationService } from './services/navigation.service';
 import 'hammerjs';
 
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -13,6 +11,7 @@ import {
 	MatButtonModule,
 	MatInputModule,
 	MatPaginatorModule,
+	MatProgressBarModule,
 	MatProgressSpinnerModule,
 	MatSlideToggleModule,
 	MatSortModule,
@@ -26,15 +25,19 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BillComponent } from './components/bill/bill.component';
-import { InputPasswordComponent } from './components/inputs/input-password/input-password.component';
-import { InputTextComponent } from './components/inputs/input-text/input-text.component';
-import { InputToggleComponent } from './components/inputs/input-toggle/input-toggle.component';
 import { LoginComponent } from './components/login/login.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PaymentsComponent } from './components/payments/payments.component';
-import { FirebaseService } from './services/firebase.service';
 import { AppSpinnerComponent } from './components/tools/app-spinner/app-spinner.component';
+import { InputPasswordComponent } from './components/tools/inputs/input-password/input-password.component';
+import { InputTextComponent } from './components/tools/inputs/input-text/input-text.component';
+import { InputToggleComponent } from './components/tools/inputs/input-toggle/input-toggle.component';
+import { TableCellDirective } from './components/tools/table/directives/table-cell.directive';
+import { TableComponent } from './components/tools/table/table.component';
+import { FirebaseService } from './services/firebase.service';
+import { NavigationService } from './services/navigation.service';
+import { PreviousUrlService } from './services/previous-url.service';
 
 @NgModule({
 	declarations: [
@@ -47,7 +50,9 @@ import { AppSpinnerComponent } from './components/tools/app-spinner/app-spinner.
 		InputPasswordComponent,
 		PaymentsComponent,
 		PageNotFoundComponent,
-		AppSpinnerComponent
+		AppSpinnerComponent,
+		TableComponent,
+		TableCellDirective
 	],
 	imports: [
 		BrowserModule,
@@ -60,6 +65,7 @@ import { AppSpinnerComponent } from './components/tools/app-spinner/app-spinner.
 		MatPaginatorModule,
 		MatSortModule,
 		MatProgressSpinnerModule,
+		MatProgressBarModule,
 		MatButtonModule,
 		MatPasswordStrengthModule.forRoot(),
 		AngularFireModule.initializeApp(environment.firebase),

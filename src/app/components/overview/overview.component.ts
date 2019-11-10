@@ -36,12 +36,11 @@ export class OverviewComponent implements OnInit {
 	activeRow: any;
 
 	dataSource: BillsDataSource;
-	dataColumns = [
+	columns = [
 		{ name: 'name', header: 'Nazwa' },
 		{ name: 'deadline', header: 'Termin' },
 		{ name: 'sum', header: 'Kwota' }
 	];
-	columns = ['_expand', ...this.dataColumns.map(column => column.name)];
 
 	constructor(private firebaseService: FirebaseService,
 		private authService: AuthService,
