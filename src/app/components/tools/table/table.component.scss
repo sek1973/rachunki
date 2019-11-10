@@ -25,7 +25,7 @@ table.mat-table {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  color: darkgray;
+  color: rgba(black, 0.8);
 }
 
 button.mat-icon-button {
@@ -76,12 +76,12 @@ tr.expanded-row {
 }
 
 tr.active-row {
-  background: rgba(blue, 0.1);
+  background: rgba(blue, 0.2);
   font-weight: bold;
 }
 
 tr.active-row-expanded {
-  background: rgba(blue, 0.1);
+  background: rgba(blue, 0.2);
   border-bottom: none;
   font-weight: bold;
 }
@@ -89,7 +89,7 @@ tr.active-row-expanded {
 .active-row-detail {
   overflow: hidden;
   display: flex;
-  background-color: rgba(blue, 0.1);
+  background-color: rgba(blue, 0.2);
   color: black;
 }
 
@@ -232,4 +232,17 @@ tr.row-row {
       color: rgba(white, 0.2);
     }
   }
+}
+
+.table-header-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  min-height: 54px;
+  padding-top: 16px;
+  padding-left: 16px;
+  padding-right: 8px;
+  padding-bottom: 8px;
+  background-color: white;
+  width: 100%;
 }
