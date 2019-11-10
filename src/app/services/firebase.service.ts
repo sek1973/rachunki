@@ -15,6 +15,10 @@ import Timestamp = firestore.Timestamp;
 export class FirebaseService {
 	private bills: Bill[];
 	private billsSubject = new BehaviorSubject<Bill[]>([]);
+
+	private billsLoadingSubject = new BehaviorSubject<boolean>(false);
+	public billsLoading$ = this.billsLoadingSubject.asObservable();
+
 	private billsSubscription = Subscription.EMPTY;
 
 	constructor(public db: AngularFirestore) {
@@ -23,8 +27,14 @@ export class FirebaseService {
 
 	loadBills() {
 		this.billsSubscription.unsubscribe();
-		this.billsSubscription = this.fetchBills()
-			.pipe(catchError(() => of([])))
+		this.billsSubscription = of({})
+			.pipe(map(() => this.billsLoadingSubject.next(true)),
+				mergeMap(() => this.fetchBills()),
+				map(bills => {
+					this.billsLoadingSubject.next(false);
+					return bills;
+				}),
+				catchError(() => of([])))
 			.subscribe((bills) => {
 				this.bills = bills;
 				this.billsSubject.next(bills);
@@ -99,5 +109,10 @@ export class FirebaseService {
 
 	deleteBill(bill: Bill): Promise<void> {
 		return this.db.collection('bills').doc(bill.uid).delete();
+	}
+
+	disconnect() {
+		this.billsLoadingSubject.complete();
+		this.billsSubscription.unsubscribe();
 	}
 }

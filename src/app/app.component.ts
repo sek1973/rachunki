@@ -1,3 +1,4 @@
+import { FirebaseService } from './services/firebase.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,9 +7,10 @@ import { Component, OnInit } from '@angular/core';
 	styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-	title = 'rachunki';
 
-	constructor() { }
+	constructor(private firebaseService: FirebaseService) {
+		this.firebaseService.loadBills();
+	}
 
 	ngOnInit() { }
 }

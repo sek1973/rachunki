@@ -34,7 +34,6 @@ export class OverviewComponent implements OnInit {
 
 	ngOnInit() {
 		this.dataSource = new BillsDataSource(this.firebaseService);
-		this.dataSource.loadBills();
 	}
 
 	onRowClicked(row: Bill) {
@@ -87,6 +86,7 @@ export class OverviewComponent implements OnInit {
 	}
 
 	logout() {
+		this.firebaseService.disconnect();
 		this.authService.logout().then(
 			() => {
 				this.router.navigate(['/login']);

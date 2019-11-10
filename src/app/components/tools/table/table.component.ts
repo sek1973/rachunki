@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { MatButton, MatSort, MatTable, SortDirection } from '@angular/material';
 import { fromEvent, Observable, of, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
 import { PrintService } from './../../../services/print.service';
 import { TableCellDirective } from './directives';

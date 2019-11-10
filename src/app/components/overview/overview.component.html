@@ -29,4 +29,9 @@
             (click)="logout()">Wyloguj</button>
   </ng-template>
 
+  <ng-template #expandedRowTemplate
+               let-row="row">
+    <div>{{row.description}}</div>
+  </ng-template>
+
 </app-table>
