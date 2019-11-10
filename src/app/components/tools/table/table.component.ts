@@ -304,20 +304,22 @@ export class TableComponent implements OnInit {
         result += this.csvSeparator;
       }
     }
-    data.forEach((row, i) => {
-      result += '\n';
-      for (let rowIndex = 0; rowIndex < columns.length; rowIndex++) {
-        const column = columns[rowIndex];
-        let value = row[column.name];
-        if (value !== null && value !== undefined) {
-          value = String(value).replace(/"/g, '""');
-        } else { value = ''; }
-        result += '"' + value + '"';
-        if (rowIndex < columns.length - 1) {
-          result += this.csvSeparator;
+    if (data) {
+      data.forEach((row, i) => {
+        result += '\n';
+        for (let rowIndex = 0; rowIndex < columns.length; rowIndex++) {
+          const column = columns[rowIndex];
+          let value = row[column.name];
+          if (value !== null && value !== undefined) {
+            value = String(value).replace(/"/g, '""');
+          } else { value = ''; }
+          result += '"' + value + '"';
+          if (rowIndex < columns.length - 1) {
+            result += this.csvSeparator;
+          }
         }
-      }
-    });
+      });
+    }
     return result;
   }
 

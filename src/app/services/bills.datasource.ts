@@ -1,23 +1,25 @@
 import { CollectionViewer } from '@angular/cdk/collections';
-import { DataSource } from '@angular/cdk/table';
 import { BehaviorSubject, Observable } from 'rxjs';
 
+import { TableDataSource } from '../components/tools/table/table-data-source';
 import { Bill } from '../model/bill';
 import { FirebaseService } from './firebase.service';
 
-export class BillsDataSource implements DataSource<Bill> {
+export class BillsDataSource extends TableDataSource<Bill> {
 	private billsSubject = new BehaviorSubject<Bill[]>([]);
 	private loadingSubject = new BehaviorSubject<boolean>(false);
 
 	public loading$ = this.loadingSubject.asObservable();
 
-	constructor(private firebaseService: FirebaseService) { }
-
-	connect(collectionViewer: CollectionViewer): Observable<Bill[]> {
-		return this.billsSubject.asObservable();
+	constructor(private firebaseService: FirebaseService) {
+		super([]);
 	}
 
-	disconnect(collectionViewer: CollectionViewer): void {
+	connect() {
+		return this.billsSubject;
+	}
+
+	disconnect(): void {
 		this.billsSubject.complete();
 		this.loadingSubject.complete();
 	}
@@ -28,6 +30,7 @@ export class BillsDataSource implements DataSource<Bill> {
 		this.firebaseService
 			.billsObservable
 			.subscribe((bills) => {
+				this.data = bills;
 				this.billsSubject.next(bills);
 				this.loadingSubject.next(false);
 			});
