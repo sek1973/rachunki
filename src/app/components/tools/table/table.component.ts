@@ -75,7 +75,8 @@ export class TableComponent implements OnInit {
   }
 
   @ContentChild('expandedRowTemplate', { static: false }) expandedRowTemplate: TemplateRef<Component>;
-  @ContentChild('toolbarPanelTemplate', { static: false }) toolbarPanelTemplate: TemplateRef<Component>;
+  @ContentChild('middleToolbarPanelTemplate', { static: false }) middleToolbarPanelTemplate: TemplateRef<Component>;
+  @ContentChild('rightToolbarPanelTemplate', { static: false }) rightToolbarPanelTemplate: TemplateRef<Component>;
 
   @Input() sortActive: string;
   @Input() sortDirection: SortDirection;

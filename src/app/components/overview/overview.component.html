@@ -1,12 +1,3 @@
-<div class="table-titlebar">
-  <div class="table-toolbar">
-    <button mat-raised-button
-            color="warn"
-            class="toolbar-button"
-            (click)="logout()">Wyloguj</button>
-  </div>
-</div>
-
 <app-table #table
            [tableTitle]="'Rachunki'"
            [dataSource]="dataSource"
@@ -29,6 +20,13 @@
                let-row="row"
                let-column="column">
     {{getValue(row, column)}}
+  </ng-template>
+
+  <ng-template #rightToolbarPanelTemplate>
+    <button mat-raised-button
+            color="warn"
+            class="toolbar-button"
+            (click)="logout()">Wyloguj</button>
   </ng-template>
 
 </app-table>

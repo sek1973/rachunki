@@ -9,7 +9,7 @@
   <span class="table-title">{{tableTitle}}</span>
 
   <div>
-    <ng-container [ngTemplateOutlet]="toolbarPanelTemplate"
+    <ng-container [ngTemplateOutlet]="middleToolbarPanelTemplate"
                   [ngTemplateOutletContext]="{dataSource: dataSource, activeRow: activeRow, $loading: isDataSourceLoading()}">
     </ng-container>
   </div>
@@ -80,7 +80,12 @@
       </button>
     </ng-container>
 
+    <ng-container [ngTemplateOutlet]="rightToolbarPanelTemplate"
+                  [ngTemplateOutletContext]="{dataSource: dataSource, activeRow: activeRow, $loading: isDataSourceLoading()}">
+    </ng-container>
+
   </div>
+
 </div>
 
 <mat-progress-bar *ngIf="isDataSourceLoading() | async"
