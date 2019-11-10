@@ -87,6 +87,9 @@ import { PreviousUrlService } from './services/previous-url.service';
 			multi: true
 		}
 	],
+	exports: [
+		TableCellDirective
+	],
 	bootstrap: [AppComponent],
 })
 export class AppModule { }

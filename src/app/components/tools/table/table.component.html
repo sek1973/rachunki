@@ -162,13 +162,3 @@
       class="expanded-row">
   </tr>
 </table>
-
-<ng-container *ngIf="expansionPanel===false">
-  <div class="table-container"
-       [ngClass]="{'adva-table-frame':!nested}">
-    <ng-container [ngTemplateOutlet]="tableToolbarTemplate">
-    </ng-container>
-    <ng-container [ngTemplateOutlet]="tableTemplate">
-    </ng-container>
-  </div>
-</ng-container>

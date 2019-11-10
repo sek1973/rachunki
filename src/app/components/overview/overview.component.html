@@ -19,7 +19,16 @@
   </div>
 </div>
 
-<app-table mat-table
+<app-table [tableTitle]="'Rachunki'"
            [dataSource]="dataSource"
-           [columnsDefinition]="columns">
+           [columnsDefinition]="columns"
+           [editable]="true">
+
+  <ng-template cellTemplateForColumn="name"
+               let-row="row"
+               let-column="column">
+    <a [routerLink]="['/rachunek', getId(row)]"
+       routerLinkActive="active">{{getValue(row, column)}}</a>
+  </ng-template>
+
 </app-table>
