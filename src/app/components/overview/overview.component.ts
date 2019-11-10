@@ -1,11 +1,12 @@
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { style } from '@angular/animations';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { Bill } from 'src/app/model/bill';
 
 import { BillsDataSource } from '../../services/bills.datasource';
 import { FirebaseService } from '../../services/firebase.service';
 import { AuthService } from './../../services/auth.service';
-import { Router } from '@angular/router';
+import { TableComponent } from './../tools/table/table.component';
 
 export interface TableColumn {
 	name: string;
@@ -16,31 +17,16 @@ export interface TableColumn {
 	selector: 'app-overview',
 	templateUrl: './overview.component.html',
 	styleUrls: ['./overview.component.scss'],
-	// animation fix based on: https://github.com/angular/material2/issues/11990
-	animations: [
-		trigger('detailExpand', [
-			state('collapsed, void', style({
-				height: '0px',
-				minHeight: '0',
-				display: 'none'
-			})),
-			state('expanded', style({
-				height: '*'
-			})),
-			transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-		]),
-	],
 })
 export class OverviewComponent implements OnInit {
-	expandedRow: any;
-	activeRow: any;
-
 	dataSource: BillsDataSource;
 	columns = [
 		{ name: 'name', header: 'Nazwa' },
 		{ name: 'deadline', header: 'Termin' },
 		{ name: 'sum', header: 'Kwota' }
 	];
+
+	@ViewChild('table', { static: false }) table: TableComponent;
 
 	constructor(private firebaseService: FirebaseService,
 		private authService: AuthService,
@@ -51,17 +37,10 @@ export class OverviewComponent implements OnInit {
 		this.dataSource.loadBills();
 	}
 
-	onRowClicked(row) {
-		if (this.activeRow !== row) {
-			this.activeRow = row;
-		}
-	}
-
-	onRowExpandClick(row: any) {
-		if (this.expandedRow === row) {
-			this.expandedRow = undefined;
-		} else {
-			this.expandedRow = row;
+	onRowClicked(row: Bill) {
+		if (row) {
+			this.table.canDelete = true;
+			this.table.canEdit = true;
 		}
 	}
 
@@ -86,13 +65,25 @@ export class OverviewComponent implements OnInit {
 	}
 
 	deleteBill() {
-		if (this.activeRow) {
-			this.firebaseService.deleteBill(this.activeRow)
+		const row = this.table.activeRow;
+		if (row) {
+			this.firebaseService.deleteBill(row)
 				.then(() => {
 					console.log('Document successfully deleted!');
-					this.activeRow = undefined;
+					// this.table.activeRow = undefined;
 				}).catch((error) => console.error('Error deleting document: ', error));
 		}
+	}
+
+	editBill() {
+		const row = this.table.activeRow;
+		if (row) {
+			this.router.navigate(['/rachunek', this.getId(row)]);
+		}
+	}
+
+	addBill() {
+		this.router.navigate(['/rachunek']);
 	}
 
 	logout() {

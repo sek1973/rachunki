@@ -1,34 +1,34 @@
 <div class="table-titlebar">
-  <div class="table-title">
-    Rachunki
-  </div>
   <div class="table-toolbar">
     <button mat-raised-button
             color="warn"
             class="toolbar-button"
             (click)="logout()">Wyloguj</button>
-    <a mat-raised-button
-       color="primary"
-       class="toolbar-button"
-       [routerLink]="['/rachunek']">Nowy rachunek</a>
-    <button mat-raised-button
-            color="warn"
-            class="toolbar-button"
-            (click)="deleteBill()"
-            [disabled]="!activeRow">Usuń rachunek</button>
   </div>
 </div>
 
-<app-table [tableTitle]="'Rachunki'"
+<app-table #table
+           [tableTitle]="'Rachunki'"
            [dataSource]="dataSource"
            [columnsDefinition]="columns"
-           [editable]="true">
+           [editable]="true"
+           [canAdd]="true"
+           (rowActivated)="onRowClicked($event)"
+           (deleteButtonClicked)="deleteBill()"
+           (editButtonClicked)="editBill()"
+           (addButtonClicked)="addBill()">
 
   <ng-template cellTemplateForColumn="name"
                let-row="row"
                let-column="column">
     <a [routerLink]="['/rachunek', getId(row)]"
        routerLinkActive="active">{{getValue(row, column)}}</a>
+  </ng-template>
+
+  <ng-template cellTemplateForColumn="deadline"
+               let-row="row"
+               let-column="column">
+    {{getValue(row, column)}}
   </ng-template>
 
 </app-table>

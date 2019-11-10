@@ -24,11 +24,10 @@
   </mat-form-field>
 
   <div class="buttons-panel">
-    <button *ngIf="refreshButton"
+    <button *ngIf="showRefreshButton"
             #refreshButton
             mat-icon-button
-            disabled="false"
-            matTooltip="Refresh"
+            matTooltip="Odśwież"
             (click)="onRefreshClicked($event)">
       <span class="material-icons">refresh</span>
     </button>
@@ -36,8 +35,8 @@
     <button *ngIf="editButtonVisible"
             #editButton
             mat-icon-button
-            disabled="true"
-            matTooltip="Edit"
+            [disabled]="!canEdit"
+            matTooltip="Edytuj"
             (click)="onEditClicked($event)">
       <span class="material-icons">edit</span>
     </button>
@@ -45,7 +44,8 @@
     <button *ngIf="addButtonVisible"
             #addButton
             mat-icon-button
-            matTooltip="Add"
+            [disabled]="!canAdd"
+            matTooltip="Dodaj"
             (click)="onAddClicked($event)">
       <span class="material-icons">add</span>
     </button>
@@ -53,8 +53,8 @@
     <button *ngIf="removeButtonVisible"
             #removeButton
             mat-icon-button
-            disabled="true"
-            matTooltip="Delete"
+            [disabled]="!canDelete"
+            matTooltip="Usuń"
             (click)="onDeleteClicked($event)">
       <span class="material-icons">remove</span>
     </button>
@@ -62,7 +62,7 @@
     <ng-container *ngIf="exportable">
       <button [disabled]="isDataSourceLoading() | async"
               mat-icon-button
-              matTooltip="Print"
+              matTooltip="Drukuj"
               [ngStyle]="{'cursor' : 'pointer'}"
               (click)="onPrintClicked($event)">
         <span class="material-icons"
@@ -72,7 +72,7 @@
       <button [disabled]="isDataSourceLoading() | async"
               mat-icon-button
               class="material-icons"
-              matTooltip="Export"
+              matTooltip="Eksportuj"
               [ngStyle]="{'cursor' : 'pointer'}"
               (click)="onExportClicked($event)">
         <span class="material-icons"

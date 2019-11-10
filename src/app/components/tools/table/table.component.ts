@@ -102,7 +102,11 @@ export class TableComponent implements OnInit {
   @Input() showAddButton = true;
   @Input() showRemoveButton = true;
   @Input() showEditButton = true;
-  @Input() refreshButton = false;
+  @Input() showRefreshButton = true;
+
+  @Input() canAdd = false;
+  @Input() canDelete = false;
+  @Input() canEdit = false;
 
   @Input() tableTitle: string;
   @Input() filterKeyDelayMs = 500;
