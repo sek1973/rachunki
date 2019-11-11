@@ -76,6 +76,7 @@ export class TableComponent implements OnInit {
     }
   }
 
+  @ContentChild('tableTitleTemplate', { static: false }) tableTitleTemplate: TemplateRef<Component>;
   @ContentChild('expandedRowTemplate', { static: false }) expandedRowTemplate: TemplateRef<Component>;
   @ContentChild('middleToolbarPanelTemplate', { static: false }) middleToolbarPanelTemplate: TemplateRef<Component>;
   @ContentChild('rightToolbarPanelTemplate', { static: false }) rightToolbarPanelTemplate: TemplateRef<Component>;
@@ -203,6 +204,15 @@ export class TableComponent implements OnInit {
 
   getCellTemplate(column: string, defaultTemplate: TemplateRef<any>): TemplateRef<any> {
     const template = this.cellTemplates.get(column);
+    if (template) {
+      return template;
+    } else {
+      return defaultTemplate;
+    }
+  }
+
+  getTableTitleTemplate(defaultTemplate) {
+    const template = this.tableTitleTemplate;
     if (template) {
       return template;
     } else {

@@ -4,9 +4,14 @@
   {{row[column]}}
 </ng-template>
 
+<ng-template #defaultTitleTemplate>
+  <span class="table-title">{{tableTitle}}</span>
+</ng-template>
+
 <div class="table-header-row"
      *ngIf="!hideHeader">
-  <span class="table-title">{{tableTitle}}</span>
+  <ng-container [ngTemplateOutlet]="getTableTitleTemplate(defaultTitleTemplate)">
+  </ng-container>
 
   <div>
     <ng-container [ngTemplateOutlet]="middleToolbarPanelTemplate"

@@ -4,11 +4,11 @@ import { firestore } from 'firebase';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 
+import { currencyToString, timestampToString } from '../helpers';
 import { Bill } from '../model/bill';
-import { Payment } from '../model/payment';
+import { Payment, PaymentView } from '../model/payment';
 
 import Timestamp = firestore.Timestamp;
-
 @Injectable({
 	providedIn: 'root',
 })
@@ -56,6 +56,30 @@ export class FirebaseService {
 			return query.valueChanges();
 		}
 		return of([]);
+	}
+
+	formatPayments(payments: Payment[]): PaymentView[] {
+		if (!payments) return undefined;
+		const result = [];
+		for (const payment of payments) {
+			const item = {};
+			for (const key of Object.keys(payment)) {
+				switch (key) {
+					case 'deadline':
+					case 'paidDate':
+						item[key] = timestampToString(payment[key]);
+						break;
+					case 'sum':
+						item[key] = currencyToString(payment[key]);
+						break;
+					default:
+						item[key] = payment[key]
+						break;
+				}
+			}
+			result.push(item);
+		}
+		return result;
 	}
 
 	fetchPaymentsForBill(bill: Bill): Observable<Bill> {
