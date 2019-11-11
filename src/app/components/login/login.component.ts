@@ -3,6 +3,7 @@ import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 
 import { AuthService } from './../../services/auth.service';
+import { FirebaseService } from './../../services/firebase.service';
 import { NavigationService } from './../../services/navigation.service';
 
 @Component({
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit {
   loginForm = new FormGroup({ email: this.emailFormControl, password: this.passwordFormControl });
 
   constructor(private authService: AuthService,
-    private navigationService: NavigationService) { }
+    private navigationService: NavigationService,
+    private firebaseService: FirebaseService) { }
 
   ngOnInit() {
   }
@@ -41,6 +43,7 @@ export class LoginComponent implements OnInit {
         this.navigationService.goToPreviousPage('/zestawienie');
         this.loadingSubject.next(false);
         console.log('logged in');
+        this.firebaseService.loadBills();
       },
       rejected => {
         this.error = rejected.message;

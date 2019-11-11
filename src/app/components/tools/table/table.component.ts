@@ -10,6 +10,7 @@ import {
   QueryList,
   TemplateRef,
   ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { MatButton, MatSort, MatTable, SortDirection } from '@angular/material';
 import { fromEvent, Observable, of, Subscription } from 'rxjs';
@@ -56,6 +57,7 @@ export class TableComponent implements OnInit {
   @Output() refreshButtonClicked: EventEmitter<null> = new EventEmitter<null>();
 
   @ViewChild(MatTable, { static: false }) table: MatTable<any>;
+  @ViewChild('table', { static: false, read: ElementRef }) tableElement: ElementRef;
   @ViewChild('addButton', { static: false }) addButton: MatButton;
   @ViewChild('removeButton', { static: false }) removeButton: MatButton;
   @ViewChild('editButton', { static: false }) editButton: MatButton;
@@ -271,7 +273,7 @@ export class TableComponent implements OnInit {
   }
 
   onPrintClicked(event: Event) {
-    const tableElement = document.querySelector('table[id*=":datatable:body"]') as HTMLElement;
+    const tableElement = this.tableElement.nativeElement as HTMLElement;
     this.printService.printPreviewElement(tableElement);
   }
 

@@ -95,4 +95,8 @@ export class OverviewComponent implements OnInit {
 			rejected => console.error('logout:', rejected));
 	}
 
+	refresh() {
+		this.firebaseService.loadBills();
+	}
+
 }

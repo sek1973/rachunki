@@ -7,7 +7,8 @@
            (rowActivated)="onRowClicked($event)"
            (deleteButtonClicked)="deleteBill()"
            (editButtonClicked)="editBill()"
-           (addButtonClicked)="addBill()">
+           (addButtonClicked)="addBill()"
+           (refreshButtonClicked)="refresh()">
 
   <ng-template cellTemplateForColumn="name"
                let-row="row"
