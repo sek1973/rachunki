@@ -9,6 +9,7 @@ import { Bill } from '../model/bill';
 import { Payment, PaymentView } from '../model/payment';
 
 import Timestamp = firestore.Timestamp;
+import { Schedule, ScheduleView } from '../model/schedule';
 @Injectable({
 	providedIn: 'root',
 })
@@ -45,9 +46,14 @@ export class FirebaseService {
 		return this.billsSubject.asObservable();
 	}
 
-	fetchBills(): Observable<Bill[]> {
-		return this.db.collection<Bill>('bills')
-			.valueChanges({ idField: 'uid' });
+	fetchPaymentsForBill(bill: Bill): Observable<Bill> {
+		if (bill) {
+			return this.fetchPayments(bill.uid).pipe(map(payments => {
+				bill.payments = payments;
+				return bill;
+			}));
+		}
+		return of(null);
 	}
 
 	fetchPayments(uid: string): Observable<Payment[]> {
@@ -82,14 +88,50 @@ export class FirebaseService {
 		return result;
 	}
 
-	fetchPaymentsForBill(bill: Bill): Observable<Bill> {
+	fetchSchedulesForBill(bill: Bill): Observable<Bill> {
 		if (bill) {
-			return this.fetchPayments(bill.uid).pipe(map(payments => {
-				bill.payments = payments;
+			return this.fetchSchedules(bill.uid).pipe(map(schedules => {
+				bill.schedules = schedules;
 				return bill;
 			}));
 		}
 		return of(null);
+	}
+
+	fetchSchedules(uid: string): Observable<Schedule[]> {
+		if (uid !== undefined) {
+			const query = this.db.collection<Bill>('bills').doc(uid).collection<Schedule>('schedules');
+			return query.valueChanges();
+		}
+		return of([]);
+	}
+
+	formatSchedules(payments: Schedule[]): ScheduleView[] {
+		if (!payments) return undefined;
+		const result = [];
+		for (const payment of payments) {
+			const item = {};
+			for (const key of Object.keys(payment)) {
+				switch (key) {
+					case 'date':
+						item[key] = timestampToString(payment[key]);
+						break;
+					case 'sum':
+						item[key] = currencyToString(payment[key]);
+						break;
+					default:
+						item[key] = payment[key]
+						break;
+				}
+			}
+			result.push(item);
+		}
+		return result;
+	}
+
+	fetchBills(): Observable<Bill[]> {
+		return this.db.collection<Bill>('bills')
+			.valueChanges({ idField: 'uid' });
 	}
 
 	fetchBill(id: number): Observable<Bill> {

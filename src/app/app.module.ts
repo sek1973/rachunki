@@ -38,6 +38,7 @@ import { TableComponent } from './components/tools/table/table.component';
 import { FirebaseService } from './services/firebase.service';
 import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
+import { SchedulesComponent } from './components/schedules/schedules.component';
 
 @NgModule({
 	declarations: [
@@ -52,7 +53,8 @@ import { PreviousUrlService } from './services/previous-url.service';
 		PageNotFoundComponent,
 		AppSpinnerComponent,
 		TableComponent,
-		TableCellDirective
+		TableCellDirective,
+		SchedulesComponent
 	],
 	imports: [
 		BrowserModule,

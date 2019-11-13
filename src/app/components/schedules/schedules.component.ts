@@ -1,15 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Schedule } from 'src/app/model/schedule';
 
-import { Payment } from './../../model/payment';
 import { FirebaseService } from './../../services/firebase.service';
-import { PaymentsDataSource } from './../../services/payments.datasource';
+import { SchedulesDataSource } from './../../services/schedules.datasource';
 
 @Component({
-  selector: 'app-payments',
-  templateUrl: './payments.component.html',
-  styleUrls: ['./payments.component.scss'],
+  selector: 'app-schedules',
+  templateUrl: './schedules.component.html',
+  styleUrls: ['./schedules.component.scss']
 })
-export class PaymentsComponent implements OnInit {
+export class SchedulesComponent implements OnInit {
   private _builUid: string;
   @Input() set billUid(val: string) {
     this._builUid = val;
@@ -21,10 +21,9 @@ export class PaymentsComponent implements OnInit {
 
   activeRow: any;
 
-  dataSource: PaymentsDataSource;
+  dataSource: SchedulesDataSource;
   columns = [
-    { name: 'deadline', header: 'Termin' },
-    { name: 'paidDate', header: 'Zapłacono' },
+    { name: 'date', header: 'Termin' },
     { name: 'sum', header: 'Kwota' },
     { name: 'remarks', header: 'Uwagi' }
   ];
@@ -34,7 +33,7 @@ export class PaymentsComponent implements OnInit {
   ngOnInit() { }
 
   private setTableDataSource() {
-    this.dataSource = new PaymentsDataSource(this.firebaseService, this.billUid);
+    this.dataSource = new SchedulesDataSource(this.firebaseService, this.billUid);
     this.dataSource.load();
   }
 
@@ -44,7 +43,7 @@ export class PaymentsComponent implements OnInit {
     }
   }
 
-  getId(row: Payment): string {
+  getId(row: Schedule): string {
     return row.uid;
   }
 

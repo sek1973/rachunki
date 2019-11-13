@@ -1,10 +1,10 @@
 import { firestore } from 'firebase';
 
 import { Payment } from './payment';
+import { Schedule } from './schedule';
 import { Unit } from './unit';
 
 import Timestamp = firestore.Timestamp;
-
 export class Bill {
 	uid: string;
 	id: number;
@@ -22,6 +22,7 @@ export class Bill {
 	before: number;
 	unit: Unit;
 	payments: Payment[];
+	schedules: Schedule[];
 
 	constructor() {
 		this.name = 'Nowy rachunek';
