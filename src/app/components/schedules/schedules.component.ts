@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { Schedule } from 'src/app/model/schedule';
 
 import { FirebaseService } from './../../services/firebase.service';
 import { SchedulesDataSource } from './../../services/schedules.datasource';
+import { ScheduleDialogComponent } from './schedule-dialog/schedule-dialog.component';
 
 @Component({
   selector: 'app-schedules',
@@ -28,7 +30,8 @@ export class SchedulesComponent implements OnInit {
     { name: 'remarks', header: 'Uwagi' }
   ];
 
-  constructor(private firebaseService: FirebaseService) { }
+  constructor(private firebaseService: FirebaseService,
+    public dialog: MatDialog) { }
 
   ngOnInit() { }
 
@@ -49,6 +52,28 @@ export class SchedulesComponent implements OnInit {
 
   refresh() {
     this.dataSource.load();
+  }
+
+  addDialog(): void {
+    const dialogRef = this.dialog.open(ScheduleDialogComponent, {
+      width: '250px',
+      data: { mode: 'add' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  editDialog(): void {
+    const dialogRef = this.dialog.open(ScheduleDialogComponent, {
+      width: '250px',
+      data: { mode: 'edit' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
 }

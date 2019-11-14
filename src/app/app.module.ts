@@ -9,6 +9,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
 	MatButtonModule,
+	MatDialogModule,
 	MatInputModule,
 	MatPaginatorModule,
 	MatProgressBarModule,
@@ -29,6 +30,8 @@ import { LoginComponent } from './components/login/login.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PaymentsComponent } from './components/payments/payments.component';
+import { ScheduleDialogComponent } from './components/schedules/schedule-dialog/schedule-dialog.component';
+import { SchedulesComponent } from './components/schedules/schedules.component';
 import { AppSpinnerComponent } from './components/tools/app-spinner/app-spinner.component';
 import { InputPasswordComponent } from './components/tools/inputs/input-password/input-password.component';
 import { InputTextComponent } from './components/tools/inputs/input-text/input-text.component';
@@ -38,7 +41,6 @@ import { TableComponent } from './components/tools/table/table.component';
 import { FirebaseService } from './services/firebase.service';
 import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
-import { SchedulesComponent } from './components/schedules/schedules.component';
 
 @NgModule({
 	declarations: [
@@ -54,7 +56,8 @@ import { SchedulesComponent } from './components/schedules/schedules.component';
 		AppSpinnerComponent,
 		TableComponent,
 		TableCellDirective,
-		SchedulesComponent
+		SchedulesComponent,
+		ScheduleDialogComponent
 	],
 	imports: [
 		BrowserModule,
@@ -75,7 +78,8 @@ import { SchedulesComponent } from './components/schedules/schedules.component';
 		FormsModule,
 		ReactiveFormsModule,
 		MatTooltipModule,
-		AppRoutingModule
+		AppRoutingModule,
+		MatDialogModule
 	],
 	providers: [
 		FirebaseService,
@@ -93,5 +97,6 @@ import { SchedulesComponent } from './components/schedules/schedules.component';
 		TableCellDirective
 	],
 	bootstrap: [AppComponent],
+	entryComponents: [ScheduleDialogComponent]
 })
 export class AppModule { }
