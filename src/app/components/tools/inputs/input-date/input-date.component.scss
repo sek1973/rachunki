@@ -1,0 +1,11 @@
+.form-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+  align-items: center;
+  height: 66px;
+}
+
+.form-item-input {
+  flex-grow: 1;
+}

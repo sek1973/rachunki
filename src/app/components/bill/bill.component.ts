@@ -29,7 +29,8 @@ export class BillComponent implements OnInit, OnDestroy {
 		login: new FormControl(),
 		password: new FormControl(),
 		share: new FormControl(),
-		sum: new FormControl()
+		sum: new FormControl(),
+		deadline: new FormControl()
 	});
 
 	constructor(private route: ActivatedRoute,

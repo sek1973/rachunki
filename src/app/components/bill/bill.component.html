@@ -43,6 +43,11 @@
                     tooltipText="Podaj adres www dla rachunku np. 24.energa.pl (strona do logowania)"
                     placeholderText="Adres www rachunku - strona do logowania">
     </app-input-text>
+    <app-input-date [formGroup]="form"
+                    [path]="['deadline']"
+                    tooltipText="Podaj termin dla najbliższej płatności"
+                    placeholderText="Termin płatności">
+    </app-input-date>
   </div>
 
   <div class="form-column-right">

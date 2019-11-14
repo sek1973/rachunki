@@ -9,8 +9,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
 	MatButtonModule,
+	MatDatepickerModule,
 	MatDialogModule,
 	MatInputModule,
+	MatNativeDateModule,
 	MatPaginatorModule,
 	MatProgressBarModule,
 	MatProgressSpinnerModule,
@@ -29,10 +31,12 @@ import { BillComponent } from './components/bill/bill.component';
 import { LoginComponent } from './components/login/login.component';
 import { OverviewComponent } from './components/overview/overview.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { PaymentDialogComponent } from './components/payments/payment-dialog/payment-dialog.component';
 import { PaymentsComponent } from './components/payments/payments.component';
 import { ScheduleDialogComponent } from './components/schedules/schedule-dialog/schedule-dialog.component';
 import { SchedulesComponent } from './components/schedules/schedules.component';
 import { AppSpinnerComponent } from './components/tools/app-spinner/app-spinner.component';
+import { InputDateComponent } from './components/tools/inputs/input-date/input-date.component';
 import { InputPasswordComponent } from './components/tools/inputs/input-password/input-password.component';
 import { InputTextComponent } from './components/tools/inputs/input-text/input-text.component';
 import { InputToggleComponent } from './components/tools/inputs/input-toggle/input-toggle.component';
@@ -41,7 +45,6 @@ import { TableComponent } from './components/tools/table/table.component';
 import { FirebaseService } from './services/firebase.service';
 import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
-import { PaymentDialogComponent } from './components/payments/payment-dialog/payment-dialog.component';
 
 @NgModule({
 	declarations: [
@@ -59,7 +62,8 @@ import { PaymentDialogComponent } from './components/payments/payment-dialog/pay
 		TableCellDirective,
 		SchedulesComponent,
 		ScheduleDialogComponent,
-		PaymentDialogComponent
+		PaymentDialogComponent,
+		InputDateComponent
 	],
 	imports: [
 		BrowserModule,
@@ -81,7 +85,9 @@ import { PaymentDialogComponent } from './components/payments/payment-dialog/pay
 		ReactiveFormsModule,
 		MatTooltipModule,
 		AppRoutingModule,
-		MatDialogModule
+		MatDialogModule,
+		MatDatepickerModule,
+		MatNativeDateModule
 	],
 	providers: [
 		FirebaseService,
