@@ -41,6 +41,7 @@ import { TableComponent } from './components/tools/table/table.component';
 import { FirebaseService } from './services/firebase.service';
 import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
+import { PaymentDialogComponent } from './components/payments/payment-dialog/payment-dialog.component';
 
 @NgModule({
 	declarations: [
@@ -57,7 +58,8 @@ import { PreviousUrlService } from './services/previous-url.service';
 		TableComponent,
 		TableCellDirective,
 		SchedulesComponent,
-		ScheduleDialogComponent
+		ScheduleDialogComponent,
+		PaymentDialogComponent
 	],
 	imports: [
 		BrowserModule,
@@ -96,7 +98,10 @@ import { PreviousUrlService } from './services/previous-url.service';
 	exports: [
 		TableCellDirective
 	],
-	bootstrap: [AppComponent],
-	entryComponents: [ScheduleDialogComponent]
+	entryComponents: [
+		ScheduleDialogComponent,
+		PaymentDialogComponent
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,7 +1,11 @@
 <app-table [dataSource]="dataSource"
            [columnsDefinition]="columns"
            [expandable]="false"
-           (refreshButtonClicked)="refresh()">
+           [editable]="true"
+           [canAdd]="true"
+           (refreshButtonClicked)="refresh()"
+           (addButtonClicked)="addDialog()"
+           (editButtonClicked)="editDialog()">
   <ng-template #tableTitleTemplate>
     <span class="table-title">Historia płatności</span>
   </ng-template>

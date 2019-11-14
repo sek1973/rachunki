@@ -1,4 +1,6 @@
+import { PaymentDialogComponent } from './payment-dialog/payment-dialog.component';
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material';
 
 import { Payment } from './../../model/payment';
 import { FirebaseService } from './../../services/firebase.service';
@@ -29,7 +31,8 @@ export class PaymentsComponent implements OnInit {
     { name: 'remarks', header: 'Uwagi' }
   ];
 
-  constructor(private firebaseService: FirebaseService) { }
+  constructor(private firebaseService: FirebaseService,
+    public dialog: MatDialog) { }
 
   ngOnInit() { }
 
@@ -50,6 +53,28 @@ export class PaymentsComponent implements OnInit {
 
   refresh() {
     this.dataSource.load();
+  }
+
+  addDialog(): void {
+    const dialogRef = this.dialog.open(PaymentDialogComponent, {
+      width: '250px',
+      data: { mode: 'add' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  editDialog(): void {
+    const dialogRef = this.dialog.open(PaymentDialogComponent, {
+      width: '250px',
+      data: { mode: 'edit' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
 }
