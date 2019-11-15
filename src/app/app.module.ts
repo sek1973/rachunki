@@ -45,6 +45,8 @@ import { TableComponent } from './components/tools/table/table.component';
 import { FirebaseService } from './services/firebase.service';
 import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
+import { TimespanToStringPipe } from './pipes/timespan-to-string.pipe';
+import { CurrencyToStringPipe } from './pipes/currency-to-string.pipe';
 
 @NgModule({
 	declarations: [
@@ -63,7 +65,9 @@ import { PreviousUrlService } from './services/previous-url.service';
 		SchedulesComponent,
 		ScheduleDialogComponent,
 		PaymentDialogComponent,
-		InputDateComponent
+		InputDateComponent,
+		TimespanToStringPipe,
+		CurrencyToStringPipe
 	],
 	imports: [
 		BrowserModule,

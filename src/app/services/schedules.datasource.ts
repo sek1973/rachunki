@@ -2,11 +2,11 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { TableDataSource } from '../components/tools/table/table-data-source';
-import { ScheduleView } from '../model/schedule';
+import { Schedule } from '../model/schedule';
 import { FirebaseService } from './firebase.service';
 
-export class SchedulesDataSource extends TableDataSource<ScheduleView> {
-  private schedulesSubject = new BehaviorSubject<ScheduleView[]>([]);
+export class SchedulesDataSource extends TableDataSource<Schedule> {
+  private schedulesSubject = new BehaviorSubject<Schedule[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
   public loading$ = this.loadingSubject.asObservable();
@@ -15,7 +15,7 @@ export class SchedulesDataSource extends TableDataSource<ScheduleView> {
     super();
   }
 
-  connect(): BehaviorSubject<ScheduleView[]> {
+  connect(): BehaviorSubject<Schedule[]> {
     return this.schedulesSubject;
   }
 
@@ -27,9 +27,7 @@ export class SchedulesDataSource extends TableDataSource<ScheduleView> {
   load() {
     this.loadingSubject.next(true);
     this.firebaseService
-      .fetchSchedules(this.uid).pipe(
-        map(schedules => this.firebaseService.formatSchedules(schedules))
-      )
+      .fetchSchedules(this.uid)
       .subscribe((schedules) => {
         this.schedulesSubject.next(schedules);
         this.loadingSubject.next(false);

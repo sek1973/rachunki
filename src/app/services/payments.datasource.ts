@@ -2,11 +2,11 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { TableDataSource } from '../components/tools/table/table-data-source';
-import { PaymentView } from '../model/payment';
+import { Payment } from '../model/payment';
 import { FirebaseService } from './firebase.service';
 
-export class PaymentsDataSource extends TableDataSource<PaymentView> {
-  private paymentsSubject = new BehaviorSubject<PaymentView[]>([]);
+export class PaymentsDataSource extends TableDataSource<Payment> {
+  private paymentsSubject = new BehaviorSubject<Payment[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
   public loading$ = this.loadingSubject.asObservable();
@@ -15,7 +15,7 @@ export class PaymentsDataSource extends TableDataSource<PaymentView> {
     super();
   }
 
-  connect(): BehaviorSubject<PaymentView[]> {
+  connect(): BehaviorSubject<Payment[]> {
     return this.paymentsSubject;
   }
 
@@ -27,9 +27,7 @@ export class PaymentsDataSource extends TableDataSource<PaymentView> {
   load() {
     this.loadingSubject.next(true);
     this.firebaseService
-      .fetchPayments(this.uid).pipe(
-        map(payments => this.firebaseService.formatPayments(payments))
-      )
+      .fetchPayments(this.uid)
       .subscribe((payments) => {
         this.paymentsSubject.next(payments);
         this.loadingSubject.next(false);

@@ -6,10 +6,10 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { currencyToString, timestampToString } from '../helpers';
 import { Bill } from '../model/bill';
-import { Payment, PaymentView } from '../model/payment';
+import { Payment } from '../model/payment';
 
 import Timestamp = firestore.Timestamp;
-import { Schedule, ScheduleView } from '../model/schedule';
+import { Schedule } from '../model/schedule';
 @Injectable({
 	providedIn: 'root',
 })
@@ -64,30 +64,6 @@ export class FirebaseService {
 		return of([]);
 	}
 
-	formatPayments(payments: Payment[]): PaymentView[] {
-		if (!payments) return undefined;
-		const result = [];
-		for (const payment of payments) {
-			const item = {};
-			for (const key of Object.keys(payment)) {
-				switch (key) {
-					case 'deadline':
-					case 'paidDate':
-						item[key] = timestampToString(payment[key]);
-						break;
-					case 'sum':
-						item[key] = currencyToString(payment[key]);
-						break;
-					default:
-						item[key] = payment[key]
-						break;
-				}
-			}
-			result.push(item);
-		}
-		return result;
-	}
-
 	fetchSchedulesForBill(bill: Bill): Observable<Bill> {
 		if (bill) {
 			return this.fetchSchedules(bill.uid).pipe(map(schedules => {
@@ -104,29 +80,6 @@ export class FirebaseService {
 			return query.valueChanges();
 		}
 		return of([]);
-	}
-
-	formatSchedules(payments: Schedule[]): ScheduleView[] {
-		if (!payments) return undefined;
-		const result = [];
-		for (const payment of payments) {
-			const item = {};
-			for (const key of Object.keys(payment)) {
-				switch (key) {
-					case 'date':
-						item[key] = timestampToString(payment[key]);
-						break;
-					case 'sum':
-						item[key] = currencyToString(payment[key]);
-						break;
-					default:
-						item[key] = payment[key]
-						break;
-				}
-			}
-			result.push(item);
-		}
-		return result;
 	}
 
 	fetchBills(): Observable<Bill[]> {

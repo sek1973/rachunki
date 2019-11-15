@@ -8,10 +8,3 @@ export interface Schedule {
   sum: number;
   remarks: string;
 }
-
-export interface ScheduleView {
-  uid: string;
-  date: string;
-  sum: string;
-  remarks: string;
-}
