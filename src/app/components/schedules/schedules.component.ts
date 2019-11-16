@@ -7,7 +7,6 @@ import { SchedulesDataSource } from './../../services/schedules.datasource';
 import { SchedulesFirebaseService } from './../../services/schedules.firebase.service';
 import { TableComponent } from './../tools/table/table.component';
 import { ScheduleDialogComponent } from './schedule-dialog/schedule-dialog.component';
-import undefined = require('firebase/empty-import');
 
 @Component({
   selector: 'app-schedules',

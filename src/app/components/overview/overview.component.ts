@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { getSafe } from 'src/app/helpers';
 import { Bill } from 'src/app/model/bill';
+import { ConfirmationService } from 'src/app/services/confirmation.service';
 
 import { BillsDataSource } from '../../services/bills.datasource';
 import { BillsFirebaseService } from '../../services/bills.firebase.service';
@@ -30,7 +31,8 @@ export class OverviewComponent implements OnInit {
 
 	constructor(private billsFirebaseService: BillsFirebaseService,
 		private authService: AuthService,
-		private router: Router) { }
+		private router: Router,
+		private confirmationService: ConfirmationService) { }
 
 	ngOnInit() {
 		this.dataSource = new BillsDataSource(this.billsFirebaseService);
@@ -54,11 +56,11 @@ export class OverviewComponent implements OnInit {
 	deleteBill() {
 		const row = this.table.activeRow;
 		if (row) {
-			this.billsFirebaseService.delete(row)
-				.then(() => {
-					console.log('Document successfully deleted!');
-					// this.table.activeRow = undefined;
-				}).catch((error) => console.error('Error deleting document: ', error));
+			this.confirmationService
+				.confirm('Usuń rachunek', 'Czy na pewno chcesz usunąć bieżący rachunek wraz z historią płatności? Operacji nie będzie można cofnąć!', 'Nie', 'Tak')
+				.subscribe((response) => {
+					if (response) { this.billsFirebaseService.delete(row); }
+				});
 		}
 	}
 

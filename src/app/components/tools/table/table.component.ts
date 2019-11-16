@@ -3,6 +3,7 @@ import {
   Component,
   ContentChild,
   ContentChildren,
+  ElementRef,
   EventEmitter,
   Input,
   OnInit,
@@ -10,11 +11,10 @@ import {
   QueryList,
   TemplateRef,
   ViewChild,
-  ElementRef,
 } from '@angular/core';
 import { MatButton, MatSort, MatTable, SortDirection } from '@angular/material';
 import { fromEvent, Observable, of, Subscription } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 import { PrintService } from './../../../services/print.service';
 import { TableCellDirective } from './directives';
@@ -41,7 +41,8 @@ export class TableComponent implements OnInit {
   index = 0;
   private sort: MatSort;
   private _columnsDefinition: TableColumn[];
-  private subscription: Subscription;
+  private subscription = Subscription.EMPTY;
+  private loadingSubscription = Subscription.EMPTY;
 
   @Output() rowDblClick: EventEmitter<any> = new EventEmitter<any>();
   @Output() rowActivated: EventEmitter<any> = new EventEmitter<any>();
@@ -171,6 +172,12 @@ export class TableComponent implements OnInit {
   ngOnInit() { }
 
   private initDataSource() {
+    this.loadingSubscription = this.dataSource.loading$.subscribe(val => {
+      if (val === false && this.table) {
+        this.activeRow = undefined;
+        this.rowActivated.emit(undefined);
+      }
+    });
     if (this.sort !== undefined) {
       this.dataSource.sort = this.sort;
     }
@@ -197,9 +204,8 @@ export class TableComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscription.unsubscribe();
+    this.loadingSubscription.unsubscribe();
   }
 
   getCellTemplate(column: string, defaultTemplate: TemplateRef<any>): TemplateRef<any> {

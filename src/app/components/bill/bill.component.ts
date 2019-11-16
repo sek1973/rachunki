@@ -1,16 +1,17 @@
-import { AuthService } from './../../services/auth.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { getSafe } from 'src/app/helpers';
+import { ConfirmationService } from 'src/app/services/confirmation.service';
 
 import { Bill } from './../../model/bill';
+import { AuthService } from './../../services/auth.service';
 import { BillsFirebaseService } from './../../services/bills.firebase.service';
 
 @Component({
-	selector: 'app-rachunek',
+	selector: 'app-bill',
 	templateUrl: './bill.component.html',
 	styleUrls: ['./bill.component.scss']
 })
@@ -37,7 +38,8 @@ export class BillComponent implements OnInit, OnDestroy {
 	constructor(private route: ActivatedRoute,
 		private router: Router,
 		private billsFirebaseService: BillsFirebaseService,
-		private authService: AuthService) { }
+		private authService: AuthService,
+		private confirmationService: ConfirmationService) { }
 
 	ngOnInit() {
 		let id: number;
@@ -99,7 +101,11 @@ export class BillComponent implements OnInit, OnDestroy {
 	}
 
 	deleteBill() {
-		alert('Na pewno???');
+		this.confirmationService
+			.confirm('Usuń rachunek', 'Czy na pewno chcesz usunąć bieżący rachunek wraz z historią płatności? Operacji nie będzie można cofnąć!', 'Nie', 'Tak')
+			.subscribe((response) => {
+				if (response) this.billsFirebaseService.delete(this.bill).then(() => this.router.navigate(['/zestawienie']));
+			});
 	}
 
 	cancel() {

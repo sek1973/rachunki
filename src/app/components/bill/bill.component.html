@@ -88,9 +88,9 @@
                 (click)="payBill()">Zapłać</button>
         <button *ngIf="editMode"
                 mat-raised-button
-                color="primary"
+                color="accent"
                 class="toolbar-button"
-                (click)="saveBill()">Zapisz</button>
+                (click)="cancel()">Anuluj</button>
         <button *ngIf="editMode"
                 mat-raised-button
                 color="warn"
@@ -98,9 +98,9 @@
                 (click)="deleteBill()">Usuń</button>
         <button *ngIf="editMode"
                 mat-raised-button
-                color="accent"
+                color="primary"
                 class="toolbar-button"
-                (click)="cancel()">Anuluj</button>
+                (click)="saveBill()">Zapisz</button>
       </div>
     </div>
   </div>
