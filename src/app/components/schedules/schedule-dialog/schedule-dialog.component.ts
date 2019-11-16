@@ -72,34 +72,43 @@ export class ScheduleDialogComponent implements OnInit, AfterViewInit {
     } else {
       request = this.schedulesFirebaseService.add(this.form.value, this.billUid);
     }
-    request.then(resp => {
-      this.dialogRef.close('saved');
-    },
-      error => {
-        console.error(error);
-        this.loading = false;
-      });
+    this.runPromise(request, () => this.dialogRef.close('saved'));
   }
 
-  private checkDuplicatedSchedule() {
-    this.confirmationService
-      .confirm('Powtórzony plan', 'Plan płatności z tą datą już istnieje. Czy na pewno dodać nowy?', 'Nie', 'Tak')
-      .subscribe((response) => {
-        if (response) console.log('sukces');
-      });
+  private checkDuplicatedSchedule(action: () => void) {
+    const dateControl = this.form.get('date') as FormControl;
+    const date = dateControl.value;
+    this.schedulesFirebaseService.queryByDate(this.billUid, date).then(
+      result => {
+        if (result.size) {
+          this.confirmationService
+            .confirm('Powtórzony plan', 'Plan płatności z tą datą już istnieje. Czy na pewno dodać nowy?', 'Nie', 'Tak')
+            .subscribe((response) => {
+              if (response) { action(); } else { this.loading = false; }
+            });
+        } else {
+          action();
+        }
+      }
+    );
   }
 
   cloneData() {
     this.loading = true;
     const request = this.schedulesFirebaseService.add(this.form.value, this.billUid);
-    request.then(resp => {
-      console.log('schedule cloned');
+    this.checkDuplicatedSchedule(() => this.runPromise(request));
+  }
+
+  private runPromise(promise: Promise<any>, actionThen?: () => void, actionError?: () => void) {
+    promise.then(resp => {
       this.loading = false;
+      if (actionThen) { actionThen(); }
     },
       error => {
-        console.error(error);
         this.loading = false;
-      });
+        console.error(error);
+        if (actionError) { actionError(); }
+      })
   }
 
 }
