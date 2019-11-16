@@ -19,6 +19,7 @@ export class BillComponent implements OnInit, OnDestroy {
 
 	private subscription = Subscription.EMPTY;
 	editMode = false;
+	private newBill = false;
 
 	bill: Bill;
 	form: FormGroup = new FormGroup({
@@ -53,7 +54,11 @@ export class BillComponent implements OnInit, OnDestroy {
 
 	private handleData(bills: Bill[], id: number) {
 		this.bill = bills.find(b => b.id === id);
-		if (!this.bill) { this.createBill(); }
+		if (!this.bill) {
+			this.createBill();
+			this.editMode = true;
+			this.newBill = true;
+		}
 		this.loadBill();
 	}
 
@@ -101,16 +106,22 @@ export class BillComponent implements OnInit, OnDestroy {
 	}
 
 	deleteBill() {
-		this.confirmationService
-			.confirm('Usuń rachunek', 'Czy na pewno chcesz usunąć bieżący rachunek wraz z historią płatności? Operacji nie będzie można cofnąć!', 'Nie', 'Tak')
-			.subscribe((response) => {
-				if (response) this.billsFirebaseService.delete(this.bill).then(() => this.router.navigate(['/zestawienie']));
-			});
+		if (!this.newBill) {
+			this.confirmationService
+				.confirm('Usuń rachunek', 'Czy na pewno chcesz usunąć bieżący rachunek wraz z historią płatności? Operacji nie będzie można cofnąć!', 'Nie', 'Tak')
+				.subscribe((response) => {
+					if (response) this.billsFirebaseService.delete(this.bill).then(() => this.router.navigate(['/zestawienie']));
+				});
+		}
 	}
 
 	cancel() {
-		this.editMode = false;
-		this.form.disable();
+		if (this.newBill) {
+			this.router.navigate(['/zestawienie']);
+		} else {
+			this.editMode = false;
+			this.form.disable();
+		}
 	}
 
 	setBill(bill: Bill) {

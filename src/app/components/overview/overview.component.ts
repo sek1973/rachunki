@@ -39,10 +39,8 @@ export class OverviewComponent implements OnInit {
 	}
 
 	onRowClicked(row: Bill) {
-		if (row) {
-			this.table.canDelete = true;
-			this.table.canEdit = true;
-		}
+		this.table.canDelete = row ? true : false;
+		this.table.canEdit = row ? true : false;
 	}
 
 	getValue(row: Bill, column: string): string {

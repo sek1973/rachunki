@@ -88,9 +88,9 @@ export class PaymentsComponent implements OnInit {
     }
   }
 
-  onRowActivated() {
-    this.table.canDelete = this.table.activeRow ? true : false;
-    this.table.canEdit = this.table.activeRow ? true : false;
+  onRowActivated(row: Payment) {
+    this.table.canDelete = row ? true : false;
+    this.table.canEdit = row ? true : false;
   }
 
 }

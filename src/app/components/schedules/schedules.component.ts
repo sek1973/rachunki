@@ -87,9 +87,9 @@ export class SchedulesComponent implements OnInit {
     }
   }
 
-  onRowActivated() {
-    this.table.canDelete = this.table.activeRow ? true : false;
-    this.table.canEdit = this.table.activeRow ? true : false;
+  onRowActivated(row: Schedule) {
+    this.table.canDelete = row ? true : false;
+    this.table.canEdit = row ? true : false;
   }
 
 }
