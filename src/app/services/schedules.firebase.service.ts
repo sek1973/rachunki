@@ -15,9 +15,9 @@ export class SchedulesFirebaseService {
 
   constructor(public db: AngularFirestore) { }
 
-  fetchSchedulesForBill(bill: Bill): Observable<Bill> {
+  fetchForBill(bill: Bill): Observable<Bill> {
     if (bill) {
-      return this.fetchSchedules(bill.uid).pipe(map(schedules => {
+      return this.fetch(bill.uid).pipe(map(schedules => {
         bill.schedules = schedules;
         return bill;
       }));
@@ -25,7 +25,7 @@ export class SchedulesFirebaseService {
     return of(null);
   }
 
-  fetchSchedules(uid: string): Observable<Schedule[]> {
+  fetch(uid: string): Observable<Schedule[]> {
     if (uid !== undefined) {
       const query = this.db.collection<Bill>('bills').doc(uid).collection<Schedule>('schedules');
       return query.valueChanges();

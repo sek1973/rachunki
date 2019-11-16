@@ -54,7 +54,7 @@ export class OverviewComponent implements OnInit {
 	deleteBill() {
 		const row = this.table.activeRow;
 		if (row) {
-			this.billsFirebaseService.deleteBill(row)
+			this.billsFirebaseService.delete(row)
 				.then(() => {
 					console.log('Document successfully deleted!');
 					// this.table.activeRow = undefined;
@@ -84,7 +84,7 @@ export class OverviewComponent implements OnInit {
 	}
 
 	refresh() {
-		this.billsFirebaseService.loadBills();
+		this.billsFirebaseService.load();
 	}
 
 }

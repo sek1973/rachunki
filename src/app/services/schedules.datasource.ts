@@ -26,7 +26,7 @@ export class SchedulesDataSource extends TableDataSource<Schedule> {
   load() {
     this.loadingSubject.next(true);
     this.schedulesFirebaseService
-      .fetchSchedules(this.uid)
+      .fetch(this.uid)
       .subscribe((schedules) => {
         this.schedulesSubject.next(schedules);
         this.loadingSubject.next(false);

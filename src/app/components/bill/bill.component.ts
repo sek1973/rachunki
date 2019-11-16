@@ -90,9 +90,9 @@ export class BillComponent implements OnInit, OnDestroy {
 
 	setBill(bill: Bill) {
 		if (bill.uid) {
-			this.billsFirebaseService.updateBill(bill);
+			this.billsFirebaseService.update(bill);
 		} else {
-			this.billsFirebaseService.addBill(bill)
+			this.billsFirebaseService.add(bill)
 				.then((ref) => {
 					console.log('Document successfully added!', ref, bill);
 					this.router.navigate([bill.id], { relativeTo: this.route });

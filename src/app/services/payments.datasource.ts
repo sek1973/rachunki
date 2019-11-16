@@ -26,7 +26,7 @@ export class PaymentsDataSource extends TableDataSource<Payment> {
   load() {
     this.loadingSubject.next(true);
     this.paymentsFirebaseService
-      .fetchPayments(this.uid)
+      .fetch(this.uid)
       .subscribe((payments) => {
         this.paymentsSubject.next(payments);
         this.loadingSubject.next(false);

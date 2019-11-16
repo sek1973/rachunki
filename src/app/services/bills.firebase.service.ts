@@ -20,14 +20,14 @@ export class BillsFirebaseService {
   private billsSubscription = Subscription.EMPTY;
 
   constructor(public db: AngularFirestore) {
-    this.loadBills();
+    this.load();
   }
 
-  loadBills() {
+  load() {
     this.billsSubscription.unsubscribe();
     this.billsSubscription = of({})
       .pipe(map(() => this.billsLoadingSubject.next(true)),
-        mergeMap(() => this.fetchBills()),
+        mergeMap(() => this.fetch()),
         map(bills => {
           this.billsLoadingSubject.next(false);
           return bills;
@@ -43,12 +43,12 @@ export class BillsFirebaseService {
     return this.billsSubject.asObservable();
   }
 
-  fetchBills(): Observable<Bill[]> {
+  private fetch(): Observable<Bill[]> {
     return this.db.collection<Bill>('bills')
       .valueChanges({ idField: 'uid' });
   }
 
-  fetchBill(id: number): Observable<Bill> {
+  fetchItem(id: number): Observable<Bill> {
     if (id !== undefined) {
       const query = this.db.doc<Bill>('bills/' + id);
       return query.valueChanges();
@@ -76,17 +76,17 @@ export class BillsFirebaseService {
     };
   }
 
-  addBill(bill: Bill): Promise<firestore.DocumentReference> {
+  add(bill: Bill): Promise<firestore.DocumentReference> {
     return this.db.collection('bills').add(this.createBillData(bill));
   }
 
-  updateBill(bill: Bill) {
+  update(bill: Bill) {
     this.db.collection('bills').doc(bill.uid).set(this.createBillData(bill))
       .then(() => console.log('Document successfully written!'))
       .catch((error) => console.error('Error writing document: ', error));
   }
 
-  deleteBill(bill: Bill): Promise<void> {
+  delete(bill: Bill): Promise<void> {
     return this.db.collection('bills').doc(bill.uid).delete();
   }
 

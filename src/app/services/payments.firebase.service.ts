@@ -16,9 +16,9 @@ export class PaymentsFirebaseService {
 
   constructor(public db: AngularFirestore) { }
 
-  fetchPaymentsForBill(bill: Bill): Observable<Bill> {
+  fetchForBill(bill: Bill): Observable<Bill> {
     if (bill) {
-      return this.fetchPayments(bill.uid).pipe(map(payments => {
+      return this.fetch(bill.uid).pipe(map(payments => {
         bill.payments = payments;
         return bill;
       }));
@@ -26,7 +26,7 @@ export class PaymentsFirebaseService {
     return of(null);
   }
 
-  fetchPayments(uid: string): Observable<Payment[]> {
+  fetch(uid: string): Observable<Payment[]> {
     if (uid !== undefined) {
       const query = this.db.collection<Bill>('bills').doc(uid).collection<Payment>('payments');
       return query.valueChanges();

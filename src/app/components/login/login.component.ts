@@ -43,7 +43,7 @@ export class LoginComponent implements OnInit {
         this.navigationService.goToPreviousPage('/zestawienie');
         this.loadingSubject.next(false);
         console.log('logged in');
-        this.billsFirebaseService.loadBills();
+        this.billsFirebaseService.load();
       },
       rejected => {
         this.error = rejected.message;
