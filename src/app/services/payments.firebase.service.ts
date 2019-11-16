@@ -29,7 +29,7 @@ export class PaymentsFirebaseService {
   fetch(uid: string): Observable<Payment[]> {
     if (uid !== undefined) {
       const query = this.db.collection<Bill>('bills').doc(uid).collection<Payment>('payments');
-      return query.valueChanges();
+      return query.valueChanges({ idField: 'uid' });
     }
     return of([]);
   }

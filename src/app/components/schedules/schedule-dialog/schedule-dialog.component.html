@@ -3,7 +3,7 @@
     </div>
     <ng-container *ngIf="!loading">
       <app-input-date [formGroup]="form"
-                      [path]="['deadline']"
+                      [path]="['date']"
                       tooltipText="Podaj termin dla najbliższej płatności"
                       placeholderText="Termin płatności">
       </app-input-date>
@@ -14,7 +14,7 @@
                       placeholderText="Kwota do zapłacenia">
       </app-input-text>
       <app-input-text [formGroup]="form"
-                      [path]="['description']"
+                      [path]="['remarks']"
                       tooltipText="Dodaj opcjonalny opis rachunku."
                       placeholderText="Opis / uwagi">
       </app-input-text>

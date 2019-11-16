@@ -28,9 +28,25 @@ export class SchedulesFirebaseService {
   fetch(uid: string): Observable<Schedule[]> {
     if (uid !== undefined) {
       const query = this.db.collection<Bill>('bills').doc(uid).collection<Schedule>('schedules');
-      return query.valueChanges();
+      return query.valueChanges({ idField: 'uid' });
     }
     return of([]);
+  }
+
+  private createScheduleData(schedule: Schedule): any {
+    return {
+      date: schedule.date || Timestamp.fromDate(new Date()),
+      sum: schedule.sum || 0,
+      remarks: schedule.remarks || '',
+    };
+  }
+
+  add(schedule: Schedule, billUid: string): Promise<firestore.DocumentReference> {
+    return this.db.collection('bills').doc(billUid).collection('schedules').add(this.createScheduleData(schedule));
+  }
+
+  update(schedule: Schedule, billUid: string) {
+    return this.db.collection('bills').doc(billUid).collection('schedules').doc(schedule.uid).set(this.createScheduleData(schedule));
   }
 
 }

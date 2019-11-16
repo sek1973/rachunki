@@ -4,6 +4,7 @@
            [expandable]="false"
            [editable]="true"
            [canAdd]="true"
+           (rowActivated)="onRowActivated()"
            (refreshButtonClicked)="refresh()"
            (addButtonClicked)="openDialog()"
            (editButtonClicked)="openDialog()">

@@ -14,6 +14,10 @@ export function timestampToString(val: Timestamp): string | undefined {
   return val ? val.toDate().toISOString().substring(0, 10) : undefined;
 }
 
+export function timestampToDate(val: Timestamp): Date | undefined {
+  return val ? val.toDate() : undefined;
+}
+
 export function currencyToString(val: number): string | undefined {
   if (val !== undefined && val !== null) {
     const formatter = new Intl.NumberFormat('pl-PL', {

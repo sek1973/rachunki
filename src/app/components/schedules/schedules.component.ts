@@ -60,12 +60,17 @@ export class SchedulesComponent implements OnInit {
     const schedule: Schedule = this.table.activeRow;
     const dialogRef = this.dialog.open(ScheduleDialogComponent, {
       width: '500px',
-      data: { schedule: schedule }
+      data: { schedule: schedule, billUid: this.billUid }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
+  }
+
+  onRowActivated() {
+    this.table.canDelete = this.table.activeRow ? true : false;
+    this.table.canEdit = this.table.activeRow ? true : false;
   }
 
 }
