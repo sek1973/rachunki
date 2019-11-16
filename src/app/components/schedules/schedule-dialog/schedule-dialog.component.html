@@ -1,5 +1,37 @@
-<p>schedule-dialog works!</p>
-<button mat-raised-button
-        color="warn"
-        class="toolbar-button"
-        (click)="closeDialog()">Anuluj</button>
+    <div class="dialog-title">
+      {{dialogTitle}}
+    </div>
+    <ng-container *ngIf="!loading">
+      <app-input-date [formGroup]="form"
+                      [path]="['deadline']"
+                      tooltipText="Podaj termin dla najbliższej płatności"
+                      placeholderText="Termin płatności">
+      </app-input-date>
+      <app-input-text [formGroup]="form"
+                      type="number"
+                      [path]="['sum']"
+                      tooltipText="Podaj kwotę do zapłacenia"
+                      placeholderText="Kwota do zapłacenia">
+      </app-input-text>
+      <app-input-text [formGroup]="form"
+                      [path]="['description']"
+                      tooltipText="Dodaj opcjonalny opis rachunku."
+                      placeholderText="Opis / uwagi">
+      </app-input-text>
+    </ng-container>
+    <app-spinner *ngIf="loading"></app-spinner>
+    <div class="buttons-panel">
+      <button mat-raised-button
+              color="warn"
+              class="toolbar-button"
+              (click)="closeDialog()">Anuluj</button>
+      <button *ngIf="dialogMode==='edit'"
+              mat-raised-button
+              color="primary"
+              class="toolbar-button"
+              (click)="cloneData()">Klonuj</button>
+      <button mat-raised-button
+              color="primary"
+              class="toolbar-button"
+              (click)="saveData()">Zapisz</button>
+    </div>

@@ -1,11 +1,12 @@
-<app-table [dataSource]="dataSource"
+<app-table #table
+           [dataSource]="dataSource"
            [columnsDefinition]="columns"
            [expandable]="false"
            [editable]="true"
            [canAdd]="true"
            (refreshButtonClicked)="refresh()"
-           (addButtonClicked)="addDialog()"
-           (editButtonClicked)="editDialog()">
+           (addButtonClicked)="openDialog()"
+           (editButtonClicked)="openDialog()">
   <ng-template #tableTitleTemplate>
     <span class="table-title">Planowane płatności</span>
   </ng-template>

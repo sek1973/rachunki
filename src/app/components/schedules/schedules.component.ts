@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { TableComponent } from './../tools/table/table.component';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Schedule } from 'src/app/model/schedule';
 
@@ -20,6 +21,7 @@ export class SchedulesComponent implements OnInit {
   get billUid(): string {
     return this._builUid;
   }
+  @ViewChild('table', { static: false, read: TableComponent }) table: TableComponent;
 
   activeRow: any;
 
@@ -54,21 +56,11 @@ export class SchedulesComponent implements OnInit {
     this.dataSource.load();
   }
 
-  addDialog(): void {
+  openDialog(): void {
+    const schedule: Schedule = this.table.activeRow;
     const dialogRef = this.dialog.open(ScheduleDialogComponent, {
-      width: '250px',
-      data: { mode: 'add' }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
-    });
-  }
-
-  editDialog(): void {
-    const dialogRef = this.dialog.open(ScheduleDialogComponent, {
-      width: '250px',
-      data: { mode: 'edit' }
+      width: '500px',
+      data: { schedule: schedule }
     });
 
     dialogRef.afterClosed().subscribe(result => {
