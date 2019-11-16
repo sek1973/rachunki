@@ -1,10 +1,10 @@
-import { TableComponent } from './../tools/table/table.component';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { Schedule } from 'src/app/model/schedule';
 
-import { FirebaseService } from './../../services/firebase.service';
 import { SchedulesDataSource } from './../../services/schedules.datasource';
+import { SchedulesFirebaseService } from './../../services/schedules.firebase.service';
+import { TableComponent } from './../tools/table/table.component';
 import { ScheduleDialogComponent } from './schedule-dialog/schedule-dialog.component';
 
 @Component({
@@ -32,13 +32,13 @@ export class SchedulesComponent implements OnInit {
     { name: 'remarks', header: 'Uwagi' }
   ];
 
-  constructor(private firebaseService: FirebaseService,
+  constructor(private schedulesFirebaseService: SchedulesFirebaseService,
     public dialog: MatDialog) { }
 
   ngOnInit() { }
 
   private setTableDataSource() {
-    this.dataSource = new SchedulesDataSource(this.firebaseService, this.billUid);
+    this.dataSource = new SchedulesDataSource(this.schedulesFirebaseService, this.billUid);
     this.dataSource.load();
   }
 

@@ -4,7 +4,7 @@ import { getSafe } from 'src/app/helpers';
 import { Bill } from 'src/app/model/bill';
 
 import { BillsDataSource } from '../../services/bills.datasource';
-import { FirebaseService } from '../../services/firebase.service';
+import { BillsFirebaseService } from '../../services/bills.firebase.service';
 import { AuthService } from './../../services/auth.service';
 import { TableComponent } from './../tools/table/table.component';
 
@@ -28,12 +28,12 @@ export class OverviewComponent implements OnInit {
 
 	@ViewChild('table', { static: false }) table: TableComponent;
 
-	constructor(private firebaseService: FirebaseService,
+	constructor(private billsFirebaseService: BillsFirebaseService,
 		private authService: AuthService,
 		private router: Router) { }
 
 	ngOnInit() {
-		this.dataSource = new BillsDataSource(this.firebaseService);
+		this.dataSource = new BillsDataSource(this.billsFirebaseService);
 	}
 
 	onRowClicked(row: Bill) {
@@ -54,7 +54,7 @@ export class OverviewComponent implements OnInit {
 	deleteBill() {
 		const row = this.table.activeRow;
 		if (row) {
-			this.firebaseService.deleteBill(row)
+			this.billsFirebaseService.deleteBill(row)
 				.then(() => {
 					console.log('Document successfully deleted!');
 					// this.table.activeRow = undefined;
@@ -74,7 +74,7 @@ export class OverviewComponent implements OnInit {
 	}
 
 	logout() {
-		this.firebaseService.disconnect();
+		this.billsFirebaseService.disconnect();
 		this.authService.logout().then(
 			() => {
 				this.router.navigate(['/login']);
@@ -84,7 +84,7 @@ export class OverviewComponent implements OnInit {
 	}
 
 	refresh() {
-		this.firebaseService.loadBills();
+		this.billsFirebaseService.loadBills();
 	}
 
 }

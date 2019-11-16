@@ -7,7 +7,7 @@ import { switchMap } from 'rxjs/operators';
 import { getSafe } from 'src/app/helpers';
 
 import { Bill } from './../../model/bill';
-import { FirebaseService } from './../../services/firebase.service';
+import { BillsFirebaseService } from './../../services/bills.firebase.service';
 
 @Component({
 	selector: 'app-rachunek',
@@ -35,7 +35,7 @@ export class BillComponent implements OnInit, OnDestroy {
 
 	constructor(private route: ActivatedRoute,
 		private router: Router,
-		private firebaseService: FirebaseService,
+		private billsFirebaseService: BillsFirebaseService,
 		private authService: AuthService) { }
 
 	ngOnInit() {
@@ -43,7 +43,7 @@ export class BillComponent implements OnInit, OnDestroy {
 		this.subscription = this.route.paramMap.pipe(switchMap(param => {
 			const params = param['params'];
 			id = params ? +params['id'] : undefined;
-			return this.firebaseService.billsObservable;
+			return this.billsFirebaseService.billsObservable;
 		}))
 			.subscribe(bills => this.handleData(bills, id)
 			);
@@ -90,9 +90,9 @@ export class BillComponent implements OnInit, OnDestroy {
 
 	setBill(bill: Bill) {
 		if (bill.uid) {
-			this.firebaseService.updateBill(bill);
+			this.billsFirebaseService.updateBill(bill);
 		} else {
-			this.firebaseService.addBill(bill)
+			this.billsFirebaseService.addBill(bill)
 				.then((ref) => {
 					console.log('Document successfully added!', ref, bill);
 					this.router.navigate([bill.id], { relativeTo: this.route });

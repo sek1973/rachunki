@@ -2,17 +2,17 @@ import { BehaviorSubject, Observable } from 'rxjs';
 
 import { TableDataSource } from '../components/tools/table/table-data-source';
 import { Bill } from '../model/bill';
-import { FirebaseService } from './firebase.service';
+import { BillsFirebaseService } from './bills.firebase.service';
 
 export class BillsDataSource extends TableDataSource<Bill> {
 	private billsSubject = new BehaviorSubject<Bill[]>([]);
 
 	public loading$: Observable<boolean>;
 
-	constructor(private firebaseService: FirebaseService) {
+	constructor(private billsFirebaseService: BillsFirebaseService) {
 		super([]);
-		this.loading$ = this.firebaseService.billsLoading$;
-		this.firebaseService
+		this.loading$ = this.billsFirebaseService.billsLoading$;
+		this.billsFirebaseService
 			.billsObservable
 			.subscribe((bills) => {
 				this.data = bills;

@@ -1,9 +1,8 @@
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { TableDataSource } from '../components/tools/table/table-data-source';
 import { Payment } from '../model/payment';
-import { FirebaseService } from './firebase.service';
+import { PaymentsFirebaseService } from './payments.firebase.service';
 
 export class PaymentsDataSource extends TableDataSource<Payment> {
   private paymentsSubject = new BehaviorSubject<Payment[]>([]);
@@ -11,7 +10,7 @@ export class PaymentsDataSource extends TableDataSource<Payment> {
 
   public loading$ = this.loadingSubject.asObservable();
 
-  constructor(private firebaseService: FirebaseService, private uid: string) {
+  constructor(private paymentsFirebaseService: PaymentsFirebaseService, private uid: string) {
     super();
   }
 
@@ -26,7 +25,7 @@ export class PaymentsDataSource extends TableDataSource<Payment> {
 
   load() {
     this.loadingSubject.next(true);
-    this.firebaseService
+    this.paymentsFirebaseService
       .fetchPayments(this.uid)
       .subscribe((payments) => {
         this.paymentsSubject.next(payments);

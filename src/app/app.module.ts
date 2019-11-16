@@ -42,7 +42,6 @@ import { InputTextComponent } from './components/tools/inputs/input-text/input-t
 import { InputToggleComponent } from './components/tools/inputs/input-toggle/input-toggle.component';
 import { TableCellDirective } from './components/tools/table/directives/table-cell.directive';
 import { TableComponent } from './components/tools/table/table.component';
-import { FirebaseService } from './services/firebase.service';
 import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
 import { TimespanToStringPipe } from './pipes/timespan-to-string.pipe';
@@ -94,7 +93,6 @@ import { CurrencyToStringPipe } from './pipes/currency-to-string.pipe';
 		MatNativeDateModule
 	],
 	providers: [
-		FirebaseService,
 		AngularFireAuth,
 		NavigationService,
 		PreviousUrlService,

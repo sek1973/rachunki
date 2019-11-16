@@ -1,4 +1,4 @@
-import { FirebaseService } from './services/firebase.service';
+import { BillsFirebaseService } from './services/bills.firebase.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,8 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-	constructor(private firebaseService: FirebaseService) {
-		this.firebaseService.loadBills();
+	constructor(private billsFirebaseService: BillsFirebaseService) {
+		this.billsFirebaseService.loadBills();
 	}
 
 	ngOnInit() { }

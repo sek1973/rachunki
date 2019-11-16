@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { Payment } from './../../model/payment';
-import { FirebaseService } from './../../services/firebase.service';
+import { PaymentsFirebaseService } from './../../services/payments.firebase.service';
 import { PaymentsDataSource } from './../../services/payments.datasource';
 
 @Component({
@@ -31,13 +31,13 @@ export class PaymentsComponent implements OnInit {
     { name: 'remarks', header: 'Uwagi' }
   ];
 
-  constructor(private firebaseService: FirebaseService,
+  constructor(private paymentsFirebaseService: PaymentsFirebaseService,
     public dialog: MatDialog) { }
 
   ngOnInit() { }
 
   private setTableDataSource() {
-    this.dataSource = new PaymentsDataSource(this.firebaseService, this.billUid);
+    this.dataSource = new PaymentsDataSource(this.paymentsFirebaseService, this.billUid);
     this.dataSource.load();
   }
 
