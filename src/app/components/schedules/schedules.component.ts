@@ -7,6 +7,7 @@ import { SchedulesDataSource } from './../../services/schedules.datasource';
 import { SchedulesFirebaseService } from './../../services/schedules.firebase.service';
 import { TableComponent } from './../tools/table/table.component';
 import { ScheduleDialogComponent } from './schedule-dialog/schedule-dialog.component';
+import undefined = require('firebase/empty-import');
 
 @Component({
   selector: 'app-schedules',
@@ -58,8 +59,15 @@ export class SchedulesComponent implements OnInit {
     this.dataSource.load();
   }
 
-  openDialog(): void {
-    const schedule: Schedule = this.table.activeRow;
+  addSchedule() {
+    this.openDialog(undefined);
+  }
+
+  editSchedule() {
+    if (this.table.activeRow) { this.openDialog(this.table.activeRow); }
+  }
+
+  private openDialog(schedule: Schedule): void {
     const dialogRef = this.dialog.open(ScheduleDialogComponent, {
       width: '500px',
       data: { schedule: schedule, billUid: this.billUid }

@@ -1,18 +1,22 @@
-<app-table [dataSource]="dataSource"
+<app-table #table
+           [dataSource]="dataSource"
            [columnsDefinition]="columns"
            [expandable]="false"
            [editable]="true"
            [canAdd]="true"
+           ((rowActivated)="onRowActivated()"
            (refreshButtonClicked)="refresh()"
-           (addButtonClicked)="addDialog()"
-           (editButtonClicked)="editDialog()">
+           (addButtonClicked)="addPayment()"
+           (editButtonClicked)="editPayment()"
+           (deleteButtonClicked)="deletePayment()"
+           (rowDblClick)="editPayment()">
   <ng-template #tableTitleTemplate>
     <span class="table-title">Historia płatności</span>
   </ng-template>
   <ng-template cellTemplateForColumn="deadline"
                let-row="row">{{row.deadline | timespanToString}}</ng-template>
-  <ng-template cellTemplateForColumn="paidDate"
-               let-row="row">{{row.paidDate | timespanToString}}</ng-template>
+  <ng-template cellTemplateForColumn="paiddate"
+               let-row="row">{{row.paiddate | timespanToString}}</ng-template>
   <ng-template cellTemplateForColumn="sum"
                let-row="row">{{row.sum | currencyToString}}</ng-template>
 </app-table>

@@ -34,4 +34,26 @@ export class PaymentsFirebaseService {
     return of([]);
   }
 
+  private createPaymentData(payment: Payment): any {
+    return {
+      deadline: payment.deadline || Timestamp.fromDate(new Date()),
+      paiddate: payment.paiddate || undefined,
+      sum: payment.sum,
+      share: payment.share,
+      remarks: payment.remarks || ''
+    };
+  }
+
+  add(payment: Payment, billUid: string): Promise<firestore.DocumentReference> {
+    return this.db.collection('bills').doc(billUid).collection('payments').add(this.createPaymentData(payment));
+  }
+
+  update(payment: Payment, billUid: string): Promise<void> {
+    return this.db.collection('bills').doc(billUid).collection('payments').doc(payment.uid).set(this.createPaymentData(payment));
+  }
+
+  delete(payment: Payment, billUid: string): Promise<void> {
+    return this.db.collection('bills').doc(billUid).collection('payments').doc(payment.uid).delete();
+  }
+
 }

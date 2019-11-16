@@ -6,10 +6,10 @@
            [canAdd]="true"
            (rowActivated)="onRowActivated()"
            (refreshButtonClicked)="refresh()"
-           (addButtonClicked)="openDialog()"
-           (editButtonClicked)="openDialog()"
+           (addButtonClicked)="addSchedule()"
+           (editButtonClicked)="editSchedule()"
            (deleteButtonClicked)="deleteSchedule()"
-           (rowDblClick)="openDialog()">
+           (rowDblClick)="editSchedule()">
   <ng-template #tableTitleTemplate>
     <span class="table-title">Planowane płatności</span>
   </ng-template>

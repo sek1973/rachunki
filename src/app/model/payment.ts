@@ -5,7 +5,8 @@ import Timestamp = firestore.Timestamp;
 export interface Payment {
 	uid: string;
 	deadline: Timestamp;
-	paidDate: Timestamp;
+	paiddate: Timestamp;
 	sum: number;
+	share: number;
 	remarks: string;
 }
