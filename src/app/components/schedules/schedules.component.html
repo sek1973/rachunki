@@ -7,7 +7,9 @@
            (rowActivated)="onRowActivated()"
            (refreshButtonClicked)="refresh()"
            (addButtonClicked)="openDialog()"
-           (editButtonClicked)="openDialog()">
+           (editButtonClicked)="openDialog()"
+           (deleteButtonClicked)="deleteSchedule()"
+           (rowDblClick)="openDialog()">
   <ng-template #tableTitleTemplate>
     <span class="table-title">Planowane płatności</span>
   </ng-template>

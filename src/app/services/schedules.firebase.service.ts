@@ -45,8 +45,12 @@ export class SchedulesFirebaseService {
     return this.db.collection('bills').doc(billUid).collection('schedules').add(this.createScheduleData(schedule));
   }
 
-  update(schedule: Schedule, billUid: string) {
+  update(schedule: Schedule, billUid: string): Promise<void> {
     return this.db.collection('bills').doc(billUid).collection('schedules').doc(schedule.uid).set(this.createScheduleData(schedule));
+  }
+
+  delete(schedule: Schedule, billUid: string): Promise<void> {
+    return this.db.collection('bills').doc(billUid).collection('schedules').doc(schedule.uid).delete();
   }
 
 }

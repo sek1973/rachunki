@@ -36,16 +36,17 @@ import { PaymentsComponent } from './components/payments/payments.component';
 import { ScheduleDialogComponent } from './components/schedules/schedule-dialog/schedule-dialog.component';
 import { SchedulesComponent } from './components/schedules/schedules.component';
 import { AppSpinnerComponent } from './components/tools/app-spinner/app-spinner.component';
+import { ConfirmDialogComponent } from './components/tools/confirm-dialog/confirm-dialog.component';
 import { InputDateComponent } from './components/tools/inputs/input-date/input-date.component';
 import { InputPasswordComponent } from './components/tools/inputs/input-password/input-password.component';
 import { InputTextComponent } from './components/tools/inputs/input-text/input-text.component';
 import { InputToggleComponent } from './components/tools/inputs/input-toggle/input-toggle.component';
 import { TableCellDirective } from './components/tools/table/directives/table-cell.directive';
 import { TableComponent } from './components/tools/table/table.component';
+import { CurrencyToStringPipe } from './pipes/currency-to-string.pipe';
+import { TimespanToStringPipe } from './pipes/timespan-to-string.pipe';
 import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
-import { TimespanToStringPipe } from './pipes/timespan-to-string.pipe';
-import { CurrencyToStringPipe } from './pipes/currency-to-string.pipe';
 
 @NgModule({
 	declarations: [
@@ -66,7 +67,8 @@ import { CurrencyToStringPipe } from './pipes/currency-to-string.pipe';
 		PaymentDialogComponent,
 		InputDateComponent,
 		TimespanToStringPipe,
-		CurrencyToStringPipe
+		CurrencyToStringPipe,
+		ConfirmDialogComponent
 	],
 	imports: [
 		BrowserModule,
@@ -108,7 +110,8 @@ import { CurrencyToStringPipe } from './pipes/currency-to-string.pipe';
 	],
 	entryComponents: [
 		ScheduleDialogComponent,
-		PaymentDialogComponent
+		PaymentDialogComponent,
+		ConfirmDialogComponent
 	],
 	bootstrap: [AppComponent]
 })
