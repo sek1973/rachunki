@@ -17,6 +17,7 @@ import { BillsFirebaseService } from './../../services/bills.firebase.service';
 export class BillComponent implements OnInit, OnDestroy {
 
 	private subscription = Subscription.EMPTY;
+	editMode = false;
 
 	bill: Bill;
 	form: FormGroup = new FormGroup({
@@ -45,8 +46,7 @@ export class BillComponent implements OnInit, OnDestroy {
 			id = params ? +params['id'] : undefined;
 			return this.billsFirebaseService.billsObservable;
 		}))
-			.subscribe(bills => this.handleData(bills, id)
-			);
+			.subscribe(bills => this.handleData(bills, id));
 	}
 
 	private handleData(bills: Bill[], id: number) {
@@ -67,6 +67,7 @@ export class BillComponent implements OnInit, OnDestroy {
 				login: this.bill.login,
 				password: this.bill.password
 			});
+			this.form.disable();
 			console.log('bill data:', this.bill);
 		}
 	}
@@ -84,8 +85,26 @@ export class BillComponent implements OnInit, OnDestroy {
 		return title || 'Rachunek bez nazwy';
 	}
 
+	editBill() {
+		this.editMode = true;
+		this.form.enable();
+	}
+
+	payBill() {
+		alert('bill paid!');
+	}
+
 	saveBill() {
 		this.setBill(this.form.value);
+	}
+
+	deleteBill() {
+		alert('Na pewno???');
+	}
+
+	cancel() {
+		this.editMode = false;
+		this.form.disable();
 	}
 
 	setBill(bill: Bill) {
