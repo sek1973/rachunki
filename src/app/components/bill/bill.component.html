@@ -1,107 +1,112 @@
-<div class="bill-titlebar">
-  <div class="bill-title">
-    <span>
-      {{getTitle()}}
-    </span>
+<div class="bill-view">
+  <div class="bill-details">
+    <div class="bill-titlebar">
+      <div class="bill-title">
+        <span>
+          {{getTitle()}}
+        </span>
+      </div>
+      <div class="bill-toolbar">
+        <button mat-raised-button
+                color="warn"
+                class="toolbar-button"
+                (click)="logout()">Wyloguj</button>
+        <a mat-raised-button
+           color="primary"
+           class="toolbar-button"
+           [routerLink]="['/zestawienie']"
+           routerLinkActive="active">Zestawienie</a>
+      </div>
+    </div>
+
+    <div class="form">
+      <div class="form-column-left">
+        <app-input-text [formGroup]="form"
+                        [path]="['name']"
+                        tooltipText="Podaj nazwę rachunku do opłacania, np. Gaz."
+                        placeholderText="Nazwa rachunku do opłacania (np. gaz.)">
+        </app-input-text>
+        <app-input-text [formGroup]="form"
+                        [path]="['description']"
+                        tooltipText="Dodaj opcjonalny opis rachunku."
+                        placeholderText="Opis / uwagi">
+        </app-input-text>
+        <app-input-toggle [formGroup]="form"
+                          [path]="['active']"
+                          tooltipText="Odznacz, jeżeli rachunek (tymczasowo) nie ma być uwzględniany."
+                          placeholderText="Aktywny">
+        </app-input-toggle>
+        <app-input-text [formGroup]="form"
+                        [path]="['url']"
+                        tooltipText="Podaj adres www dla rachunku np. 24.energa.pl (strona do logowania)"
+                        placeholderText="Adres www rachunku - strona do logowania">
+        </app-input-text>
+        <app-input-date [formGroup]="form"
+                        [path]="['deadline']"
+                        tooltipText="Podaj termin dla najbliższej płatności"
+                        placeholderText="Termin płatności">
+        </app-input-date>
+      </div>
+
+      <div class="form-column-right">
+        <app-input-text [formGroup]="form"
+                        [path]="['login']"
+                        tooltipText="Podaj login, którego używasz na stronie logowania dystrybutora"
+                        placeholderText="Login do konta u dystrybutora">
+        </app-input-text>
+        <app-input-password [formGroup]="form"
+                            [path]="['password']"
+                            tooltipText="Podaj hasło, którego używasz na stronie logowania dystrybutora"
+                            placeholderText="Hasło do konta u dystrybutora">
+        </app-input-password>
+        <app-input-text [formGroup]="form"
+                        type="number"
+                        [path]="['share']"
+                        tooltipText="Jeżeli rachunek opłacasz wspólnie, podaj Twój udział"
+                        placeholderText="Udział w opłacie">
+        </app-input-text>
+        <app-input-text [formGroup]="form"
+                        type="number"
+                        [path]="['sum']"
+                        tooltipText="Podaj kwotę do zapłacenia"
+                        placeholderText="Kwota do zapłacenia">
+        </app-input-text>
+      </div>
+    </div>
+
+    <div class="bill-titlebar">
+      <div class="bill-toolbar">
+        <button *ngIf="!editMode"
+                mat-raised-button
+                color="primary"
+                class="toolbar-button"
+                (click)="editBill()">Edytuj</button>
+        <button *ngIf="!editMode"
+                mat-raised-button
+                color="primary"
+                class="toolbar-button"
+                (click)="payBill()">Zapłać</button>
+        <button *ngIf="editMode"
+                mat-raised-button
+                color="primary"
+                class="toolbar-button"
+                (click)="saveBill()">Zapisz</button>
+        <button *ngIf="editMode"
+                mat-raised-button
+                color="warn"
+                class="toolbar-button"
+                (click)="deleteBill()">Usuń</button>
+        <button *ngIf="editMode"
+                mat-raised-button
+                color="accent"
+                class="toolbar-button"
+                (click)="cancel()">Anuluj</button>
+      </div>
+    </div>
   </div>
-  <div class="bill-toolbar">
-    <button mat-raised-button
-            color="warn"
-            class="toolbar-button"
-            (click)="logout()">Wyloguj</button>
-    <a mat-raised-button
-       color="primary"
-       class="toolbar-button"
-       [routerLink]="['/zestawienie']"
-       routerLinkActive="active">Zestawienie</a>
-  </div>
+  <app-schedules class="bill-schedules"
+                 [billUid]="bill.uid"></app-schedules>
+
+  <app-payments class="bill-payments"
+                [billUid]="bill.uid"></app-payments>
 </div>
-
-<div class="form">
-  <div class="form-column-left">
-    <app-input-text [formGroup]="form"
-                    [path]="['name']"
-                    tooltipText="Podaj nazwę rachunku do opłacania, np. Gaz."
-                    placeholderText="Nazwa rachunku do opłacania (np. gaz.)">
-    </app-input-text>
-    <app-input-text [formGroup]="form"
-                    [path]="['description']"
-                    tooltipText="Dodaj opcjonalny opis rachunku."
-                    placeholderText="Opis / uwagi">
-    </app-input-text>
-    <app-input-toggle [formGroup]="form"
-                      [path]="['active']"
-                      tooltipText="Odznacz, jeżeli rachunek (tymczasowo) nie ma być uwzględniany."
-                      placeholderText="Aktywny">
-    </app-input-toggle>
-    <app-input-text [formGroup]="form"
-                    [path]="['url']"
-                    tooltipText="Podaj adres www dla rachunku np. 24.energa.pl (strona do logowania)"
-                    placeholderText="Adres www rachunku - strona do logowania">
-    </app-input-text>
-    <app-input-date [formGroup]="form"
-                    [path]="['deadline']"
-                    tooltipText="Podaj termin dla najbliższej płatności"
-                    placeholderText="Termin płatności">
-    </app-input-date>
-  </div>
-
-  <div class="form-column-right">
-    <app-input-text [formGroup]="form"
-                    [path]="['login']"
-                    tooltipText="Podaj login, którego używasz na stronie logowania dystrybutora"
-                    placeholderText="Login do konta u dystrybutora">
-    </app-input-text>
-    <app-input-password [formGroup]="form"
-                        [path]="['password']"
-                        tooltipText="Podaj hasło, którego używasz na stronie logowania dystrybutora"
-                        placeholderText="Hasło do konta u dystrybutora">
-    </app-input-password>
-    <app-input-text [formGroup]="form"
-                    type="number"
-                    [path]="['share']"
-                    tooltipText="Jeżeli rachunek opłacasz wspólnie, podaj Twój udział"
-                    placeholderText="Udział w opłacie">
-    </app-input-text>
-    <app-input-text [formGroup]="form"
-                    type="number"
-                    [path]="['sum']"
-                    tooltipText="Podaj kwotę do zapłacenia"
-                    placeholderText="Kwota do zapłacenia">
-    </app-input-text>
-  </div>
-</div>
-
-<div class="bill-titlebar">
-  <div class="bill-toolbar">
-    <button *ngIf="!editMode"
-            mat-raised-button
-            color="primary"
-            class="toolbar-button"
-            (click)="editBill()">Edytuj</button>
-    <button *ngIf="!editMode"
-            mat-raised-button
-            color="primary"
-            class="toolbar-button"
-            (click)="payBill()">Zapłać</button>
-    <button *ngIf="editMode"
-            mat-raised-button
-            color="primary"
-            class="toolbar-button"
-            (click)="saveBill()">Zapisz</button>
-    <button *ngIf="editMode"
-            mat-raised-button
-            color="warn"
-            class="toolbar-button"
-            (click)="deleteBill()">Usuń</button>
-    <button *ngIf="editMode"
-            mat-raised-button
-            color="accent"
-            class="toolbar-button"
-            (click)="cancel()">Anuluj</button>
-  </div>
-</div>
-
-<app-schedules [billUid]="bill.uid"></app-schedules>
-
-<app-payments [billUid]="bill.uid"></app-payments>

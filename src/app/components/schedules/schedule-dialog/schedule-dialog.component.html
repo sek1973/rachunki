@@ -1,7 +1,10 @@
     <div class="dialog-title">
       {{dialogTitle}}
     </div>
-    <ng-container *ngIf="!loading">
+    <mat-progress-bar *ngIf="loading"
+                      mode="indeterminate">
+    </mat-progress-bar>
+    <ng-container>
       <app-input-date [formGroup]="form"
                       [path]="['date']"
                       tooltipText="Podaj termin dla najbliższej płatności"
@@ -19,7 +22,6 @@
                       placeholderText="Opis / uwagi">
       </app-input-text>
     </ng-container>
-    <app-spinner *ngIf="loading"></app-spinner>
     <div class="buttons-panel">
       <button mat-raised-button
               color="warn"

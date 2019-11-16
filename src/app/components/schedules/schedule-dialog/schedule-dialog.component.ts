@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { getSafe, timestampToDate } from 'src/app/helpers';
 import { Schedule } from 'src/app/model/schedule';
+import { ConfirmationService } from 'src/app/services/confirmation.service';
 
 import { SchedulesFirebaseService } from './../../../services/schedules.firebase.service';
 
@@ -32,7 +33,8 @@ export class ScheduleDialogComponent implements OnInit, AfterViewInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: ScheduleDialogData,
     public dialogRef: MatDialogRef<ScheduleDialogComponent>,
-    private schedulesFirebaseService: SchedulesFirebaseService) {
+    private schedulesFirebaseService: SchedulesFirebaseService,
+    private confirmationService: ConfirmationService) {
     this.billUid = getSafe(() => data.billUid);
     this.schedule = getSafe(() => data.schedule);
     this.dialogTitle = (this.schedule ? 'Edytuj' : 'Dodaj') + ' planowaną płatność';
@@ -64,6 +66,7 @@ export class ScheduleDialogComponent implements OnInit, AfterViewInit {
 
   saveData() {
     let request: Promise<firebase.firestore.DocumentReference | void>;
+    this.loading = true;
     if (this.schedule) {
       request = this.schedulesFirebaseService.update(this.form.value, this.billUid);
     } else {
@@ -78,8 +81,25 @@ export class ScheduleDialogComponent implements OnInit, AfterViewInit {
       });
   }
 
-  cloneData() {
+  private checkDuplicatedSchedule() {
+    this.confirmationService
+      .confirm('Powtórzony plan', 'Plan płatności z tą datą już istnieje. Czy na pewno dodać nowy?', 'Nie', 'Tak')
+      .subscribe((response) => {
+        if (response) console.log('sukces');
+      });
+  }
 
+  cloneData() {
+    this.loading = true;
+    const request = this.schedulesFirebaseService.add(this.form.value, this.billUid);
+    request.then(resp => {
+      console.log('schedule cloned');
+      this.loading = false;
+    },
+      error => {
+        console.error(error);
+        this.loading = false;
+      });
   }
 
 }

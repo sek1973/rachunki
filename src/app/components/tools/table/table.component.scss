@@ -247,3 +247,15 @@ tr.row-row {
   background-color: white;
   width: 100%;
 }
+
+.table-container {
+  height: 100%;
+  overflow: auto;
+}
+
+.component-container {
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
