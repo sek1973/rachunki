@@ -1,6 +1,6 @@
-import { style } from '@angular/animations';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { getSafe } from 'src/app/helpers';
 import { Bill } from 'src/app/model/bill';
 
 import { BillsDataSource } from '../../services/bills.datasource';
@@ -44,19 +44,7 @@ export class OverviewComponent implements OnInit {
 	}
 
 	getValue(row: Bill, column: string): string {
-		switch (column) {
-			case 'deadline':
-			case 'remindOn':
-				return row[column] ? row[column].toDate().toISOString().substring(0, 10) : undefined;
-			case 'sum':
-				const formatter = new Intl.NumberFormat('pl-PL', {
-					style: 'currency',
-					currency: 'PLN',
-				});
-				return formatter.format(row[column]);
-			default:
-				return row[column];
-		}
+		return getSafe(() => row[column]);
 	}
 
 	getId(row: Bill): number {
