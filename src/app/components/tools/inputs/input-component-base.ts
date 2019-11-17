@@ -5,6 +5,7 @@ export class InputComponentBase implements OnInit {
   @Input() formGroup: FormGroup;
   @Input() tooltipText: string;
   @Input() placeholderText: string;
+  @Input() locked = false;
 
   tooltipShowDelayValue = 1000;
   tooltipHideDelayValue = 2000;

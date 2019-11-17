@@ -2,6 +2,7 @@
      [formGroup]="formGroup">
   <mat-form-field class="form-item-input">
     <input matInput
+           [readonly]="locked"
            [matDatepicker]="picker"
            [matTooltip]="tooltipText"
            [matTooltipShowDelay]="tooltipShowDelayValue"

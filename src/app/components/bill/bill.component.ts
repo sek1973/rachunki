@@ -58,6 +58,9 @@ export class BillComponent implements OnInit, OnDestroy {
 			this.createBill();
 			this.editMode = true;
 			this.newBill = true;
+		} else {
+			this.editMode = false;
+			this.newBill = false;
 		}
 		this.loadBill();
 	}
@@ -74,7 +77,6 @@ export class BillComponent implements OnInit, OnDestroy {
 				login: this.bill.login,
 				password: this.bill.password
 			});
-			this.form.disable();
 			console.log('bill data:', this.bill);
 		}
 	}
@@ -94,7 +96,6 @@ export class BillComponent implements OnInit, OnDestroy {
 
 	editBill() {
 		this.editMode = true;
-		this.form.enable();
 	}
 
 	payBill() {
@@ -120,7 +121,6 @@ export class BillComponent implements OnInit, OnDestroy {
 			this.router.navigate(['/zestawienie']);
 		} else {
 			this.editMode = false;
-			this.form.disable();
 		}
 	}
 

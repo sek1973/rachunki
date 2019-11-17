@@ -2,6 +2,7 @@
      [formGroup]="formGroup">
   <mat-form-field class="form-item-input">
     <input matInput
+           [readonly]="locked"
            type="{{type}}"
            [matTooltip]="tooltipText"
            [matTooltipShowDelay]="tooltipShowDelayValue"
