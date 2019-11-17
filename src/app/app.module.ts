@@ -48,6 +48,10 @@ import { CurrencyToStringPipe } from './pipes/currency-to-string.pipe';
 import { TimespanToStringPipe } from './pipes/timespan-to-string.pipe';
 import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
+import { ViewFieldTextComponent } from './components/tools/view-fields/view-field-text/view-field-text.component';
+import { ViewFieldToggleComponent } from './components/tools/view-fields/view-field-toggle/view-field-toggle.component';
+import { BillViewComponent } from './components/bill/bill-view/bill-view.component';
+import { BillEditComponent } from './components/bill/bill-edit/bill-edit.component';
 
 @NgModule({
 	declarations: [
@@ -69,7 +73,11 @@ import { PreviousUrlService } from './services/previous-url.service';
 		InputDateComponent,
 		TimespanToStringPipe,
 		CurrencyToStringPipe,
-		ConfirmDialogComponent
+		ConfirmDialogComponent,
+		ViewFieldTextComponent,
+		ViewFieldToggleComponent,
+		BillViewComponent,
+		BillEditComponent
 	],
 	imports: [
 		BrowserModule,

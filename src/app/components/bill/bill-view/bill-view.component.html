@@ -1,0 +1,14 @@
+<p>bill-view works!</p>
+
+<div class="bill-toolbar">
+  <button *ngIf="!editMode"
+          mat-raised-button
+          color="primary"
+          class="toolbar-button"
+          (click)="editBill()">Edytuj</button>
+  <button *ngIf="!editMode"
+          mat-raised-button
+          color="primary"
+          class="toolbar-button"
+          (click)="payBill()">Zapłać</button>
+</div>
