@@ -1,13 +1,12 @@
-import { BillDescription } from './../../../model/bill';
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Bill } from 'src/app/model/bill';
 import { ConfirmationService } from 'src/app/services/confirmation.service';
 
-import { BillsFirebaseService } from './../../../services/bills.firebase.service';
-import { FieldDescription } from 'src/app/model/field-description';
 import { DescriptionProvider } from '../../tools/inputs/input-component-base';
+import { BillDescription } from './../../../model/bill';
+import { BillsFirebaseService } from './../../../services/bills.firebase.service';
 
 @Component({
   selector: 'app-bill-edit',
@@ -19,17 +18,18 @@ export class BillEditComponent implements OnInit {
   private _bill: Bill;
   @Input() set bill(val: Bill) {
     this._bill = val;
-    this.loadBill();
+    Promise.resolve().then(() => this.loadBill());
   }
   get bill(): Bill {
     return this._bill;
   }
   @Input() newBill: boolean;
   @Output() editModeChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  canSave = false;
 
   form: FormGroup = new FormGroup({
-    id: new FormControl,
     uid: new FormControl,
+    id: new FormControl,
     name: new FormControl(),
     description: new FormControl(),
     url: new FormControl(),
@@ -44,7 +44,9 @@ export class BillEditComponent implements OnInit {
   constructor(private billsFirebaseService: BillsFirebaseService,
     private confirmationService: ConfirmationService,
     private router: Router,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute) {
+    this.form.statusChanges.subscribe(status => this.setEditStatus(status))
+  }
 
   ngOnInit() {
   }
@@ -52,17 +54,20 @@ export class BillEditComponent implements OnInit {
   private loadBill() {
     if (this.bill) {
       this.form.patchValue({
-        id: this.bill.id,
         uid: this.bill.uid,
+        id: this.bill.id,
         name: this.bill.name,
         description: this.bill.description,
         url: this.bill.url,
         active: this.bill.active,
         login: this.bill.login,
-        password: this.bill.password
+        password: this.bill.password,
+        share: this.bill.share,
+        sum: this.bill.sum,
+        deadline: this.bill.deadline,
       });
-      console.log('bill data:', this.bill);
     }
+    this.setEditStatus(this.form.status);
   }
 
   saveBill() {
@@ -114,6 +119,10 @@ export class BillEditComponent implements OnInit {
     return {
       getDescriptionObj: (...path: string[]) => BillDescription.get(path[0])
     };
+  }
+
+  private setEditStatus(status: string) {
+    this.canSave = status === 'VALID' ? true : false;
   }
 
 }

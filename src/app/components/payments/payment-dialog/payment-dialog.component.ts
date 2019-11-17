@@ -6,7 +6,6 @@ import { Payment } from 'src/app/model/payment';
 
 import { DescriptionProvider } from '../../tools/inputs/input-component-base';
 import { PaymentDescription } from './../../../model/payment';
-import { ConfirmationService } from './../../../services/confirmation.service';
 import { PaymentsFirebaseService } from './../../../services/payments.firebase.service';
 
 export interface PaymentDialogData {
@@ -38,8 +37,7 @@ export class PaymentDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: PaymentDialogData,
     public dialogRef: MatDialogRef<PaymentDialogComponent>,
-    private paymentsFirebaseService: PaymentsFirebaseService,
-    private confirmationService: ConfirmationService) {
+    private paymentsFirebaseService: PaymentsFirebaseService) {
     this.billUid = getSafe(() => data.billUid);
     this.payment = getSafe(() => data.payment);
     this.dialogTitle = (this.payment ? 'Edytuj' : 'Dodaj') + ' zrealizowaną płatność';

@@ -1,10 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { getSafe } from 'src/app/helpers';
-import { ConfirmationService } from 'src/app/services/confirmation.service';
 
 import { Bill } from './../../model/bill';
 import { AuthService } from './../../services/auth.service';
