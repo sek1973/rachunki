@@ -1,6 +1,8 @@
+import { BillDescription } from './../../../model/bill';
 import { ValueProvider, LabelProvider } from './../../tools/view-fields/view-text-base';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Bill } from 'src/app/model/bill';
+import { DescriptionProvider } from '../../tools/inputs/input-component-base';
 
 @Component({
   selector: 'app-bill-view',
@@ -39,12 +41,10 @@ export class BillViewComponent implements OnInit {
     return { getValue: (...path: string[]) => this.getValue(...path) }
   }
 
-  getLabelText(...path: string[]) {
-    return path[0];
-  }
-
-  getLabelProvider(): LabelProvider {
-    return { getLabelText: (...path: string[]) => this.getLabelText(...path) }
+  getDescriptionProvider(): DescriptionProvider {
+    return {
+      getDescriptionObj: (...path: string[]) => BillDescription.get(path[0])
+    };
   }
 
 }

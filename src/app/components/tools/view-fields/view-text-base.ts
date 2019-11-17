@@ -1,4 +1,6 @@
+import { getSafe } from 'src/app/helpers';
 import { Input, OnInit } from '@angular/core';
+import { DescriptionProvider } from '../inputs/input-component-base';
 
 export interface ValueProvider {
   getValue(...path: string[]): any;
@@ -10,7 +12,7 @@ export interface LabelProvider {
 
 export class ViewFieldComponentBase implements OnInit {
   @Input() valueProvider: ValueProvider;
-  @Input() labelProvider: LabelProvider;
+  @Input() descriptionProvider: DescriptionProvider;
   private _path: string[];
   @Input()
   set path(path: string[]) {
@@ -33,7 +35,7 @@ export class ViewFieldComponentBase implements OnInit {
     return this.valueProvider.getValue(...this.path);
   }
   get labelText(): any {
-    return this.labelProvider.getLabelText(...this.path);
+    return getSafe(() => this.descriptionProvider.getDescriptionObj(...this.path).labelText) || '';
   }
   id: string;
 
