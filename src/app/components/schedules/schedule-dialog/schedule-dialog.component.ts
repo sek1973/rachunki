@@ -5,6 +5,8 @@ import { getSafe, timestampToDate } from 'src/app/helpers';
 import { Schedule } from 'src/app/model/schedule';
 import { ConfirmationService } from 'src/app/services/confirmation.service';
 
+import { DescriptionProvider } from '../../tools/inputs/input-component-base';
+import { ScheduleDescription } from './../../../model/schedule';
 import { SchedulesFirebaseService } from './../../../services/schedules.firebase.service';
 
 export interface ScheduleDialogData {
@@ -116,6 +118,12 @@ export class ScheduleDialogComponent implements OnInit, AfterViewInit {
         console.error(error);
         if (actionError) { actionError(); }
       })
+  }
+
+  getDescriptionProvider(): DescriptionProvider {
+    return {
+      getDescriptionObj: (...path: string[]) => ScheduleDescription.get(path[0])
+    };
   }
 
 }

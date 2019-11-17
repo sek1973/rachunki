@@ -7,30 +7,25 @@
     <ng-container>
       <app-input-date [formGroup]="form"
                       [path]="['deadline']"
-                      tooltipText="Podaj termin płatności"
-                      placeholderText="Termin płatności">
+                      [descriptionProvider]="getDescriptionProvider()">
       </app-input-date>
       <app-input-date [formGroup]="form"
                       [path]="['paiddate']"
-                      tooltipText="Podaj datę opłacenia rachunku"
-                      placeholderText="Data opłacenia">
+                      [descriptionProvider]="getDescriptionProvider()">
       </app-input-date>
       <app-input-text [formGroup]="form"
                       type="number"
                       [path]="['sum']"
-                      tooltipText="Podaj kwotę do zapłacenia"
-                      placeholderText="Kwota do zapłacenia">
+                      [descriptionProvider]="getDescriptionProvider()">
       </app-input-text>
       <app-input-text [formGroup]="form"
                       type="number"
                       [path]="['share']"
-                      tooltipText="Podaj kwotę jaka została zapłacona"
-                      placeholderText="Kwota zapłacona / udział">
+                      [descriptionProvider]="getDescriptionProvider()">
       </app-input-text>
       <app-input-text [formGroup]="form"
                       [path]="['remarks']"
-                      tooltipText="Dodaj opcjonalny opis"
-                      placeholderText="Opis / uwagi">
+                      [descriptionProvider]="getDescriptionProvider()">
       </app-input-text>
     </ng-container>
     <div class="buttons-panel">

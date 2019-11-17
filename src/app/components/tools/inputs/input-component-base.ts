@@ -1,15 +1,27 @@
+import { getSafe } from 'src/app/helpers';
+import { Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { OnInit, Input } from '@angular/core';
+import { FieldDescription } from 'src/app/model/field-description';
 
+export interface DescriptionProvider {
+  getDescriptionObj: (...path: string[]) => FieldDescription
+}
 export class InputComponentBase implements OnInit {
-  @Input() formGroup: FormGroup;
-  @Input() tooltipText: string;
-  @Input() placeholderText: string;
-
   tooltipShowDelayValue = 1000;
   tooltipHideDelayValue = 2000;
-
   childFormGroup: FormGroup;
+
+  @Input() formGroup: FormGroup;
+  @Input() descriptionProvider: DescriptionProvider;
+
+  get tooltipText(): string {
+    return getSafe(() => this.descriptionProvider.getDescriptionObj(...this.path).tooltipText) || '';
+  }
+
+  get placeholderText(): string {
+    return getSafe(() => this.descriptionProvider.getDescriptionObj(...this.path).placeholderText) || '';
+  }
+
   private _path: string[];
   @Input()
   set path(val: string[]) {
@@ -21,6 +33,7 @@ export class InputComponentBase implements OnInit {
   get path(): string[] {
     return this._path;
   }
+
   private _fieldName: string;
   get fieldName() {
     return this._fieldName;

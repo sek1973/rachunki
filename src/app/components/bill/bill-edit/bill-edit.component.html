@@ -2,53 +2,44 @@
       <div class="form-column-left">
         <app-input-text [formGroup]="form"
                         [path]="['name']"
-                        tooltipText="Podaj nazwę rachunku do opłacania, np. Gaz."
-                        placeholderText="Nazwa rachunku do opłacania (np. gaz.)">
+                        [descriptionProvider]="getDescriptionProvider()">
         </app-input-text>
         <app-input-text [formGroup]="form"
                         [path]="['description']"
-                        tooltipText="Dodaj opcjonalny opis rachunku."
-                        placeholderText="Opis / uwagi">
+                        [descriptionProvider]="getDescriptionProvider()">
         </app-input-text>
         <app-input-toggle [formGroup]="form"
                           [path]="['active']"
-                          tooltipText="Odznacz, jeżeli rachunek (tymczasowo) nie ma być uwzględniany."
-                          placeholderText="Aktywny">
+                          [descriptionProvider]="getDescriptionProvider()">
         </app-input-toggle>
         <app-input-text [formGroup]="form"
                         [path]="['url']"
-                        tooltipText="Podaj adres www dla rachunku np. 24.energa.pl (strona do logowania)"
-                        placeholderText="Adres www rachunku - strona do logowania">
+                        [descriptionProvider]="getDescriptionProvider()">
         </app-input-text>
         <app-input-date [formGroup]="form"
                         [path]="['deadline']"
-                        tooltipText="Podaj termin dla najbliższej płatności"
-                        placeholderText="Termin płatności">
+                        [descriptionProvider]="getDescriptionProvider()">
         </app-input-date>
       </div>
 
       <div class="form-column-right">
         <app-input-text [formGroup]="form"
                         [path]="['login']"
-                        tooltipText="Podaj login, którego używasz na stronie logowania dystrybutora"
-                        placeholderText="Login do konta u dystrybutora">
+                        [descriptionProvider]="getDescriptionProvider()">
         </app-input-text>
         <app-input-password [formGroup]="form"
                             [path]="['password']"
-                            tooltipText="Podaj hasło, którego używasz na stronie logowania dystrybutora"
-                            placeholderText="Hasło do konta u dystrybutora">
+                            [descriptionProvider]="getDescriptionProvider()">
         </app-input-password>
         <app-input-text [formGroup]="form"
                         type="number"
                         [path]="['share']"
-                        tooltipText="Jeżeli rachunek opłacasz wspólnie, podaj Twój udział"
-                        placeholderText="Udział w opłacie">
+                        [descriptionProvider]="getDescriptionProvider()">
         </app-input-text>
         <app-input-text [formGroup]="form"
                         type="number"
                         [path]="['sum']"
-                        tooltipText="Podaj kwotę do zapłacenia"
-                        placeholderText="Kwota do zapłacenia">
+                        [descriptionProvider]="getDescriptionProvider()">
         </app-input-text>
       </div>
     </div>

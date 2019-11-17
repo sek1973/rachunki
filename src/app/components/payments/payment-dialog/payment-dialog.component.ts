@@ -4,6 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { getSafe, timestampToDate } from 'src/app/helpers';
 import { Payment } from 'src/app/model/payment';
 
+import { DescriptionProvider } from '../../tools/inputs/input-component-base';
+import { PaymentDescription } from './../../../model/payment';
 import { ConfirmationService } from './../../../services/confirmation.service';
 import { PaymentsFirebaseService } from './../../../services/payments.firebase.service';
 
@@ -92,4 +94,9 @@ export class PaymentDialogComponent implements OnInit {
       });
   }
 
+  getDescriptionProvider(): DescriptionProvider {
+    return {
+      getDescriptionObj: (...path: string[]) => PaymentDescription.get(path[0])
+    };
+  }
 }

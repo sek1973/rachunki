@@ -9,31 +9,33 @@ export interface LabelProvider {
 }
 
 export class ViewFieldComponentBase implements OnInit {
-  @Input() id: string;
-  @Input() noLine = false;
-
   @Input() valueProvider: ValueProvider;
   @Input() labelProvider: LabelProvider;
-  private _attrPath: string[];
+  private _path: string[];
   @Input()
-  set attrPath(path: string[]) {
-    this._attrPath = path;
-    if (path && path.length) this._childAttr = path[path.length - 1];
-    else this._childAttr = undefined;
+  set path(path: string[]) {
+    this._path = path;
+    if (path && path.length) {
+      this._childPath = path[path.length - 1];
+      this.id = path.join(':');
+    } else {
+      this._childPath = undefined;
+    }
   }
-  get attrPath(): string[] {
-    return this._attrPath;
+  get path(): string[] {
+    return this._path;
   }
-  private _childAttr: string;
+  private _childPath: string;
   get childAttr() {
-    return this._childAttr;
+    return this._childPath;
   }
   get value(): any {
-    return this.valueProvider.getValue(...this.attrPath);
+    return this.valueProvider.getValue(...this.path);
   }
   get labelText(): any {
-    return this.labelProvider.getLabelText(...this.attrPath);
+    return this.labelProvider.getLabelText(...this.path);
   }
+  id: string;
 
   constructor() { }
 

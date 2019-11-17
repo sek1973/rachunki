@@ -1,3 +1,4 @@
+import { BillDescription } from './../../../model/bill';
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -5,6 +6,8 @@ import { Bill } from 'src/app/model/bill';
 import { ConfirmationService } from 'src/app/services/confirmation.service';
 
 import { BillsFirebaseService } from './../../../services/bills.firebase.service';
+import { FieldDescription } from 'src/app/model/field-description';
+import { DescriptionProvider } from '../../tools/inputs/input-component-base';
 
 @Component({
   selector: 'app-bill-edit',
@@ -105,6 +108,12 @@ export class BillEditComponent implements OnInit {
       }
     }
     return 'Invalid value provided';
+  }
+
+  getDescriptionProvider(): DescriptionProvider {
+    return {
+      getDescriptionObj: (...path: string[]) => BillDescription.get(path[0])
+    };
   }
 
 }

@@ -1,14 +1,52 @@
-<p>bill-view works!</p>
+    <div class="view">
+      <div class="view-column-left">
+        <app-view-field-text [path]="['description']"
+                             [valueProvider]="getValueProvider()"
+                             [labelProvider]="getLabelProvider()">
+        </app-view-field-text>
+        <app-view-field-toggle [path]="['active']"
+                               [valueProvider]="getValueProvider()"
+                               [labelProvider]="getLabelProvider()">
+        </app-view-field-toggle>
+        <app-view-field-text [path]="['url']"
+                             [valueProvider]="getValueProvider()"
+                             [labelProvider]="getLabelProvider()">
+        </app-view-field-text>
+        <app-view-field-text [path]="['deadline']"
+                             [valueProvider]="getValueProvider()"
+                             [labelProvider]="getLabelProvider()">
+        </app-view-field-text>
+      </div>
 
-<div class="bill-toolbar">
-  <button *ngIf="!editMode"
-          mat-raised-button
-          color="primary"
-          class="toolbar-button"
-          (click)="editBill()">Edytuj</button>
-  <button *ngIf="!editMode"
-          mat-raised-button
-          color="primary"
-          class="toolbar-button"
-          (click)="payBill()">Zapłać</button>
-</div>
+      <div class="view-column-right">
+        <app-view-field-text [path]="['login']"
+                             [valueProvider]="getValueProvider()"
+                             [labelProvider]="getLabelProvider()">
+        </app-view-field-text>
+        <app-view-field-text [path]="['password']"
+                             [valueProvider]="getValueProvider()"
+                             [labelProvider]="getLabelProvider()">
+        </app-view-field-text>
+        <app-view-field-text [path]="['share']"
+                             [valueProvider]="getValueProvider()"
+                             [labelProvider]="getLabelProvider()">
+        </app-view-field-text>
+        <app-view-field-text [path]="['sum']"
+                             [valueProvider]="getValueProvider()"
+                             [labelProvider]="getLabelProvider()">
+        </app-view-field-text>
+      </div>
+    </div>
+
+    <div class="bill-toolbar">
+      <button *ngIf="!editMode"
+              mat-raised-button
+              color="primary"
+              class="toolbar-button"
+              (click)="editBill()">Edytuj</button>
+      <button *ngIf="!editMode"
+              mat-raised-button
+              color="primary"
+              class="toolbar-button"
+              (click)="payBill()">Zapłać</button>
+    </div>

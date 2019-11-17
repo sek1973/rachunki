@@ -1,35 +1,36 @@
 <div class="bill-view">
-  <div class="bill-details">
-    <div class="bill-titlebar">
-      <div class="bill-title">
-        <span>
-          {{getTitle()}}
-        </span>
-      </div>
-      <div class="bill-toolbar">
-        <button mat-raised-button
-                color="warn"
-                class="toolbar-button"
-                (click)="logout()">Wyloguj</button>
-        <a mat-raised-button
-           color="primary"
-           class="toolbar-button"
-           [routerLink]="['/zestawienie']"
-           routerLinkActive="active">Zestawienie</a>
-      </div>
+  <div class="bill-titlebar">
+    <div class="bill-title">
+      <span>
+        {{getTitle()}}
+      </span>
     </div>
-
-    <app-bill-edit *ngIf="editMode"
-                   [bill]="bill"
-                   [newBill]="newBill"
-                   (editModeChange)="onEditModeChange($event)"></app-bill-edit>
-    <app-bill-view *ngIf="!editMode"
-                   [bill]="bill"
-                   (editModeChange)="onEditModeChange($event)"></app-bill-view>
-
-    <app-schedules class="bill-schedules"
-                   [billUid]="bill.uid"></app-schedules>
-
-    <app-payments class="bill-payments"
-                  [billUid]="bill.uid"></app-payments>
+    <div class="bill-toolbar">
+      <button mat-raised-button
+              color="warn"
+              class="toolbar-button"
+              (click)="logout()">Wyloguj</button>
+      <a mat-raised-button
+         color="primary"
+         class="toolbar-button"
+         [routerLink]="['/zestawienie']"
+         routerLinkActive="active">Zestawienie</a>
+    </div>
   </div>
+
+  <app-bill-edit *ngIf="editMode"
+                 class="bill-details"
+                 [bill]="bill"
+                 [newBill]="newBill"
+                 (editModeChange)="onEditModeChange($event)"></app-bill-edit>
+  <app-bill-view *ngIf="!editMode"
+                 class="bill-details"
+                 [bill]="bill"
+                 (editModeChange)="onEditModeChange($event)"></app-bill-view>
+
+  <app-schedules class="bill-schedules"
+                 [billUid]="bill.uid"></app-schedules>
+
+  <app-payments class="bill-payments"
+                [billUid]="bill.uid"></app-payments>
+</div>
