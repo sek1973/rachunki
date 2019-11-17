@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { getSafe, timestampToDate } from 'src/app/helpers';
 import { Schedule } from 'src/app/model/schedule';
@@ -23,10 +23,11 @@ export class ScheduleDialogComponent implements OnInit, AfterViewInit {
   dialogTitle: string;
   dialogMode: 'add' | 'edit' = 'add';
   loading = true;
+  canSave = false;
 
   form: FormGroup = new FormGroup({
-    uid: new FormControl,
-    date: new FormControl(),
+    uid: new FormControl(),
+    date: new FormControl(new Date(), Validators.required),
     sum: new FormControl(),
     remarks: new FormControl()
   });
@@ -39,6 +40,7 @@ export class ScheduleDialogComponent implements OnInit, AfterViewInit {
     this.schedule = getSafe(() => data.schedule);
     this.dialogTitle = (this.schedule ? 'Edytuj' : 'Dodaj') + ' planowaną płatność';
     this.dialogMode = this.schedule ? 'edit' : 'add';
+    this.form.statusChanges.subscribe(status => this.setEditStatus(status))
     this.loading = false;
   }
 
@@ -58,6 +60,11 @@ export class ScheduleDialogComponent implements OnInit, AfterViewInit {
       }
       this.form.patchValue(value);
     }
+    this.setEditStatus(this.form.status);
+  }
+
+  private setEditStatus(status: string) {
+    this.canSave = status === 'VALID' ? true : false;
   }
 
   closeDialog() {
