@@ -11,7 +11,7 @@ export function getSafe(fn: () => any): any {
 }
 
 export function timestampToString(val: Timestamp): string | undefined {
-  return val ? val.toDate().toISOString().substring(0, 10) : undefined;
+  return val ? val.toDate().toLocaleDateString('pl-PL') : undefined;
 }
 
 export function timestampToDate(val: Timestamp): Date | undefined {

@@ -8,6 +8,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+	MAT_DATE_LOCALE,
 	MatButtonModule,
 	MatDatepickerModule,
 	MatDialogModule,
@@ -103,7 +104,8 @@ import { PreviousUrlService } from './services/previous-url.service';
 			useFactory: (ds: PreviousUrlService) => function () { return ds.init(); },
 			deps: [PreviousUrlService],
 			multi: true
-		}
+		},
+		{ provide: MAT_DATE_LOCALE, useValue: 'pl-PL' }
 	],
 	exports: [
 		TableCellDirective
