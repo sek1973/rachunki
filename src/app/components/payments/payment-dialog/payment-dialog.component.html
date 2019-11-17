@@ -41,5 +41,6 @@
       <button mat-raised-button
               color="primary"
               class="toolbar-button"
+              [disabled]="!canSave"
               (click)="saveData()">Zapisz</button>
     </div>

@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { getSafe, timestampToDate } from 'src/app/helpers';
 import { Payment } from 'src/app/model/payment';
@@ -23,13 +23,14 @@ export class PaymentDialogComponent implements OnInit {
   dialogTitle: string;
   dialogMode: 'add' | 'edit' = 'add';
   loading = true;
+  canSave = false;
 
   form: FormGroup = new FormGroup({
     uid: new FormControl,
-    deadline: new FormControl(),
-    paiddate: new FormControl(),
-    sum: new FormControl(),
-    share: new FormControl(),
+    deadline: new FormControl(new Date(), Validators.required),
+    paiddate: new FormControl(new Date(), Validators.required),
+    sum: new FormControl(0, Validators.required),
+    share: new FormControl(0, Validators.required),
     remarks: new FormControl()
   });
 
@@ -41,6 +42,7 @@ export class PaymentDialogComponent implements OnInit {
     this.payment = getSafe(() => data.payment);
     this.dialogTitle = (this.payment ? 'Edytuj' : 'Dodaj') + ' zrealizowaną płatność';
     this.dialogMode = this.payment ? 'edit' : 'add';
+    this.form.statusChanges.subscribe(status => this.setEditStatus(status))
     this.loading = false;
   }
 
@@ -48,6 +50,10 @@ export class PaymentDialogComponent implements OnInit {
 
   ngAfterViewInit(): void {
     Promise.resolve().then(() => this.setFormValue());
+  }
+
+  private setEditStatus(status: string) {
+    this.canSave = status === 'VALID' ? true : false;
   }
 
   private setFormValue(): void {
@@ -62,6 +68,7 @@ export class PaymentDialogComponent implements OnInit {
       }
       this.form.patchValue(value);
     }
+    this.setEditStatus(this.form.status);
   }
 
   closeDialog() {
