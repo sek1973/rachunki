@@ -12,17 +12,41 @@
                           [path]="['active']"
                           [descriptionProvider]="getDescriptionProvider()">
         </app-input-toggle>
+        <app-input-date [formGroup]="form"
+                        [path]="['deadline']"
+                        [descriptionProvider]="getDescriptionProvider()">
+        </app-input-date>
         <app-input-text [formGroup]="form"
-                        [path]="['url']"
+                        type="number"
+                        [path]="['repeat']"
+                        [descriptionProvider]="getDescriptionProvider()">
+        </app-input-text>
+        <app-input-text [formGroup]="form"
+                        type="number"
+                        [path]="['unit']"
                         [descriptionProvider]="getDescriptionProvider()">
         </app-input-text>
         <app-input-date [formGroup]="form"
-                        [path]="['deadline']"
+                        [path]="['reminder']"
                         [descriptionProvider]="getDescriptionProvider()">
         </app-input-date>
       </div>
 
       <div class="form-column-right">
+        <app-input-text [formGroup]="form"
+                        type="number"
+                        [path]="['sum']"
+                        [descriptionProvider]="getDescriptionProvider()">
+        </app-input-text>
+        <app-input-text [formGroup]="form"
+                        type="number"
+                        [path]="['share']"
+                        [descriptionProvider]="getDescriptionProvider()">
+        </app-input-text>
+        <app-input-text [formGroup]="form"
+                        [path]="['url']"
+                        [descriptionProvider]="getDescriptionProvider()">
+        </app-input-text>
         <app-input-text [formGroup]="form"
                         [path]="['login']"
                         [descriptionProvider]="getDescriptionProvider()">
@@ -31,16 +55,6 @@
                             [path]="['password']"
                             [descriptionProvider]="getDescriptionProvider()">
         </app-input-password>
-        <app-input-text [formGroup]="form"
-                        type="number"
-                        [path]="['share']"
-                        [descriptionProvider]="getDescriptionProvider()">
-        </app-input-text>
-        <app-input-text [formGroup]="form"
-                        type="number"
-                        [path]="['sum']"
-                        [descriptionProvider]="getDescriptionProvider()">
-        </app-input-text>
       </div>
     </div>
 

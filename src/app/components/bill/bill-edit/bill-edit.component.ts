@@ -1,5 +1,6 @@
+import { Unit } from './../../../model/unit';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Bill } from 'src/app/model/bill';
 import { ConfirmationService } from 'src/app/services/confirmation.service';
@@ -28,17 +29,20 @@ export class BillEditComponent implements OnInit {
   canSave = false;
 
   form: FormGroup = new FormGroup({
-    uid: new FormControl,
-    id: new FormControl,
-    name: new FormControl(),
+    uid: new FormControl(),
+    id: new FormControl(),
+    name: new FormControl('Nowy rachunek', Validators.required),
     description: new FormControl(),
-    url: new FormControl(),
-    active: new FormControl(),
-    login: new FormControl(),
-    password: new FormControl(),
-    share: new FormControl(),
+    active: new FormControl(true, Validators.required),
+    deadline: new FormControl(new Date(), Validators.required),
+    repeat: new FormControl(1),
+    unit: new FormControl(Unit.Month),
+    reminder: new FormControl(new Date(), Validators.required),
     sum: new FormControl(),
-    deadline: new FormControl()
+    share: new FormControl(1, Validators.required),
+    url: new FormControl(),
+    login: new FormControl(),
+    password: new FormControl()
   });
 
   constructor(private billsFirebaseService: BillsFirebaseService,
@@ -58,13 +62,16 @@ export class BillEditComponent implements OnInit {
         id: this.bill.id,
         name: this.bill.name,
         description: this.bill.description,
-        url: this.bill.url,
         active: this.bill.active,
-        login: this.bill.login,
-        password: this.bill.password,
-        share: this.bill.share,
-        sum: this.bill.sum,
         deadline: this.bill.deadline,
+        repeat: this.bill.repeat,
+        unit: this.bill.unit,
+        reminder: this.bill.reminder,
+        sum: this.bill.sum,
+        share: this.bill.share,
+        url: this.bill.url,
+        login: this.bill.login,
+        password: this.bill.password
       });
     }
     this.setEditStatus(this.form.status);

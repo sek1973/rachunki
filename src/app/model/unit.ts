@@ -1,6 +1,6 @@
 export enum Unit {
-	day,
-	week,
-	month,
-	year,
+	Day,
+	Week,
+	Month,
+	Year,
 }

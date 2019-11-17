@@ -16,12 +16,12 @@ export class Bill {
 	url: string;
 	login: string;
 	password: string;
-	share: number;
 	sum: number;
+	share: number;
 	deadline: Timestamp;
-	remindOn: Timestamp;
-	before: number;
+	repeat: number;
 	unit: Unit;
+	reminder: Timestamp;
 	payments: Payment[];
 	schedules: Schedule[];
 
@@ -50,15 +50,40 @@ export const BillDescription = new Map<string, FieldDescription>([
 		placeholderText: "Aktywny",
 		labelText: 'Aktywny'
 	}],
-	['url', {
-		tooltipText: "Podaj adres www dla rachunku np. 24.energa.pl (strona do logowania)",
-		placeholderText: "Adres www rachunku - strona do logowania",
-		labelText: 'Strona WWW'
-	}],
 	['deadline', {
 		tooltipText: "Podaj termin dla najbliższej płatności",
 		placeholderText: "Termin płatności",
 		labelText: 'Termin płatności'
+	}],
+	['repeat', {
+		tooltipText: "Co ile jednostek (dni, miesięcy, lat) następuje rozliczenie",
+		placeholderText: "Co ile jednostek (np. co ile miesięcy)",
+		labelText: 'Każde'
+	}],
+	['unit', {
+		tooltipText: "Podaj jednostkę dla okresu rozliczania (dzień, miesiąc, rok...)",
+		placeholderText: "Jednostka okresu rozliczania np. miesiąc",
+		labelText: 'Jednostka'
+	}],
+	['reminder', {
+		tooltipText: "Podaj termin dla najbliższej płatności",
+		placeholderText: "Termin płatności",
+		labelText: 'Termin płatności'
+	}],
+	['sum', {
+		tooltipText: "Podaj kwotę do zapłacenia",
+		placeholderText: "Kwota do zapłacenia",
+		labelText: 'Kwota'
+	}],
+	['share', {
+		tooltipText: "Jeżeli rachunek opłacasz wspólnie, podaj Twój udział",
+		placeholderText: "Udział w opłacie",
+		labelText: 'Udział'
+	}],
+	['url', {
+		tooltipText: "Podaj adres www dla rachunku np. 24.energa.pl (strona do logowania)",
+		placeholderText: "Adres www rachunku - strona do logowania",
+		labelText: 'Strona WWW'
 	}],
 	['login', {
 		tooltipText: "Podaj login, którego używasz na stronie logowania dystrybutora",
@@ -69,14 +94,5 @@ export const BillDescription = new Map<string, FieldDescription>([
 		tooltipText: "Podaj hasło, którego używasz na stronie logowania dystrybutora",
 		placeholderText: "Hasło do konta u dystrybutora",
 		labelText: 'Hasło'
-	}],
-	['share', {
-		tooltipText: "Jeżeli rachunek opłacasz wspólnie, podaj Twój udział",
-		placeholderText: "Udział w opłacie",
-		labelText: 'Udział'
-	}],
-	['sum', {
-		tooltipText: "Podaj kwotę do zapłacenia",
-		placeholderText: "Kwota do zapłacenia",
-		labelText: 'Kwota'
-	}]]);
+	}]
+]);
