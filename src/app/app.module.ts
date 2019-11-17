@@ -1,6 +1,7 @@
 import 'hammerjs';
 
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
+import { PercentPipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
@@ -28,6 +29,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { BillEditComponent } from './components/bill/bill-edit/bill-edit.component';
+import { BillViewComponent } from './components/bill/bill-view/bill-view.component';
 import { BillComponent } from './components/bill/bill.component';
 import { LoginComponent } from './components/login/login.component';
 import { OverviewComponent } from './components/overview/overview.component';
@@ -44,14 +47,13 @@ import { InputTextComponent } from './components/tools/inputs/input-text/input-t
 import { InputToggleComponent } from './components/tools/inputs/input-toggle/input-toggle.component';
 import { TableCellDirective } from './components/tools/table/directives/table-cell.directive';
 import { TableComponent } from './components/tools/table/table.component';
+import { ViewFieldTextComponent } from './components/tools/view-fields/view-field-text/view-field-text.component';
+import { ViewFieldToggleComponent } from './components/tools/view-fields/view-field-toggle/view-field-toggle.component';
 import { CurrencyToStringPipe } from './pipes/currency-to-string.pipe';
+import { DynamicPipe } from './pipes/dynamic.pipe';
 import { TimespanToStringPipe } from './pipes/timespan-to-string.pipe';
 import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
-import { ViewFieldTextComponent } from './components/tools/view-fields/view-field-text/view-field-text.component';
-import { ViewFieldToggleComponent } from './components/tools/view-fields/view-field-toggle/view-field-toggle.component';
-import { BillViewComponent } from './components/bill/bill-view/bill-view.component';
-import { BillEditComponent } from './components/bill/bill-edit/bill-edit.component';
 
 @NgModule({
 	declarations: [
@@ -77,7 +79,8 @@ import { BillEditComponent } from './components/bill/bill-edit/bill-edit.compone
 		ViewFieldTextComponent,
 		ViewFieldToggleComponent,
 		BillViewComponent,
-		BillEditComponent
+		BillEditComponent,
+		DynamicPipe
 	],
 	imports: [
 		BrowserModule,
@@ -107,6 +110,9 @@ import { BillEditComponent } from './components/bill/bill-edit/bill-edit.compone
 		AngularFireAuth,
 		NavigationService,
 		PreviousUrlService,
+		TimespanToStringPipe,
+		CurrencyToStringPipe,
+		PercentPipe,
 		{
 			provide: APP_INITIALIZER,
 			useFactory: (ds: PreviousUrlService) => function () { return ds.init(); },

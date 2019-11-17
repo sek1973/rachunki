@@ -1,5 +1,6 @@
+import { Input, OnInit, PipeTransform } from '@angular/core';
 import { getSafe } from 'src/app/helpers';
-import { Input, OnInit } from '@angular/core';
+
 import { DescriptionProvider } from '../inputs/input-component-base';
 
 export interface ValueProvider {
@@ -13,6 +14,8 @@ export interface LabelProvider {
 export class ViewFieldComponentBase implements OnInit {
   @Input() valueProvider: ValueProvider;
   @Input() descriptionProvider: DescriptionProvider;
+  @Input() autoHide = true;
+
   private _path: string[];
   @Input()
   set path(path: string[]) {
@@ -36,6 +39,9 @@ export class ViewFieldComponentBase implements OnInit {
   }
   get labelText(): any {
     return getSafe(() => this.descriptionProvider.getDescriptionObj(...this.path).labelText) || '';
+  }
+  get hasValue() {
+    return (this.value === null || this.value === undefined || this.value === '') ? false : true;
   }
   id: string;
 

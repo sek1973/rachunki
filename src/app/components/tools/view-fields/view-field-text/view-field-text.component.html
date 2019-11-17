@@ -1,4 +1,5 @@
-<div class="field-item">
+<div *ngIf="hasValue"
+     class="field-item">
   <label [for]="id + ':value'"
          class="field-label">
     {{labelText}}
@@ -6,6 +7,6 @@
 
   <span [id]="id + ':value'"
         class="field-text">
-    {{value}}
+    {{value | dynamicPipe: customPipe:customPipeArgs }}
   </span>
 </div>

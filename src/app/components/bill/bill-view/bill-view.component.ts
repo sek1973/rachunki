@@ -1,8 +1,12 @@
-import { BillDescription } from './../../../model/bill';
-import { ValueProvider, LabelProvider } from './../../tools/view-fields/view-text-base';
+import { PercentPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Bill } from 'src/app/model/bill';
+
 import { DescriptionProvider } from '../../tools/inputs/input-component-base';
+import { BillDescription } from './../../../model/bill';
+import { CurrencyToStringPipe } from './../../../pipes/currency-to-string.pipe';
+import { TimespanToStringPipe } from './../../../pipes/timespan-to-string.pipe';
+import { ValueProvider } from './../../tools/view-fields/view-text-base';
 
 @Component({
   selector: 'app-bill-view',
@@ -19,6 +23,9 @@ export class BillViewComponent implements OnInit {
     return this._bill;
   }
   @Output() editModeChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  currencyToStringPipe = CurrencyToStringPipe;
+  timespanToStringPipe = TimespanToStringPipe;
+  percentPipe = PercentPipe;
 
   constructor() { }
 

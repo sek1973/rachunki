@@ -1,4 +1,5 @@
-<div class="field-item"
+<div *ngIf="hasValue"
+     class="field-item"
      id="id">
   <mat-slide-toggle [id]="id + ':value'"
                     class="field-toggle"

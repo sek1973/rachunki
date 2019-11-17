@@ -14,6 +14,7 @@
         </app-view-field-text>
         <app-view-field-text [path]="['deadline']"
                              [valueProvider]="getValueProvider()"
+                             [customPipe]="timespanToStringPipe"
                              [descriptionProvider]="getDescriptionProvider()">
         </app-view-field-text>
       </div>
@@ -29,9 +30,11 @@
         </app-view-field-text>
         <app-view-field-text [path]="['share']"
                              [valueProvider]="getValueProvider()"
+                             [customPipe]="percentPipe"
                              [descriptionProvider]="getDescriptionProvider()">
         </app-view-field-text>
         <app-view-field-text [path]="['sum']"
+                             [customPipe]="currencyToStringPipe"
                              [valueProvider]="getValueProvider()"
                              [descriptionProvider]="getDescriptionProvider()">
         </app-view-field-text>
