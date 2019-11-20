@@ -22,8 +22,6 @@ export class Bill {
 	repeat: number;
 	unit: Unit;
 	reminder: Timestamp;
-	payments: Payment[];
-	schedules: Schedule[];
 
 	constructor() {
 		this.name = 'Nowy rachunek';

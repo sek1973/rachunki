@@ -8,6 +8,7 @@ import { Bill } from '../model/bill';
 import { Schedule } from '../model/schedule';
 
 import Timestamp = firestore.Timestamp;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -15,14 +16,14 @@ export class SchedulesFirebaseService {
 
   constructor(public db: AngularFirestore) { }
 
-  fetchForBill(bill: Bill): Observable<Bill> {
-    if (bill) {
-      return this.fetch(bill.uid).pipe(map(schedules => {
-        bill.schedules = schedules;
-        return bill;
-      }));
-    }
-    return of(null);
+  fetchComming(bill: Bill): Promise<Schedule> {
+    const billUid = bill.uid;
+    const ref = this.db.collection<Bill>('bills').doc(billUid).collection<Schedule>('schedules').ref;
+    return ref.orderBy('date').limit(1).get().then(result => {
+      if (result.empty === false) {
+        return result[0];
+      } else { return null; }
+    });
   }
 
   fetch(billUid: string): Observable<Schedule[]> {
@@ -38,8 +39,9 @@ export class SchedulesFirebaseService {
     return ref.where('date', '==', date).get();
   }
 
-  private createScheduleData(schedule: Schedule): any {
+  private createScheduleData(schedule: Schedule): Schedule {
     return {
+      uid: schedule.uid,
       date: schedule.date || Timestamp.fromDate(new Date()),
       sum: schedule.sum || 0,
       remarks: schedule.remarks || '',

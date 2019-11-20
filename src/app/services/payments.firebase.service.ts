@@ -16,16 +16,6 @@ export class PaymentsFirebaseService {
 
   constructor(public db: AngularFirestore) { }
 
-  fetchForBill(bill: Bill): Observable<Bill> {
-    if (bill) {
-      return this.fetch(bill.uid).pipe(map(payments => {
-        bill.payments = payments;
-        return bill;
-      }));
-    }
-    return of(null);
-  }
-
   fetch(uid: string): Observable<Payment[]> {
     if (uid !== undefined) {
       const query = this.db.collection<Bill>('bills').doc(uid).collection<Payment>('payments');
@@ -34,8 +24,9 @@ export class PaymentsFirebaseService {
     return of([]);
   }
 
-  private createPaymentData(payment: Payment): any {
+  createPaymentData(payment: Payment): Payment {
     return {
+      uid: payment.uid,
       deadline: payment.deadline || Timestamp.fromDate(new Date()),
       paiddate: payment.paiddate || undefined,
       sum: payment.sum,
