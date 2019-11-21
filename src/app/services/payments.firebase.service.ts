@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { firestore } from 'firebase';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -33,6 +33,11 @@ export class PaymentsFirebaseService {
       share: payment.share,
       remarks: payment.remarks || ''
     };
+  }
+
+  addInTransaction(payment: Payment, billUid: string, transaction: firestore.Transaction): firestore.Transaction {
+    const ref = this.db.firestore.collection('bills').doc(billUid).collection('payments').doc();
+    return transaction.set(ref, payment);
   }
 
   add(payment: Payment, billUid: string): Promise<firestore.DocumentReference> {

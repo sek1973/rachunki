@@ -60,4 +60,9 @@ export class SchedulesFirebaseService {
     return this.db.collection('bills').doc(billUid).collection('schedules').doc(schedule.uid).delete();
   }
 
+  deleteInTransaction(schedule: Schedule, billUid: string, transaction: firestore.Transaction): firestore.Transaction {
+    const ref = this.db.firestore.collection('bills').doc(billUid).collection('schedules').doc(schedule.uid);
+    return transaction.delete(ref);
+  }
+
 }

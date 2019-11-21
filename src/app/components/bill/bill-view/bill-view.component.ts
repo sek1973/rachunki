@@ -1,3 +1,4 @@
+import { BillsFirebaseService } from './../../../services/bills.firebase.service';
 import { PercentPipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Bill } from 'src/app/model/bill';
@@ -27,7 +28,7 @@ export class BillViewComponent implements OnInit {
   timespanToStringPipe = TimespanToStringPipe;
   percentPipe = PercentPipe;
 
-  constructor() { }
+  constructor(private billsFirebaseService: BillsFirebaseService) { }
 
   ngOnInit() {
   }
@@ -37,7 +38,7 @@ export class BillViewComponent implements OnInit {
   }
 
   payBill() {
-    alert('bill paid!');
+    this.billsFirebaseService.pay(this.bill);
   }
 
   getValue(...path: string[]) {

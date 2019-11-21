@@ -11,6 +11,7 @@ import { Unit } from '../model/unit';
 import { PaymentsFirebaseService } from './payments.firebase.service';
 import { SchedulesFirebaseService } from './schedules.firebase.service';
 
+
 import Timestamp = firestore.Timestamp;
 @Injectable({
   providedIn: 'root',
@@ -93,11 +94,12 @@ export class BillsFirebaseService {
   }
 
   update(bill: Bill): Promise<void> {
-    return this._update(this.createBillData(bill));
+    return this.db.collection('bills').doc(bill.uid).set(bill);
   }
 
-  private _update(billData: any): Promise<void> {
-    return this.db.collection('bills').doc(billData.uid).set(billData);
+  private updateInTransaction(bill: Bill, transaction: firestore.Transaction): firestore.Transaction {
+    const ref = this.db.firestore.collection('bills').doc(bill.uid)
+    return transaction.update(ref, bill);
   }
 
   delete(bill: Bill): Promise<void> {
@@ -134,13 +136,16 @@ export class BillsFirebaseService {
     const billUid = bill.uid;
     const payment = this.createPaymentData(bill);
     const billCopy = this.createBillData(bill);
-    this.paymentsService.add(payment, billUid).then(() =>
-      this.schedulesService.fetchComming(bill))
-      .then(schedule => {
+    let schedule: Schedule;
+    this.db.firestore.runTransaction(transaction => {
+      return this.schedulesService.fetchComming(bill).then(sch => {
+        schedule = sch;
+        this.paymentsService.addInTransaction(payment, billUid, transaction);
         this.adjustBillData(billCopy, schedule);
-        return schedule ? this.schedulesService.delete(schedule, billUid) : Promise.resolve();
-      })
-      .then(() => this._update(billCopy));
+        if (schedule) { this.schedulesService.deleteInTransaction(schedule, billUid, transaction); }
+        this.updateInTransaction(billCopy, transaction);
+      });
+    });
   }
 
   private createPaymentData(bill: Bill): Payment {
