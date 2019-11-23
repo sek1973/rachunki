@@ -1,6 +1,8 @@
-<div class="form-item"
+<div *ngIf="editMode"
+     class="form-item"
      [formGroup]="formGroup">
-  <mat-form-field class="form-item-input">
+  <mat-form-field class="form-field">
+    <mat-label>{{labelText}}</mat-label>
     <input matInput
            type="{{type}}"
            [matTooltip]="tooltipText"
@@ -8,6 +10,24 @@
            [matTooltipHideDelay]="tooltipHideDelayValue"
            [id]="fieldName"
            [formControlName]="fieldName">
+    <mat-placeholder class="placeholder">{{placeholderText}}</mat-placeholder>
+    <mat-error>
+      {{getErrorMessage(path)}}
+    </mat-error>
+  </mat-form-field>
+</div>
+
+<div *ngIf="!editMode"
+     class="form-item">
+  <mat-form-field class="form-field">
+    <mat-label>{{labelText}}</mat-label>
+    <input matInput
+           type="{{type}}"
+           [disabled]="true"
+           [matTooltip]="tooltipText"
+           [matTooltipShowDelay]="tooltipShowDelayValue"
+           [matTooltipHideDelay]="tooltipHideDelayValue"
+           [id]="fieldName">
     <mat-placeholder class="placeholder">{{placeholderText}}</mat-placeholder>
     <mat-error>
       {{getErrorMessage(path)}}

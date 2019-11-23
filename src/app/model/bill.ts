@@ -64,9 +64,9 @@ export const BillDescription = new Map<string, FieldDescription>([
 		labelText: 'Jednostka'
 	}],
 	['reminder', {
-		tooltipText: "Podaj termin dla najbliższej płatności",
-		placeholderText: "Termin płatności",
-		labelText: 'Termin płatności'
+		tooltipText: "Podaj datę przypomnienia o płatności",
+		placeholderText: "Przypomnienie o płatności",
+		labelText: 'Przypomnienie'
 	}],
 	['sum', {
 		tooltipText: "Podaj kwotę do zapłacenia",

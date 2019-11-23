@@ -13,6 +13,11 @@ export class InputComponentBase implements OnInit {
 
   @Input() formGroup: FormGroup;
   @Input() descriptionProvider: DescriptionProvider;
+  @Input() editMode: boolean = true;
+
+  get labelText(): string {
+    return getSafe(() => this.descriptionProvider.getDescriptionObj(...this.path).labelText) || '';
+  }
 
   get tooltipText(): string {
     return getSafe(() => this.descriptionProvider.getDescriptionObj(...this.path).tooltipText) || '';

@@ -18,6 +18,7 @@ import {
 	MatPaginatorModule,
 	MatProgressBarModule,
 	MatProgressSpinnerModule,
+	MatSelectModule,
 	MatSlideToggleModule,
 	MatSortModule,
 	MatTableModule,
@@ -43,6 +44,7 @@ import { AppSpinnerComponent } from './components/tools/app-spinner/app-spinner.
 import { ConfirmDialogComponent } from './components/tools/confirm-dialog/confirm-dialog.component';
 import { InputDateComponent } from './components/tools/inputs/input-date/input-date.component';
 import { InputPasswordComponent } from './components/tools/inputs/input-password/input-password.component';
+import { InputSelectComponent } from './components/tools/inputs/input-select/input-select.component';
 import { InputTextComponent } from './components/tools/inputs/input-text/input-text.component';
 import { InputToggleComponent } from './components/tools/inputs/input-toggle/input-toggle.component';
 import { TableCellDirective } from './components/tools/table/directives/table-cell.directive';
@@ -80,7 +82,8 @@ import { PreviousUrlService } from './services/previous-url.service';
 		ViewFieldToggleComponent,
 		BillViewComponent,
 		BillEditComponent,
-		DynamicPipe
+		DynamicPipe,
+		InputSelectComponent
 	],
 	imports: [
 		BrowserModule,
@@ -104,7 +107,8 @@ import { PreviousUrlService } from './services/previous-url.service';
 		AppRoutingModule,
 		MatDialogModule,
 		MatDatepickerModule,
-		MatNativeDateModule
+		MatNativeDateModule,
+		MatSelectModule
 	],
 	providers: [
 		AngularFireAuth,

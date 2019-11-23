@@ -1,4 +1,3 @@
-import { Unit } from './../../../model/unit';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -7,6 +6,7 @@ import { ConfirmationService } from 'src/app/services/confirmation.service';
 
 import { DescriptionProvider } from '../../tools/inputs/input-component-base';
 import { BillDescription } from './../../../model/bill';
+import { Unit } from './../../../model/unit';
 import { BillsFirebaseService } from './../../../services/bills.firebase.service';
 
 @Component({
@@ -63,10 +63,10 @@ export class BillEditComponent implements OnInit {
         name: this.bill.name,
         description: this.bill.description,
         active: this.bill.active,
-        deadline: this.bill.deadline,
+        deadline: this.bill.deadline ? this.bill.deadline.toDate() : undefined,
         repeat: this.bill.repeat,
         unit: this.bill.unit,
-        reminder: this.bill.reminder,
+        reminder: this.bill.reminder ? this.bill.reminder.toDate() : undefined,
         sum: this.bill.sum,
         share: this.bill.share,
         url: this.bill.url,

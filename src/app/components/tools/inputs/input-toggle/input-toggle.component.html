@@ -1,12 +1,24 @@
-<div class="form-item"
+<div *ngIf="editMode"
+     class="form-item"
      [formGroup]="formGroup">
-
   <mat-slide-toggle class="form-item-input"
                     [matTooltip]="tooltipText"
                     [matTooltipShowDelay]="tooltipShowDelayValue"
                     [matTooltipHideDelay]="tooltipHideDelayValue"
                     [id]="fieldName"
                     [formControlName]="fieldName">
+    {{placeholderText}}
+  </mat-slide-toggle>
+</div>
+
+<div *ngIf="!editMode"
+     class="form-item">
+  <mat-slide-toggle class="form-item-input"
+                    [disabled]="true"
+                    [matTooltip]="tooltipText"
+                    [matTooltipShowDelay]="tooltipShowDelayValue"
+                    [matTooltipHideDelay]="tooltipHideDelayValue"
+                    [id]="fieldName">
     {{placeholderText}}
   </mat-slide-toggle>
 </div>
