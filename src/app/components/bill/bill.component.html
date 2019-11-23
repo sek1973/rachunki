@@ -18,15 +18,10 @@
     </div>
   </div>
 
-  <app-bill-edit *ngIf="editMode"
-                 class="bill-details"
+  <app-bill-edit class="bill-details"
                  [bill]="bill"
-                 [newBill]="newBill"
-                 (editModeChange)="onEditModeChange($event)"></app-bill-edit>
-  <app-bill-view *ngIf="!editMode"
-                 class="bill-details"
-                 [bill]="bill"
-                 (editModeChange)="onEditModeChange($event)"></app-bill-view>
+                 [editMode]="editMode"
+                 [newBill]="newBill"></app-bill-edit>
 
   <app-schedules class="bill-schedules"
                  [billUid]="bill.uid"></app-schedules>

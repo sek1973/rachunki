@@ -25,7 +25,7 @@ export class BillEditComponent implements OnInit {
     return this._bill;
   }
   @Input() newBill: boolean;
-  @Output() editModeChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Input() editMode: boolean = false;
   canSave = false;
 
   form: FormGroup = new FormGroup({
@@ -77,6 +77,14 @@ export class BillEditComponent implements OnInit {
     this.setEditStatus(this.form.status);
   }
 
+  editBill() {
+    this.editMode = true;
+  }
+
+  payBill() {
+    this.billsFirebaseService.pay(this.bill);
+  }
+
   saveBill() {
     this.setBill(this.form.value);
   }
@@ -95,17 +103,16 @@ export class BillEditComponent implements OnInit {
     if (this.newBill) {
       this.router.navigate(['/zestawienie']);
     } else {
-      this.editModeChange.emit(false);
+      this.editMode = false;
     }
   }
 
   private setBill(bill: Bill) {
     if (bill.uid) {
-      this.billsFirebaseService.update(bill);
+      this.billsFirebaseService.update(bill).then(() => this.editMode = false);
     } else {
       this.billsFirebaseService.add(bill)
         .then((ref) => {
-          console.log('Document successfully added!', ref, bill);
           this.router.navigate([bill.id], { relativeTo: this.route });
         }).catch((error) => console.error('Error adding document: ', error));
     }

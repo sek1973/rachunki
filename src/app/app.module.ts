@@ -31,7 +31,6 @@ import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BillEditComponent } from './components/bill/bill-edit/bill-edit.component';
-import { BillViewComponent } from './components/bill/bill-view/bill-view.component';
 import { BillComponent } from './components/bill/bill.component';
 import { LoginComponent } from './components/login/login.component';
 import { OverviewComponent } from './components/overview/overview.component';
@@ -80,7 +79,6 @@ import { PreviousUrlService } from './services/previous-url.service';
 		ConfirmDialogComponent,
 		ViewFieldTextComponent,
 		ViewFieldToggleComponent,
-		BillViewComponent,
 		BillEditComponent,
 		DynamicPipe,
 		InputSelectComponent

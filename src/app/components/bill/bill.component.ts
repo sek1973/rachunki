@@ -69,8 +69,4 @@ export class BillComponent implements OnInit, OnDestroy {
 			rejected => console.error('logout:', rejected));
 	}
 
-	onEditModeChange(event: boolean) {
-		this.editMode = event;
-	}
-
 }
