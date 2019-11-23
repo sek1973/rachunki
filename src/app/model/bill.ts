@@ -7,7 +7,7 @@ import { Unit } from './unit';
 import Timestamp = firestore.Timestamp;
 import { FieldDescription } from './field-description';
 export class Bill {
-	uid: string;
+	uid?: string;
 	id: number;
 	lp: number;
 	name: string;

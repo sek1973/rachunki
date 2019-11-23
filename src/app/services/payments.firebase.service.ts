@@ -25,14 +25,15 @@ export class PaymentsFirebaseService {
   }
 
   createPaymentData(payment: Payment): Payment {
-    return {
-      uid: payment.uid,
+    const result: Payment = {
       deadline: payment.deadline || Timestamp.fromDate(new Date()),
       paiddate: payment.paiddate || undefined,
       sum: payment.sum,
       share: payment.share,
       remarks: payment.remarks || ''
     };
+    if (payment.uid) { result.uid = payment.uid; }
+    return result;
   }
 
   addInTransaction(payment: Payment, billUid: string, transaction: firestore.Transaction): firestore.Transaction {

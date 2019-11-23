@@ -4,7 +4,7 @@ import Timestamp = firestore.Timestamp;
 import { FieldDescription } from './field-description';
 
 export interface Payment {
-	uid: string;
+	uid?: string;
 	deadline: Timestamp;
 	paiddate: Timestamp;
 	sum: number;

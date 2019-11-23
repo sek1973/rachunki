@@ -70,8 +70,7 @@ export class BillsFirebaseService {
         bill.id = Math.max(...this.bills.map(b => b.id)) + 1;
       } else { bill.id = 0; }
     }
-    return {
-      uid: bill.uid,
+    const result: Bill = {
       lp: bill.lp || bill.id,
       id: bill.id,
       name: bill.name || '',
@@ -87,6 +86,8 @@ export class BillsFirebaseService {
       login: bill.login || '',
       password: bill.password || ''
     };
+    if (bill.uid) { result.uid = bill.uid; }
+    return result;
   }
 
   add(bill: Bill): Promise<firestore.DocumentReference> {
@@ -150,7 +151,6 @@ export class BillsFirebaseService {
 
   private createPaymentData(bill: Bill): Payment {
     return this.paymentsService.createPaymentData({
-      uid: undefined,
       deadline: bill.deadline,
       paiddate: Timestamp.fromDate(new Date()),
       sum: bill.sum, // input box if there is no value

@@ -6,6 +6,15 @@
       {{message}}
     </div>
 
+    <div>
+      <app-input-text [path]="['email']"
+                      [type]="'email'"
+                      tooltipText="Podaj adres email - login do aplikacji"
+                      placeholderText="Login (email)"
+                      class="full-width">
+      </app-input-text>
+    </div>
+
     <div class="buttons-panel">
       <button mat-raised-button
               color="warn"

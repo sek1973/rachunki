@@ -4,7 +4,7 @@ import Timestamp = firestore.Timestamp;
 import { FieldDescription } from './field-description';
 
 export interface Schedule {
-  uid: string;
+  uid?: string;
   date: Timestamp;
   sum: number;
   remarks: string;

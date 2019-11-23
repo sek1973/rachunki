@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { firestore } from 'firebase';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { Bill } from '../model/bill';
 import { Schedule } from '../model/schedule';
@@ -21,7 +20,10 @@ export class SchedulesFirebaseService {
     const ref = this.db.collection<Bill>('bills').doc(billUid).collection<Schedule>('schedules').ref;
     return ref.orderBy('date').limit(1).get().then(result => {
       if (result.empty === false) {
-        return result[0];
+        const uid = result.docs[0].id;
+        const schedule = result.docs[0].data() as Schedule;
+        schedule.uid = uid;
+        return schedule;
       } else { return null; }
     });
   }
@@ -40,12 +42,13 @@ export class SchedulesFirebaseService {
   }
 
   private createScheduleData(schedule: Schedule): Schedule {
-    return {
-      uid: schedule.uid,
+    const result: Schedule = {
       date: schedule.date || Timestamp.fromDate(new Date()),
       sum: schedule.sum || 0,
       remarks: schedule.remarks || '',
     };
+    if (schedule.uid) { result.uid = schedule.uid; }
+    return result;
   }
 
   add(schedule: Schedule, billUid: string): Promise<firestore.DocumentReference> {
