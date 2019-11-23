@@ -1,11 +1,9 @@
 import { firestore } from 'firebase';
 
-import { Payment } from './payment';
-import { Schedule } from './schedule';
+import { FieldDescription } from './field-description';
 import { Unit } from './unit';
 
 import Timestamp = firestore.Timestamp;
-import { FieldDescription } from './field-description';
 export class Bill {
 	uid?: string;
 	id: number;

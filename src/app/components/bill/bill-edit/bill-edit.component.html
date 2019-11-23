@@ -26,12 +26,12 @@
                         [path]="['repeat']"
                         [descriptionProvider]="getDescriptionProvider()">
         </app-input-text>
-        <app-input-text [formGroup]="form"
-                        [editMode]="editMode"
-                        type="number"
-                        [path]="['unit']"
-                        [descriptionProvider]="getDescriptionProvider()">
-        </app-input-text>
+        <app-input-select [formGroup]="form"
+                          [editMode]="editMode"
+                          [path]="['unit']"
+                          [descriptionProvider]="getDescriptionProvider()"
+                          [selectItems]="unitEnumItems">
+        </app-input-select>
         <app-input-date [formGroup]="form"
                         [editMode]="editMode"
                         [path]="['reminder']"

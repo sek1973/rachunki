@@ -11,9 +11,24 @@ export class InputComponentBase implements OnInit {
   tooltipHideDelayValue = 2000;
   childFormGroup: FormGroup;
 
-  @Input() formGroup: FormGroup;
+  @Input() autoHide: boolean = true;
+  private _formGroup: FormGroup;
+  @Input() set formGroup(val: FormGroup) {
+    this._formGroup = val;
+    this.setChildFormGroup();
+  }
+  get formGroup(): FormGroup {
+    return this._formGroup;
+  }
   @Input() descriptionProvider: DescriptionProvider;
-  @Input() editMode: boolean = true;
+  private _editMode: boolean = true;
+  @Input() set editMode(val: boolean) {
+    this._editMode = val;
+    this.setFormGroupState();
+  }
+  get editMode(): boolean {
+    return this._editMode;
+  }
 
   get labelText(): string {
     return getSafe(() => this.descriptionProvider.getDescriptionObj(...this.path).labelText) || '';
@@ -27,13 +42,32 @@ export class InputComponentBase implements OnInit {
     return getSafe(() => this.descriptionProvider.getDescriptionObj(...this.path).placeholderText) || '';
   }
 
+  get visible(): boolean {
+    if (this.autoHide) {
+      if (!this.editMode) {
+        const controlValue = getSafe(() => this.childFormGroup.get(this.fieldName).value);
+        return controlValue === undefined || controlValue === null || controlValue === '' ? false : true;
+      }
+    }
+    return true;
+  }
+
+  private setFormGroupState(): void {
+    if (this.childFormGroup) {
+      if (this.editMode) {
+        this.childFormGroup.enable();
+      } else {
+        this.childFormGroup.disable();
+      }
+    }
+  }
+
   private _path: string[];
   @Input()
   set path(val: string[]) {
     this._path = val;
-    if (val && val.length) {
-      this._fieldName = val[val.length - 1];
-    } else { this._fieldName = undefined; }
+    this.setFieldName();
+    this.setChildFormGroup();
   }
   get path(): string[] {
     return this._path;
@@ -47,21 +81,29 @@ export class InputComponentBase implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.childFormGroup = this.findFormGroup(this.formGroup);
+    this.setFormGroupState();
   }
 
-  private findFormGroup(fg: FormGroup): FormGroup {
-    if (fg.get(this._fieldName) !== null) {
-      return fg;
-    }
-    if (this.path.length > 1) {
-      const parentFgPath = this.path.slice(0, -1);
-      const parentFg = <FormGroup>fg.get(parentFgPath);
-      if (parentFg !== null) {
-        return parentFg;
+  private setFieldName() {
+    if (this.path && this.path.length) {
+      this._fieldName = this.path[this.path.length - 1];
+    } else { this._fieldName = undefined; }
+  }
+
+  private setChildFormGroup(): void {
+    if (this.formGroup && this.fieldName) {
+      if (this.formGroup.get(this.fieldName) !== null) {
+        this.childFormGroup = this.formGroup;
       }
+      if (this.path.length > 1) {
+        const parentFgPath = this.path.slice(0, -1);
+        const parentFg = <FormGroup>this.formGroup.get(parentFgPath);
+        if (parentFg !== null) {
+          this.childFormGroup = parentFg;
+        }
+      }
+      this.childFormGroup = this.formGroup;
     }
-    return fg;
   }
 
   getErrorMessage(...path: string[]): string {

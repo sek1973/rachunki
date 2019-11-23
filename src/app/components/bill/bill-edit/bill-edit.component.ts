@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SelectItem } from './../../tools/inputs/input-select/input-select.component';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Bill } from 'src/app/model/bill';
 import { ConfirmationService } from 'src/app/services/confirmation.service';
 
 import { DescriptionProvider } from '../../tools/inputs/input-component-base';
+import { enumToSelectItems } from '../../tools/inputs/input-select/input-select.component';
 import { BillDescription } from './../../../model/bill';
 import { Unit } from './../../../model/unit';
 import { BillsFirebaseService } from './../../../services/bills.firebase.service';
@@ -28,6 +30,8 @@ export class BillEditComponent implements OnInit {
   @Input() editMode: boolean = false;
   canSave = false;
 
+  unitEnumItems: SelectItem[] = [];
+
   form: FormGroup = new FormGroup({
     uid: new FormControl(),
     id: new FormControl(),
@@ -49,7 +53,8 @@ export class BillEditComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private router: Router,
     private route: ActivatedRoute) {
-    this.form.statusChanges.subscribe(status => this.setEditStatus(status))
+    this.form.statusChanges.subscribe(status => this.setEditStatus(status));
+    this.setUnitEnumItems();
   }
 
   ngOnInit() {
@@ -133,6 +138,10 @@ export class BillEditComponent implements OnInit {
     return {
       getDescriptionObj: (...path: string[]) => BillDescription.get(path[0])
     };
+  }
+
+  private setUnitEnumItems() {
+    this.unitEnumItems = enumToSelectItems(Unit);
   }
 
   private setEditStatus(status: string) {
