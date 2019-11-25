@@ -83,6 +83,7 @@ export class BillEditComponent implements OnInit {
   }
 
   editBill() {
+    console.log('form value: ', this.form.value);
     this.editMode = true;
   }
 
@@ -105,10 +106,12 @@ export class BillEditComponent implements OnInit {
   }
 
   cancel() {
+    console.log('form value: ', this.form.value);
     if (this.newBill) {
       this.router.navigate(['/zestawienie']);
     } else {
       this.editMode = false;
+      this.loadBill();
     }
   }
 

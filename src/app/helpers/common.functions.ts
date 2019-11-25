@@ -18,13 +18,22 @@ export function timestampToDate(val: Timestamp): Date | undefined {
   return val ? val.toDate() : undefined;
 }
 
-export function currencyToString(val: number): string | undefined {
-  if (val !== undefined && val !== null) {
-    const formatter = new Intl.NumberFormat('pl-PL', {
-      style: 'currency',
-      currency: 'PLN',
-    });
-    return formatter.format(val);
+export function currencyToString(val: number, NaNvalue: any = 0): string | undefined {
+  const formatter = new Intl.NumberFormat('pl-PL', {
+    style: 'currency',
+    currency: 'PLN',
+  });
+  if (val === undefined || val === null || Number.isNaN(+val)) {
+    return formatter.format(NaNvalue);
   }
-  return undefined;
+  return formatter.format(val);
+}
+
+export function currencyToNumber(val: string): number | undefined {
+  if (val !== undefined && val !== null) {
+    const cleaned = val.replace(/[^0-9\.,-]+/g, "").replace(',', '.');
+    const result = Number(cleaned);
+    return result;
+  }
+  return null;
 }

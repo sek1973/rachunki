@@ -40,12 +40,11 @@
       </div>
 
       <div class="form-column-right">
-        <app-input-text [formGroup]="form"
-                        [editMode]="editMode"
-                        type="number"
-                        [path]="['sum']"
-                        [descriptionProvider]="getDescriptionProvider()">
-        </app-input-text>
+        <app-input-currency [formGroup]="form"
+                            [editMode]="editMode"
+                            [path]="['sum']"
+                            [descriptionProvider]="getDescriptionProvider()">
+        </app-input-currency>
         <app-input-text [formGroup]="form"
                         [editMode]="editMode"
                         type="number"

@@ -55,6 +55,8 @@ import { DynamicPipe } from './pipes/dynamic.pipe';
 import { TimespanToStringPipe } from './pipes/timespan-to-string.pipe';
 import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
+import { InputCurrencyComponent } from './components/tools/inputs/input-currency/input-currency.component';
+import { InputCurrencyDirective } from './components/tools/inputs/directives/input-currency.directive';
 
 @NgModule({
 	declarations: [
@@ -81,7 +83,9 @@ import { PreviousUrlService } from './services/previous-url.service';
 		ViewFieldToggleComponent,
 		BillEditComponent,
 		DynamicPipe,
-		InputSelectComponent
+		InputSelectComponent,
+		InputCurrencyComponent,
+		InputCurrencyDirective
 	],
 	imports: [
 		BrowserModule,
