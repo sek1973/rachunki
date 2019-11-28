@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./input-currency.component.scss']
 })
 export class InputCurrencyComponent extends InputComponentBase implements OnInit {
-  value: any;
 
   constructor() { super(); }
 

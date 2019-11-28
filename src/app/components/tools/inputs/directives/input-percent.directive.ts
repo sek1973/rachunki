@@ -1,21 +1,23 @@
+import { PercentPipe } from '@angular/common';
 import { Directive, ElementRef, forwardRef, HostListener, Renderer2 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { currencyToNumber, currencyToString } from 'src/app/helpers';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { percentToNumber, percentToString } from 'src/app/helpers';
 
-export const APP_CURRENCY_VALUE_ACCESSOR: any = {
+export const APP_PERCENT_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
   // tslint:disable-next-line: no-use-before-declare
-  useExisting: forwardRef(() => InputCurrencyDirective),
+  useExisting: forwardRef(() => InputPercentDirective),
   multi: true,
 };
 
 @Directive({
-  selector: '[appInputCurrency]',
-  providers: [APP_CURRENCY_VALUE_ACCESSOR]
+  selector: '[appInputPercent]',
+  providers: [APP_PERCENT_VALUE_ACCESSOR]
 })
-export class InputCurrencyDirective implements ControlValueAccessor {
+export class InputPercentDirective {
 
   isDisabled: boolean;
+  percentPipe: PercentPipe;
   onChange: any = () => { };
   onTouched: any = () => { };
 
@@ -29,12 +31,12 @@ export class InputCurrencyDirective implements ControlValueAccessor {
     if (value !== undefined && value !== null) {
       value = value.replace(',', '.');
     }
-    this.renderer.setProperty(this.element.nativeElement, 'value', currencyToString(value));
+    this.renderer.setProperty(this.element.nativeElement, 'value', percentToString(value));
   }
 
   @HostListener('focus', ['$event.target.value'])
   focus(value) {
-    this.renderer.setProperty(this.element.nativeElement, 'value', currencyToNumber(value));
+    this.renderer.setProperty(this.element.nativeElement, 'value', percentToNumber(value));
   }
 
   @HostListener('keydown', ['$event']) onKeyDown(event) {
@@ -73,11 +75,12 @@ export class InputCurrencyDirective implements ControlValueAccessor {
 
   writeValue(value: any): void {
     const element = this.element.nativeElement;
-    this.renderer.setProperty(element, 'value', currencyToString(value));
+    this.renderer.setProperty(element, 'value', percentToString(value));
   }
 
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
+
 
 }

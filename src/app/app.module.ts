@@ -57,6 +57,8 @@ import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
 import { InputCurrencyComponent } from './components/tools/inputs/input-currency/input-currency.component';
 import { InputCurrencyDirective } from './components/tools/inputs/directives/input-currency.directive';
+import { InputPercentComponent } from './components/tools/inputs/input-percent/input-percent.component';
+import { InputPercentDirective } from './components/tools/inputs/directives/input-percent.directive';
 
 @NgModule({
 	declarations: [
@@ -85,7 +87,9 @@ import { InputCurrencyDirective } from './components/tools/inputs/directives/inp
 		DynamicPipe,
 		InputSelectComponent,
 		InputCurrencyComponent,
-		InputCurrencyDirective
+		InputCurrencyDirective,
+		InputPercentComponent,
+		InputPercentDirective
 	],
 	imports: [
 		BrowserModule,

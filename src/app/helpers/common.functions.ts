@@ -1,6 +1,7 @@
 import { firestore } from 'firebase';
 
 import Timestamp = firestore.Timestamp;
+import { PercentPipe } from '@angular/common';
 
 export function getSafe(fn: () => any): any {
   try {
@@ -31,8 +32,24 @@ export function currencyToString(val: number, NaNvalue: any = 0): string | undef
 
 export function currencyToNumber(val: string): number | undefined {
   if (val !== undefined && val !== null) {
-    const cleaned = val.replace(/[^0-9\.,-]+/g, "").replace(',', '.');
+    const cleaned = val.replace(/[^0-9\.,-]+/g, '').replace(',', '.');
     const result = Number(cleaned);
+    return result;
+  }
+  return null;
+}
+
+export function percentToString(val: number, NaNvalue: any = 0): string | undefined {
+  if (val === undefined || val === null || Number.isNaN(+val)) {
+    return Math.round(NaNvalue * 100) + ' %';
+  }
+  return Math.round(val * 100) + ' %';
+}
+
+export function percentToNumber(val: string): number | undefined {
+  if (val !== undefined && val !== null) {
+    const cleaned = val.replace(/[^0-9\.,-]+/g, '').replace(',', '.');
+    const result = Number(cleaned) / 100;
     return result;
   }
   return null;
