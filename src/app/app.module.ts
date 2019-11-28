@@ -59,6 +59,9 @@ import { InputCurrencyComponent } from './components/tools/inputs/input-currency
 import { InputCurrencyDirective } from './components/tools/inputs/directives/input-currency.directive';
 import { InputPercentComponent } from './components/tools/inputs/input-percent/input-percent.component';
 import { InputPercentDirective } from './components/tools/inputs/directives/input-percent.directive';
+import { InputHyperlinkComponent } from './components/tools/inputs/input-hyperlink/input-hyperlink.component';
+import { AddHiddenAttributeDirective } from './components/tools/inputs/directives/add-hidden-attribute.directive';
+import { AddHrefAttributeDirective } from './components/tools/inputs/directives/add-href-attribute.directive';
 
 @NgModule({
 	declarations: [
@@ -89,7 +92,10 @@ import { InputPercentDirective } from './components/tools/inputs/directives/inpu
 		InputCurrencyComponent,
 		InputCurrencyDirective,
 		InputPercentComponent,
-		InputPercentDirective
+		InputPercentDirective,
+		InputHyperlinkComponent,
+		AddHiddenAttributeDirective,
+		AddHrefAttributeDirective
 	],
 	imports: [
 		BrowserModule,
