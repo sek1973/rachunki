@@ -1,5 +1,5 @@
 import { SelectItem } from './../../tools/inputs/input-select/input-select.component';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Bill } from 'src/app/model/bill';
@@ -28,6 +28,7 @@ export class BillEditComponent implements OnInit {
   }
   @Input() newBill: boolean;
   @Input() editMode: boolean = false;
+  @Output() loading: EventEmitter<boolean> = new EventEmitter<boolean>();
   canSave = false;
 
   unitEnumItems: SelectItem[] = [];
@@ -83,12 +84,17 @@ export class BillEditComponent implements OnInit {
   }
 
   editBill() {
-    console.log('form value: ', this.form.value);
+    this.loading.emit(true);
     this.editMode = true;
+    this.loading.emit(false);
   }
 
   payBill() {
-    this.billsFirebaseService.pay(this.bill);
+    this.loading.emit(true);
+    this.billsFirebaseService.pay(this.bill)
+      .then(() =>
+        this.loading.emit(false)
+      );
   }
 
   saveBill() {
@@ -98,9 +104,12 @@ export class BillEditComponent implements OnInit {
   deleteBill() {
     if (!this.newBill) {
       this.confirmationService
-        .confirm('Usuń rachunek', 'Czy na pewno chcesz usunąć bieżący rachunek wraz z historią płatności? Operacji nie będzie można cofnąć!', 'Nie', 'Tak')
+        .confirm('Usuń rachunek',
+          'Czy na pewno chcesz usunąć bieżący rachunek wraz z historią płatności? Operacji nie będzie można cofnąć!', 'Nie', 'Tak')
         .subscribe((response) => {
-          if (response) this.billsFirebaseService.delete(this.bill).then(() => this.router.navigate(['/zestawienie']));
+          if (response) {
+            this.billsFirebaseService.delete(this.bill).then(() => this.router.navigate(['/zestawienie']));
+          }
         });
     }
   }
@@ -116,11 +125,16 @@ export class BillEditComponent implements OnInit {
   }
 
   private setBill(bill: Bill) {
+    this.loading.emit(true);
     if (bill.uid) {
-      this.billsFirebaseService.update(bill).then(() => this.editMode = false);
+      this.billsFirebaseService.update(bill).then(() => {
+        this.editMode = false;
+        this.loading.emit(false);
+      });
     } else {
       this.billsFirebaseService.add(bill)
         .then((ref) => {
+          this.loading.emit(false);
           this.router.navigate([bill.id], { relativeTo: this.route });
         }).catch((error) => console.error('Error adding document: ', error));
     }

@@ -19,6 +19,7 @@ export class BillComponent implements OnInit, OnDestroy {
 	editMode = false;
 	newBill = false;
 	bill: Bill;
+	loading: boolean = true;
 
 	constructor(private route: ActivatedRoute,
 		private router: Router,
@@ -41,9 +42,11 @@ export class BillComponent implements OnInit, OnDestroy {
 			this.createBill();
 			this.editMode = true;
 			this.newBill = true;
+			this.loading = false;
 		} else {
 			this.editMode = false;
 			this.newBill = false;
+			this.loading = false;
 		}
 	}
 
@@ -67,6 +70,10 @@ export class BillComponent implements OnInit, OnDestroy {
 				console.log('logged out');
 			},
 			rejected => console.error('logout:', rejected));
+	}
+
+	onLoading(event: boolean): void {
+		this.loading = event;
 	}
 
 }

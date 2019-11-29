@@ -21,7 +21,8 @@
   <app-bill-edit class="bill-details"
                  [bill]="bill"
                  [editMode]="editMode"
-                 [newBill]="newBill"></app-bill-edit>
+                 [newBill]="newBill"
+                 (loading)="onLoading($event)"></app-bill-edit>
 
   <app-schedules class="bill-schedules"
                  [billUid]="bill.uid"></app-schedules>
@@ -29,3 +30,11 @@
   <app-payments class="bill-payments"
                 [billUid]="bill.uid"></app-payments>
 </div>
+
+<app-spinner color="primary"
+             mode="indeterminate"
+             [value]="50"
+             [backdropEnabled]="true"
+             [positionGloballyCenter]="true"
+             [displayProgressSpinner]="loading">
+</app-spinner>

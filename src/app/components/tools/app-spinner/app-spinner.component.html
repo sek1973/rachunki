@@ -1,3 +1,8 @@
-<div class="spinner-container">
-  <mat-spinner></mat-spinner>
-</div>
+<ng-template #progressSpinnerRef>
+  <mat-progress-spinner [color]="color"
+                        [diameter]="diameter"
+                        [mode]="mode"
+                        [strokeWidth]="strokeWidth"
+                        [value]="value">
+  </mat-progress-spinner>
+</ng-template>

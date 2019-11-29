@@ -138,7 +138,7 @@ export class BillsFirebaseService {
     const payment = this.createPaymentData(bill);
     const billCopy = this.createBillData(bill);
     let schedule: Schedule;
-    this.db.firestore.runTransaction(transaction => {
+    return this.db.firestore.runTransaction(transaction => {
       return this.schedulesService.fetchComming(bill).then(sch => {
         schedule = sch;
         this.paymentsService.addInTransaction(payment, billUid, transaction);

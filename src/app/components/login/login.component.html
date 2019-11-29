@@ -1,5 +1,4 @@
 <div class="parent">
-  <app-spinner [loading$]="loading$"></app-spinner>
   <div class="container">
     <form (ngSubmit)="onLogIn(loginForm)"
           [formGroup]="loginForm"
@@ -31,3 +30,11 @@
     </form>
   </div>
 </div>
+
+<app-spinner color="primary"
+             mode="indeterminate"
+             [value]="50"
+             [backdropEnabled]="true"
+             [positionGloballyCenter]="true"
+             [displayProgressSpinner]="loading$ | async">
+</app-spinner>

@@ -1,18 +1,47 @@
-import { Observable } from 'rxjs';
-import { Component, OnInit, Input } from '@angular/core';
+import { OverlayService } from './overlay-service';
+import { OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
+import { Component, Input, OnInit, ViewChild, TemplateRef, DoCheck, ViewContainerRef } from '@angular/core';
+import { ProgressSpinnerMode, ThemePalette } from '@angular/material';
 
 @Component({
   selector: 'app-spinner',
   templateUrl: './app-spinner.component.html',
-  styleUrls: ['./app-spinner.component.scss']
+  styleUrls: ['./app-spinner.component.scss'],
+  providers: [OverlayService]
 })
-export class AppSpinnerComponent implements OnInit {
+export class AppSpinnerComponent implements OnInit, DoCheck {
 
-  @Input() loading$: Observable<boolean>;
+  @Input() color?: ThemePalette;
+  @Input() diameter?: number = 100;
+  @Input() mode?: ProgressSpinnerMode;
+  @Input() strokeWidth?: number;
+  @Input() value?: number;
+  @Input() backdropEnabled = true;
+  @Input() positionGloballyCenter = true;
+  @Input() displayProgressSpinner: boolean;
 
-  constructor() { }
-
+  @ViewChild('progressSpinnerRef', { static: true }) private progressSpinnerRef: TemplateRef<any>;
+  private overlayConfig: OverlayConfig;
+  private overlayRef: OverlayRef;
+  constructor(private vcRef: ViewContainerRef, private overlayService: OverlayService) { }
   ngOnInit() {
+    // Config for Overlay Service
+    this.overlayConfig = {
+      hasBackdrop: this.backdropEnabled
+    };
+    if (this.positionGloballyCenter) {
+      this.overlayConfig['positionStrategy'] = this.overlayService.positionGloballyCenter();
+    }
+    // Create Overlay for progress spinner
+    this.overlayRef = this.overlayService.createOverlay(this.overlayConfig);
+  }
+  ngDoCheck() {
+    // Based on status of displayProgressSpinner attach/detach overlay to progress spinner template
+    if (this.displayProgressSpinner && !this.overlayRef.hasAttached()) {
+      this.overlayService.attachTemplatePortal(this.overlayRef, this.progressSpinnerRef, this.vcRef);
+    } else if (!this.displayProgressSpinner && this.overlayRef.hasAttached()) {
+      this.overlayRef.detach();
+    }
   }
 
 }
