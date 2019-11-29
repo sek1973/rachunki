@@ -108,7 +108,11 @@ export class BillEditComponent implements OnInit {
           'Czy na pewno chcesz usunąć bieżący rachunek wraz z historią płatności? Operacji nie będzie można cofnąć!', 'Nie', 'Tak')
         .subscribe((response) => {
           if (response) {
-            this.billsFirebaseService.delete(this.bill).then(() => this.router.navigate(['/zestawienie']));
+            this.loading.emit(true);
+            this.billsFirebaseService.delete(this.bill).then(() => {
+              this.loading.emit(false);
+              this.router.navigate(['/zestawienie']);
+            });
           }
         });
     }
