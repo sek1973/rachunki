@@ -8,7 +8,8 @@
            (deleteButtonClicked)="deleteBill()"
            (editButtonClicked)="editBill()"
            (addButtonClicked)="addBill()"
-           (refreshButtonClicked)="refresh()">
+           (refreshButtonClicked)="refresh()"
+           (rowDblClick)="editBill()">
 
   <ng-template cellTemplateForColumn="name"
                let-row="row"
