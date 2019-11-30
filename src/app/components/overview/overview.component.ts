@@ -1,3 +1,4 @@
+import { Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { getSafe } from 'src/app/helpers';
@@ -8,6 +9,7 @@ import { BillsDataSource } from '../../services/bills.datasource';
 import { BillsFirebaseService } from '../../services/bills.firebase.service';
 import { AuthService } from './../../services/auth.service';
 import { TableComponent } from './../tools/table/table.component';
+import { ConfirmDialogInputType } from '../tools/confirm-dialog/confirm-dialog.model';
 
 export interface TableColumn {
 	name: string;
@@ -55,7 +57,10 @@ export class OverviewComponent implements OnInit {
 		const row = this.table.activeRow;
 		if (row) {
 			this.confirmationService
-				.confirm('Usuń rachunek', 'Czy na pewno chcesz usunąć bieżący rachunek wraz z historią płatności? Operacji nie będzie można cofnąć!', 'Nie', 'Tak')
+				.confirm('Usuń rachunek',
+					'Czy na pewno chcesz usunąć bieżący rachunek wraz z historią płatności? Operacji nie będzie można cofnąć!' +
+					'Aby potwierdzić podaj nazwę rachunku.', 'Nie', 'Tak',
+					ConfirmDialogInputType.InputTypeText, undefined, Validators.required, 'Nazwa rachunku', 'Nazwa rachunku')
 				.subscribe((response) => {
 					if (response) { this.billsFirebaseService.delete(row); }
 				});

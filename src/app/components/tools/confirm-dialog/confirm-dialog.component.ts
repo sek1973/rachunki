@@ -5,6 +5,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { DescriptionProvider } from '../inputs/input-component-base';
 import { ConfirmDialogModel, ConfirmDialogInputType } from './confirm-dialog.model';
 
+export interface ConfirmDialogResponse {
+  response: boolean;
+  value: any;
+}
+
 @Component({
   selector: 'app-confirm-dialog',
   templateUrl: './confirm-dialog.component.html',
@@ -58,6 +63,9 @@ export class ConfirmDialogComponent implements OnInit {
   }
 
   onApply() {
+    if (this.form) {
+      this.dialogRef.close({ response: true, value: this.form.get('input').value });
+    }
     this.dialogRef.close(true);
   }
 }

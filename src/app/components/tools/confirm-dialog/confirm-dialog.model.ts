@@ -12,8 +12,8 @@ export class ConfirmDialogModel {
     public cancelButtonLabel = 'Anuluj',
     public applyButtonLabel = 'OK',
     public inputType?: ConfirmDialogInputType,
-    public inputValidators?: ValidatorFn | ValidatorFn[],
     public inputValue?: any,
+    public inputValidators?: ValidatorFn | ValidatorFn[],
     public inputLabelText?: string,
     public inputPlaceholderText?: string,
     public inputTooltipText?: string
