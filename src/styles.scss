@@ -20,3 +20,7 @@ body {
 .mat-input-element:disabled {
   color: black;
 }
+
+.mat-select-disabled .mat-select-value {
+  color: black;
+}

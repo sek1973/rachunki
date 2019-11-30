@@ -1,21 +1,21 @@
 import { getSafe } from 'src/app/helpers';
 import { Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { FieldDescription } from 'src/app/model/field-description';
 
 export interface DescriptionProvider {
-  getDescriptionObj: (...path: string[]) => FieldDescription
+  getDescriptionObj: (...path: string[]) => FieldDescription;
 }
 export class InputComponentBase implements OnInit {
   tooltipShowDelayValue = 1000;
   tooltipHideDelayValue = 2000;
-  childFormGroup: FormGroup;
+  fieldFormGroup: FormGroup;
 
   @Input() autoHide: boolean = true;
   private _formGroup: FormGroup;
   @Input() set formGroup(val: FormGroup) {
     this._formGroup = val;
-    this.setChildFormGroup();
+    this.setFieldFormGroup();
   }
   get formGroup(): FormGroup {
     return this._formGroup;
@@ -43,23 +43,11 @@ export class InputComponentBase implements OnInit {
   }
 
   get visible(): boolean {
-    if (this.autoHide) {
-      if (!this.editMode) {
-        const controlValue = getSafe(() => this.childFormGroup.get(this.fieldName).value);
-        return controlValue === undefined || controlValue === null || controlValue === '' ? false : true;
-      }
+    if (this.autoHide && !this.editMode) {
+      const controlValue = getSafe(() => this.fieldFormGroup.get(this.fieldName).value);
+      return !this.formControl || controlValue === undefined || controlValue === null || controlValue === '' ? false : true;
     }
-    return true;
-  }
-
-  private setFormGroupState(): void {
-    if (this.childFormGroup) {
-      if (this.editMode) {
-        this.childFormGroup.enable();
-      } else {
-        this.childFormGroup.disable();
-      }
-    }
+    return this.formControl ? true : false;
   }
 
   private _path: string[];
@@ -67,15 +55,29 @@ export class InputComponentBase implements OnInit {
   set path(val: string[]) {
     this._path = val;
     this.setFieldName();
-    this.setChildFormGroup();
+    this.setFieldFormGroup();
   }
   get path(): string[] {
     return this._path;
   }
 
+  get formControl(): FormControl {
+    return this.fieldFormGroup.get(this.fieldName) as FormControl;
+  }
+
   private _fieldName: string;
   get fieldName() {
     return this._fieldName;
+  }
+
+  private setFormGroupState(): void {
+    if (this.fieldFormGroup) {
+      if (this.editMode) {
+        this.fieldFormGroup.enable();
+      } else {
+        this.fieldFormGroup.disable();
+      }
+    }
   }
 
   constructor() { }
@@ -90,19 +92,19 @@ export class InputComponentBase implements OnInit {
     } else { this._fieldName = undefined; }
   }
 
-  private setChildFormGroup(): void {
+  private setFieldFormGroup(): void {
     if (this.formGroup && this.fieldName) {
       if (this.formGroup.get(this.fieldName) !== null) {
-        this.childFormGroup = this.formGroup;
+        this.fieldFormGroup = this.formGroup;
       }
       if (this.path.length > 1) {
         const parentFgPath = this.path.slice(0, -1);
         const parentFg = <FormGroup>this.formGroup.get(parentFgPath);
         if (parentFg !== null) {
-          this.childFormGroup = parentFg;
+          this.fieldFormGroup = parentFg;
         }
       }
-      this.childFormGroup = this.formGroup;
+      this.fieldFormGroup = this.formGroup;
     }
   }
 

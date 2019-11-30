@@ -17,7 +17,7 @@ export class InputHyperlinkComponent extends InputComponentBase implements OnIni
   }
 
   get formControl(): FormControl {
-    return getSafe(() => this.childFormGroup.get(this.fieldName) as FormControl);
+    return getSafe(() => this.fieldFormGroup.get(this.fieldName) as FormControl);
   }
 
   get hyperlink() {
