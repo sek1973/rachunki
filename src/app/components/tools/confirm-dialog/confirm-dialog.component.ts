@@ -52,7 +52,7 @@ export class ConfirmDialogComponent implements OnInit {
           };
         }
       };
-      this.form = new FormGroup({ input: new FormControl(data.inputValidators) });
+      this.form = new FormGroup({ input: new FormControl(data.inputValue, data.inputValidators) });
       this.form.statusChanges.subscribe(status => this.canApply = (status === 'VALID') ? true : false);
       this.canApply = (status === 'VALID') ? true : false;
     }

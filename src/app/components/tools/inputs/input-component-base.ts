@@ -116,6 +116,6 @@ export class InputComponentBase implements OnInit {
         return errors.values.join('\n');
       }
     }
-    return 'Invalid value provided';
+    return 'Niepoprawna wartość';
   }
 }

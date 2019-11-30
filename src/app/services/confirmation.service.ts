@@ -25,7 +25,7 @@ export class ConfirmationService {
     inputTooltipText?: string
   ): Observable<boolean | ConfirmDialogResponse> {
     const dialogData = new ConfirmDialogModel(dialogTitle, message, cancelButtonLabel, applyButtonLabel,
-      inputType, inputValidators, inputValue, inputLabelText, inputPlaceholderText, inputTooltipText);
+      inputType, inputValue, inputValidators, inputLabelText, inputPlaceholderText, inputTooltipText);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: '600px',
       data: dialogData
