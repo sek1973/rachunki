@@ -40,10 +40,9 @@ export class LoginComponent implements OnInit {
     const password = form.value.password;
     this.authService.login(email, password).then(
       () => {
-        this.navigationService.goToPreviousPage('/zestawienie');
-        this.loadingSubject.next(false);
-        console.log('logged in');
         this.billsFirebaseService.load();
+        this.loadingSubject.next(false);
+        setTimeout(() => this.navigationService.goToPreviousPage('/zestawienie'));
       },
       rejected => {
         this.error = rejected.message;
