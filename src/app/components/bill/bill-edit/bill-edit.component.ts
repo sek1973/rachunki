@@ -29,7 +29,13 @@ export class BillEditComponent implements OnInit {
     return this._bill;
   }
   @Input() newBill: boolean;
-  @Input() editMode: boolean = false;
+  private _editMode: boolean = false;
+  @Input() set editMode(val: boolean) {
+    this._editMode = val;
+  }
+  get editMode(): boolean {
+    return this._editMode;
+  }
   @Output() loading: EventEmitter<boolean> = new EventEmitter<boolean>();
   canSave = false;
 
@@ -83,6 +89,7 @@ export class BillEditComponent implements OnInit {
       });
     }
     this.setEditStatus(this.form.status);
+    if (this.editMode) { this.form.enable(); } else { this.form.disable(); }
   }
 
   editBill() {
