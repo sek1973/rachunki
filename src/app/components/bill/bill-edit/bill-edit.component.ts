@@ -12,6 +12,7 @@ import { BillDescription } from './../../../model/bill';
 import { Unit } from './../../../model/unit';
 import { BillsFirebaseService } from './../../../services/bills.firebase.service';
 import { SelectItem } from './../../tools/inputs/input-select/input-select.component';
+import { validateBillName } from '../../tools/inputs/validators/validators';
 
 @Component({
   selector: 'app-bill-edit',
@@ -122,7 +123,11 @@ export class BillEditComponent implements OnInit {
     if (!this.newBill) {
       this.confirmationService
         .confirm('Usuń rachunek',
-          'Czy na pewno chcesz usunąć bieżący rachunek wraz z historią płatności? Operacji nie będzie można cofnąć!', 'Nie', 'Tak')
+          'Czy na pewno chcesz usunąć bieżący rachunek wraz z historią płatności? Operacji nie będzie można cofnąć! ' +
+          'Aby potwierdzić podaj nazwę rachunku.', 'Nie', 'Tak',
+          ConfirmDialogInputType.InputTypeText, undefined,
+          [Validators.required, validateBillName(this.bill.name)],
+          'Nazwa rachunku', 'Nazwa rachunku')
         .subscribe((response) => {
           if (response) {
             this.loading.emit(true);

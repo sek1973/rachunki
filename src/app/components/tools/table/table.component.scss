@@ -77,12 +77,12 @@ tr.expanded-row {
 }
 
 tr.active-row {
-  background: rgba(blue, 0.2);
+  background: rgba(lightblue, 0.5);
   font-weight: bold;
 }
 
 tr.active-row-expanded {
-  background: rgba(blue, 0.2);
+  background: rgba(lightblue, 0.5);
   border-bottom: none;
   font-weight: bold;
 }
@@ -90,7 +90,7 @@ tr.active-row-expanded {
 .active-row-detail {
   overflow: hidden;
   display: flex;
-  background-color: rgba(blue, 0.2);
+  background-color: rgba(lightblue, 0.5);
   color: black;
 }
 
