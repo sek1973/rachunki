@@ -29,5 +29,6 @@
       <button mat-raised-button
               color="primary"
               class="toolbar-button"
+              [disabled]="!canApply"
               (click)="onApply()">{{applyButtonLabel}}</button>
     </div>

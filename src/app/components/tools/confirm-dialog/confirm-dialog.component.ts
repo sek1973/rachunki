@@ -15,6 +15,7 @@ export class ConfirmDialogComponent implements OnInit {
   message: string;
   cancelButtonLabel: string;
   applyButtonLabel: string;
+  canApply: boolean = true;
 
   form: FormGroup;
   inputType: ConfirmDialogInputType;
@@ -47,6 +48,8 @@ export class ConfirmDialogComponent implements OnInit {
         }
       };
       this.form = new FormGroup({ input: new FormControl(data.inputValidators) });
+      this.form.statusChanges.subscribe(status => this.canApply = (status === 'VALID') ? true : false);
+      this.canApply = (status === 'VALID') ? true : false;
     }
   }
 
