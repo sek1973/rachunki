@@ -6,14 +6,20 @@
       {{message}}
     </div>
 
-    <div>
-      <app-input-text [path]="['email']"
-                      [type]="'email'"
-                      tooltipText="Podaj adres email - login do aplikacji"
-                      placeholderText="Login (email)"
-                      class="full-width">
-      </app-input-text>
-    </div>
+    <ng-container [ngSwitch]="inputType">
+      <div *ngSwitchCase="confirmDialogInputType.InputTypeText">
+        <app-input-text [path]="['input']"
+                        [descriptionProvider]="descriptionProvider"
+                        [formGroup]="form">
+        </app-input-text>
+      </div>
+      <div *ngSwitchCase="confirmDialogInputType.InputTypeCurrency">
+        <app-input-currency [path]="['input']"
+                            [descriptionProvider]="descriptionProvider"
+                            [formGroup]="form">
+        </app-input-currency>
+      </div>
+    </ng-container>
 
     <div class="buttons-panel">
       <button mat-raised-button

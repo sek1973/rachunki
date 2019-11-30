@@ -1,8 +1,21 @@
+import { ValidatorFn } from '@angular/forms';
+
+export enum ConfirmDialogInputType {
+  InputTypeText,
+  InputTypeCurrency
+}
+
 export class ConfirmDialogModel {
   constructor(
     public dialogTitle: string,
     public message: string,
     public cancelButtonLabel = 'Anuluj',
-    public applyButtonLabel = 'OK'
+    public applyButtonLabel = 'OK',
+    public inputType?: ConfirmDialogInputType,
+    public inputValidators?: ValidatorFn | ValidatorFn[],
+    public inputValue?: any,
+    public inputLabelText?: string,
+    public inputPlaceholderText?: string,
+    public inputTooltipText?: string
   ) { }
 }
