@@ -59,7 +59,7 @@ export class OverviewComponent implements OnInit {
 		if (row) {
 			this.confirmationService
 				.confirm('Usuń rachunek',
-					'Czy na pewno chcesz usunąć bieżący rachunek wraz z historią płatności? Operacji nie będzie można cofnąć!' +
+					'Czy na pewno chcesz usunąć bieżący rachunek wraz z historią płatności? Operacji nie będzie można cofnąć! ' +
 					'Aby potwierdzić podaj nazwę rachunku.', 'Nie', 'Tak',
 					ConfirmDialogInputType.InputTypeText, undefined, [Validators.required, validateBillName(row.name)], 'Nazwa rachunku', 'Nazwa rachunku')
 				.subscribe((response) => {

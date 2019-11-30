@@ -133,9 +133,9 @@ export class BillsFirebaseService {
     return Timestamp.fromDate(deadline);
   }
 
-  pay(bill: Bill) {
+  pay(bill: Bill, paid: number) {
     const billUid = bill.uid;
-    const payment = this.createPaymentData(bill);
+    const payment = this.createPaymentData(bill, paid);
     const billCopy = this.createBillData(bill);
     let schedule: Schedule;
     return this.db.firestore.runTransaction(transaction => {
@@ -149,12 +149,12 @@ export class BillsFirebaseService {
     });
   }
 
-  private createPaymentData(bill: Bill): Payment {
+  private createPaymentData(bill: Bill, paid: number): Payment {
     return this.paymentsService.createPaymentData({
       deadline: bill.deadline,
       paiddate: Timestamp.fromDate(new Date()),
-      sum: bill.sum, // input box if there is no value
-      share: bill.sum * bill.share,
+      sum: paid * 1 / bill.share,
+      share: paid,
       remarks: undefined
     })
   }

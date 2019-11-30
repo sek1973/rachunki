@@ -25,10 +25,12 @@
       <button mat-raised-button
               color="warn"
               class="toolbar-button"
+              cdkFocusInitial
               (click)="onCancel()">{{cancelButtonLabel}}</button>
       <button mat-raised-button
               color="primary"
               class="toolbar-button"
               [disabled]="!canApply"
+              cdkFocusInitial
               (click)="onApply()">{{applyButtonLabel}}</button>
     </div>

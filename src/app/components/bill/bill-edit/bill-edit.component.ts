@@ -1,15 +1,17 @@
-import { SelectItem } from './../../tools/inputs/input-select/input-select.component';
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Bill } from 'src/app/model/bill';
 import { ConfirmationService } from 'src/app/services/confirmation.service';
 
+import { ConfirmDialogResponse } from '../../tools/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogInputType } from '../../tools/confirm-dialog/confirm-dialog.model';
 import { DescriptionProvider } from '../../tools/inputs/input-component-base';
 import { enumToSelectItems } from '../../tools/inputs/input-select/input-select.component';
 import { BillDescription } from './../../../model/bill';
 import { Unit } from './../../../model/unit';
 import { BillsFirebaseService } from './../../../services/bills.firebase.service';
+import { SelectItem } from './../../tools/inputs/input-select/input-select.component';
 
 @Component({
   selector: 'app-bill-edit',
@@ -90,11 +92,19 @@ export class BillEditComponent implements OnInit {
   }
 
   payBill() {
-    this.loading.emit(true);
-    this.billsFirebaseService.pay(this.bill)
-      .then(() =>
-        this.loading.emit(false)
-      );
+    this.confirmationService
+      .confirm('Rachunek opłacony',
+        'Podaj kwotę jaka została zapłacona:', 'Anuluj', 'OK',
+        ConfirmDialogInputType.InputTypeCurrency, this.bill.sum * this.bill.share, [Validators.required], 'Kwota', 'Kwota')
+      .subscribe((response) => {
+        if (response) {
+          this.loading.emit(true);
+          this.billsFirebaseService.pay(this.bill, (response as ConfirmDialogResponse).value)
+            .then(() =>
+              this.loading.emit(false)
+            );
+        }
+      });
   }
 
   saveBill() {
