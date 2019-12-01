@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
@@ -9,7 +10,7 @@ import { ConfirmDialogResponse } from '../../tools/confirm-dialog/confirm-dialog
 import { ConfirmDialogInputType } from '../../tools/confirm-dialog/confirm-dialog.model';
 import { DescriptionProvider } from '../../tools/inputs/input-component-base';
 import { enumToSelectItems } from '../../tools/inputs/input-select/input-select.component';
-import { validateBillName } from '../../tools/inputs/validators/validators';
+import { validateBillName, validateDistinctBillName } from '../../tools/inputs/validators/validators';
 import { BillDescription } from './../../../model/bill';
 import { Unit } from './../../../model/unit';
 import { BillsFirebaseService } from './../../../services/bills.firebase.service';
@@ -43,10 +44,12 @@ export class BillEditComponent implements OnInit {
 
   unitEnumItems: SelectItem[] = [];
 
+  private subscription = Subscription.EMPTY;
+
   form: FormGroup = new FormGroup({
     uid: new FormControl(),
     id: new FormControl(),
-    name: new FormControl('Nowy rachunek', Validators.required),
+    name: new FormControl('Nowy rachunek', [Validators.required, Validators.minLength(3)]),
     description: new FormControl(),
     active: new FormControl(true, Validators.required),
     deadline: new FormControl(new Date(), Validators.required),
@@ -92,6 +95,11 @@ export class BillEditComponent implements OnInit {
       });
     }
     this.setEditStatus(this.form.status);
+    this.subscription.unsubscribe();
+    this.subscription = this.billsFirebaseService.billsObservable.subscribe(bills => {
+      const billsNames = bills.map(bill => bill.name).filter(name => name !== this.bill.name);
+      this.form.get('name').setValidators([Validators.required, Validators.minLength(3), validateDistinctBillName(billsNames)]);
+    });
     if (this.editMode) { this.form.enable(); } else { this.form.disable(); }
   }
 
