@@ -8,7 +8,6 @@ import { PaymentsFirebaseService } from './../../services/payments.firebase.serv
 import { TableComponent } from './../tools/table/table.component';
 import { PaymentDialogComponent } from './payment-dialog/payment-dialog.component';
 import { ConfirmDialogInputType } from '../tools/confirm-dialog/confirm-dialog.model';
-import undefined = require('firebase/empty-import');
 
 @Component({
   selector: 'app-payments',
