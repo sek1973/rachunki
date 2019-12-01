@@ -1,5 +1,6 @@
-import { Validators } from '@angular/forms';
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
 import { getSafe } from 'src/app/helpers';
 import { Bill } from 'src/app/model/bill';
@@ -7,10 +8,10 @@ import { ConfirmationService } from 'src/app/services/confirmation.service';
 
 import { BillsDataSource } from '../../services/bills.datasource';
 import { BillsFirebaseService } from '../../services/bills.firebase.service';
-import { AuthService } from './../../services/auth.service';
-import { TableComponent } from './../tools/table/table.component';
 import { ConfirmDialogInputType } from '../tools/confirm-dialog/confirm-dialog.model';
 import { validateBillName } from '../tools/inputs/validators/validators';
+import { AuthService } from './../../services/auth.service';
+import { TableComponent } from './../tools/table/table.component';
 
 export interface TableColumn {
 	name: string;
@@ -35,7 +36,8 @@ export class OverviewComponent implements OnInit {
 	constructor(private billsFirebaseService: BillsFirebaseService,
 		private authService: AuthService,
 		private router: Router,
-		private confirmationService: ConfirmationService) { }
+		private confirmationService: ConfirmationService,
+		private snackBar: MatSnackBar) { }
 
 	ngOnInit() {
 		this.dataSource = new BillsDataSource(this.billsFirebaseService);
@@ -63,7 +65,11 @@ export class OverviewComponent implements OnInit {
 					'Aby potwierdzić podaj nazwę rachunku.', 'Nie', 'Tak',
 					ConfirmDialogInputType.InputTypeText, undefined, [Validators.required, validateBillName(row.name)], 'Nazwa rachunku', 'Nazwa rachunku')
 				.subscribe((response) => {
-					if (response) { this.billsFirebaseService.delete(row); }
+					if (response) {
+						this.billsFirebaseService.delete(row)
+							.then(() => this.snackBar.open('Opłacenie rachunku zapisane!', 'Ukryj', { duration: 3000 }),
+								error => this.snackBar.open('Błąd usuwania rachunku: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' }));
+					}
 				});
 		}
 	}
@@ -84,9 +90,9 @@ export class OverviewComponent implements OnInit {
 		this.authService.logout().then(
 			() => {
 				this.router.navigate(['/login']);
-				console.log('logged out');
+				this.snackBar.open('Wylogowano z aplikacji!', 'Ukryj', { duration: 3000 });
 			},
-			rejected => console.error('logout:', rejected));
+			rejected => this.snackBar.open('Błąd wylogowania z aplikacji:' + rejected, 'Ukryj', { panelClass: 'snackbar-style-error' }));
 	}
 
 	refresh() {

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Bill } from 'src/app/model/bill';
 import { ConfirmationService } from 'src/app/services/confirmation.service';
@@ -8,11 +9,11 @@ import { ConfirmDialogResponse } from '../../tools/confirm-dialog/confirm-dialog
 import { ConfirmDialogInputType } from '../../tools/confirm-dialog/confirm-dialog.model';
 import { DescriptionProvider } from '../../tools/inputs/input-component-base';
 import { enumToSelectItems } from '../../tools/inputs/input-select/input-select.component';
+import { validateBillName } from '../../tools/inputs/validators/validators';
 import { BillDescription } from './../../../model/bill';
 import { Unit } from './../../../model/unit';
 import { BillsFirebaseService } from './../../../services/bills.firebase.service';
 import { SelectItem } from './../../tools/inputs/input-select/input-select.component';
-import { validateBillName } from '../../tools/inputs/validators/validators';
 
 @Component({
   selector: 'app-bill-edit',
@@ -62,7 +63,8 @@ export class BillEditComponent implements OnInit {
   constructor(private billsFirebaseService: BillsFirebaseService,
     private confirmationService: ConfirmationService,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private snackBar: MatSnackBar) {
     this.form.statusChanges.subscribe(status => this.setEditStatus(status));
     this.setUnitEnumItems();
   }
@@ -108,8 +110,12 @@ export class BillEditComponent implements OnInit {
         if (response) {
           this.loading.emit(true);
           this.billsFirebaseService.pay(this.bill, (response as ConfirmDialogResponse).value)
-            .then(() =>
-              this.loading.emit(false)
+            .then(() => {
+              this.loading.emit(false);
+              this.snackBar.open('Opłacenie rachunku zapisane!', 'Ukryj', { duration: 3000 });
+            },
+              error => this.snackBar.open('Błąd zapisania opłacenia rachunku: ' + error,
+                'Ukryj', { panelClass: 'snackbar-style-error' })
             );
         }
       });
@@ -133,8 +139,10 @@ export class BillEditComponent implements OnInit {
             this.loading.emit(true);
             this.billsFirebaseService.delete(this.bill).then(() => {
               this.loading.emit(false);
+              this.snackBar.open('Usunięto rachunek.', 'Ukryj', { duration: 3000 });
               this.router.navigate(['/zestawienie']);
-            });
+            },
+              error => this.snackBar.open('Błąd usuwania rachunku: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' }));
           }
         });
     }
@@ -156,13 +164,16 @@ export class BillEditComponent implements OnInit {
       this.billsFirebaseService.update(bill).then(() => {
         this.editMode = false;
         this.loading.emit(false);
-      });
+        this.snackBar.open('Dane zapisane!', 'Ukryj', { duration: 3000 });
+      },
+        error => this.snackBar.open('Błąd zapisu danych: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' }));
     } else {
       this.billsFirebaseService.add(bill)
         .then((ref) => {
           this.loading.emit(false);
+          this.snackBar.open('Dodano rachunek!', 'Ukryj', { duration: 3000 });
           this.router.navigate([bill.id], { relativeTo: this.route });
-        }).catch((error) => console.error('Error adding document: ', error));
+        }).catch((error) => this.snackBar.open('Błąd zapisu danych: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' }));
     }
   }
 

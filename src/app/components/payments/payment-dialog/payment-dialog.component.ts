@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
 import { getSafe, timestampToDate } from 'src/app/helpers';
 import { Payment } from 'src/app/model/payment';
 
@@ -9,15 +9,15 @@ import { PaymentDescription } from './../../../model/payment';
 import { PaymentsFirebaseService } from './../../../services/payments.firebase.service';
 
 export interface PaymentDialogData {
-  billUid: string,
-  payment?: Payment
+  billUid: string;
+  payment?: Payment;
 }
 @Component({
   selector: 'app-payment-dialog',
   templateUrl: './payment-dialog.component.html',
   styleUrls: ['./payment-dialog.component.scss']
 })
-export class PaymentDialogComponent implements OnInit {
+export class PaymentDialogComponent implements OnInit, AfterViewInit {
 
   payment: Payment;
   billUid: string;
@@ -37,12 +37,13 @@ export class PaymentDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: PaymentDialogData,
     public dialogRef: MatDialogRef<PaymentDialogComponent>,
-    private paymentsFirebaseService: PaymentsFirebaseService) {
+    private paymentsFirebaseService: PaymentsFirebaseService,
+    private snackBar: MatSnackBar) {
     this.billUid = getSafe(() => data.billUid);
     this.payment = getSafe(() => data.payment);
     this.dialogTitle = (this.payment ? 'Edytuj' : 'Dodaj') + ' zrealizowaną płatność';
     this.dialogMode = this.payment ? 'edit' : 'add';
-    this.form.statusChanges.subscribe(status => this.setEditStatus(status))
+    this.form.statusChanges.subscribe(status => this.setEditStatus(status));
     this.loading = false;
   }
 
@@ -65,7 +66,7 @@ export class PaymentDialogComponent implements OnInit {
         sum: this.payment.sum,
         share: this.payment.share,
         remarks: this.payment.remarks
-      }
+      };
       this.form.patchValue(value);
     }
     this.setEditStatus(this.form.status);
@@ -84,10 +85,11 @@ export class PaymentDialogComponent implements OnInit {
       request = this.paymentsFirebaseService.add(this.form.value, this.billUid);
     }
     request.then(resp => {
+      this.snackBar.open('Zapisano dane!', 'Ukryj', { duration: 3000 });
       this.dialogRef.close('saved');
     },
       error => {
-        console.error(error);
+        this.snackBar.open('Błąd zapisania danych: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' });
         this.loading = false;
       });
   }

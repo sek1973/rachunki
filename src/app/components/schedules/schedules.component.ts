@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { Schedule } from 'src/app/model/schedule';
 import { ConfirmationService } from 'src/app/services/confirmation.service';
 
@@ -35,7 +35,8 @@ export class SchedulesComponent implements OnInit {
 
   constructor(private schedulesFirebaseService: SchedulesFirebaseService,
     public dialog: MatDialog,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() { }
 
@@ -82,7 +83,12 @@ export class SchedulesComponent implements OnInit {
       this.confirmationService
         .confirm('Usuń planowaną płatność', 'Czy na pewno chcesz usunąć tę płatność?', 'Nie', 'Tak')
         .subscribe((response) => {
-          if (response) this.schedulesFirebaseService.delete(this.table.activeRow, this.billUid);
+          if (response) {
+            this.schedulesFirebaseService.delete(this.table.activeRow, this.billUid).then(
+              () => this.snackBar.open('Usunięto planowaną płatność.', 'Ukryj', { duration: 3000 }),
+              error => this.snackBar.open('Błąd usuwania planowanej płatności: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' })
+            );
+          }
         });
     }
   }

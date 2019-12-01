@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef, MatSnackBar } from '@angular/material';
 import { getSafe, timestampToDate } from 'src/app/helpers';
 import { Schedule } from 'src/app/model/schedule';
 import { ConfirmationService } from 'src/app/services/confirmation.service';
@@ -10,8 +10,8 @@ import { ScheduleDescription } from './../../../model/schedule';
 import { SchedulesFirebaseService } from './../../../services/schedules.firebase.service';
 
 export interface ScheduleDialogData {
-  billUid: string,
-  schedule?: Schedule
+  billUid: string;
+  schedule?: Schedule;
 }
 @Component({
   selector: 'app-schedule-dialog',
@@ -37,12 +37,13 @@ export class ScheduleDialogComponent implements OnInit, AfterViewInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: ScheduleDialogData,
     public dialogRef: MatDialogRef<ScheduleDialogComponent>,
     private schedulesFirebaseService: SchedulesFirebaseService,
-    private confirmationService: ConfirmationService) {
+    private confirmationService: ConfirmationService,
+    private snackBar: MatSnackBar) {
     this.billUid = getSafe(() => data.billUid);
     this.schedule = getSafe(() => data.schedule);
     this.dialogTitle = (this.schedule ? 'Edytuj' : 'Dodaj') + ' planowaną płatność';
     this.dialogMode = this.schedule ? 'edit' : 'add';
-    this.form.statusChanges.subscribe(status => this.setEditStatus(status))
+    this.form.statusChanges.subscribe(status => this.setEditStatus(status));
     this.loading = false;
   }
 
@@ -59,7 +60,7 @@ export class ScheduleDialogComponent implements OnInit, AfterViewInit {
         date: timestampToDate(this.schedule.date),
         sum: this.schedule.sum,
         remarks: this.schedule.remarks
-      }
+      };
       this.form.patchValue(value);
     }
     this.setEditStatus(this.form.status);
@@ -81,7 +82,11 @@ export class ScheduleDialogComponent implements OnInit, AfterViewInit {
     } else {
       request = this.schedulesFirebaseService.add(this.form.value, this.billUid);
     }
-    this.runPromise(request, () => this.dialogRef.close('saved'));
+    this.runPromise(request, () => {
+      this.snackBar.open('Dane zapisane!', 'Ukryj', { duration: 3000 });
+      this.dialogRef.close('saved');
+    },
+      (error) => { this.snackBar.open('Błąd zapisania danych: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' }); });
   }
 
   private checkDuplicatedSchedule(action: () => void) {
@@ -105,10 +110,12 @@ export class ScheduleDialogComponent implements OnInit, AfterViewInit {
   cloneData() {
     this.loading = true;
     const request = this.schedulesFirebaseService.add(this.form.value, this.billUid);
-    this.checkDuplicatedSchedule(() => this.runPromise(request));
+    this.checkDuplicatedSchedule(() => this.runPromise(request,
+      () => this.snackBar.open('Sklonowano planowaną płatność.', 'Ukryj', { duration: 3000 }),
+      error => this.snackBar.open('Błąd klonowania planowanej płatności:' + error, 'Ukryj', { panelClass: 'snackbar-style-error' })));
   }
 
-  private runPromise(promise: Promise<any>, actionThen?: () => void, actionError?: () => void) {
+  private runPromise(promise: Promise<any>, actionThen?: () => void, actionError?: (error: any) => void) {
     promise.then(resp => {
       this.loading = false;
       if (actionThen) { actionThen(); }
@@ -116,8 +123,8 @@ export class ScheduleDialogComponent implements OnInit, AfterViewInit {
       error => {
         this.loading = false;
         console.error(error);
-        if (actionError) { actionError(); }
-      })
+        if (actionError) { actionError(error); }
+      });
   }
 
   getDescriptionProvider(): DescriptionProvider {

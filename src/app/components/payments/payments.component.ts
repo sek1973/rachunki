@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ConfirmationService } from 'src/app/services/confirmation.service';
 
 import { Payment } from './../../model/payment';
@@ -37,7 +37,8 @@ export class PaymentsComponent implements OnInit {
 
   constructor(private paymentsFirebaseService: PaymentsFirebaseService,
     public dialog: MatDialog,
-    private confirmationService: ConfirmationService) { }
+    private confirmationService: ConfirmationService,
+    private snackBar: MatSnackBar) { }
 
   ngOnInit() { }
 
@@ -84,7 +85,11 @@ export class PaymentsComponent implements OnInit {
       this.confirmationService
         .confirm('Usuń zrealizowaną płatność', 'Czy na pewno chcesz usunąć tę płatność z historii?', 'Nie', 'Tak')
         .subscribe((response) => {
-          if (response) this.paymentsFirebaseService.delete(this.table.activeRow, this.billUid);
+          if (response) {
+            this.paymentsFirebaseService.delete(this.table.activeRow, this.billUid).then(
+              () => this.snackBar.open('Usunięto płatność.', 'Ukryj', { duration: 3000 }),
+              error => this.snackBar.open('Błąd usuwania płatności: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' }));
+          }
         });
     }
   }

@@ -25,18 +25,15 @@ export class AppSpinnerComponent implements OnInit, DoCheck {
   private overlayRef: OverlayRef;
   constructor(private vcRef: ViewContainerRef, private overlayService: OverlayService) { }
   ngOnInit() {
-    // Config for Overlay Service
     this.overlayConfig = {
       hasBackdrop: this.backdropEnabled
     };
     if (this.positionGloballyCenter) {
       this.overlayConfig['positionStrategy'] = this.overlayService.positionGloballyCenter();
     }
-    // Create Overlay for progress spinner
     this.overlayRef = this.overlayService.createOverlay(this.overlayConfig);
   }
   ngDoCheck() {
-    // Based on status of displayProgressSpinner attach/detach overlay to progress spinner template
     if (this.displayProgressSpinner && !this.overlayRef.hasAttached()) {
       this.overlayService.attachTemplatePortal(this.overlayRef, this.progressSpinnerRef, this.vcRef);
     } else if (!this.displayProgressSpinner && this.overlayRef.hasAttached()) {
