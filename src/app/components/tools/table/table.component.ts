@@ -1,11 +1,13 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
+  AfterViewInit,
   Component,
   ContentChild,
   ContentChildren,
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   QueryList,
@@ -33,7 +35,7 @@ import { TableDataSource } from './table-data-source';
     ])
   ]
 })
-export class TableComponent implements OnInit {
+export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   dataReady: boolean;
   expandedRow: any;
   activeRow: any;
@@ -56,12 +58,14 @@ export class TableComponent implements OnInit {
   @Output() editButtonClicked: EventEmitter<any> = new EventEmitter<any>();
   @Output() deleteButtonClicked: EventEmitter<any> = new EventEmitter<any>();
   @Output() refreshButtonClicked: EventEmitter<null> = new EventEmitter<null>();
+  @Output() pasteButtonClicked: EventEmitter<null> = new EventEmitter<null>();
 
   @ViewChild(MatTable, { static: false }) table: MatTable<any>;
   @ViewChild('table', { static: false, read: ElementRef }) tableElement: ElementRef;
   @ViewChild('addButton', { static: false }) addButton: MatButton;
   @ViewChild('removeButton', { static: false }) removeButton: MatButton;
   @ViewChild('editButton', { static: false }) editButton: MatButton;
+  @ViewChild('pasteButton', { static: false }) pasteButton: MatButton;
 
   @ViewChild(MatSort, { static: false })
   set matSort(ms: MatSort) {
@@ -108,15 +112,17 @@ export class TableComponent implements OnInit {
   @Input() showRemoveButton = true;
   @Input() showEditButton = true;
   @Input() showRefreshButton = true;
+  @Input() showPasteButton = true;
 
   @Input() canAdd = false;
   @Input() canDelete = false;
   @Input() canEdit = false;
+  @Input() canPaste = false;
 
   @Input() tableTitle: string;
   @Input() filterKeyDelayMs = 500;
   @Input() expansionPanel = false;
-  @Input() hideHeader?= false;
+  @Input() hideHeader = false;
 
   @Input() exportable = true;
   @Input() csvSeparator = ',';
@@ -165,6 +171,10 @@ export class TableComponent implements OnInit {
     return this.editable && this.showRemoveButton;
   }
 
+  public get pasteButtonVisible() {
+    return this.editable && this.showPasteButton;
+  }
+
   constructor(private printService: PrintService) {
     this.dataReady = false;
   }
@@ -185,8 +195,6 @@ export class TableComponent implements OnInit {
     this.dataSource.sortingDataAccessor = (data, header) => data[header];
   }
 
-  ngAfterContentInit() { }
-
   ngAfterViewInit() {
     setTimeout(() => {
       this.initDataSource();
@@ -194,7 +202,7 @@ export class TableComponent implements OnInit {
     if (this.filterInput) {
       this.subscription = fromEvent(this.filterInput.nativeElement, 'keyup')
         .pipe(
-          debounceTime(this.filterKeyDelayMs), //before emitting last event
+          debounceTime(this.filterKeyDelayMs), // before emitting last event
           distinctUntilChanged()
         )
         .subscribe((event: KeyboardEvent) => {
@@ -291,6 +299,10 @@ export class TableComponent implements OnInit {
   onPrintClicked(event: Event) {
     const tableElement = this.tableElement.nativeElement as HTMLElement;
     this.printService.printPreviewElement(tableElement);
+  }
+
+  onPasteClicked(event: Event) {
+    this.pasteButtonClicked.emit();
   }
 
   disableEditButtons() {

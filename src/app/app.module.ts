@@ -64,6 +64,7 @@ import { DynamicPipe } from './pipes/dynamic.pipe';
 import { TimespanToStringPipe } from './pipes/timespan-to-string.pipe';
 import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
+import { InputTextareaComponent } from './components/tools/inputs/input-textarea/input-textarea.component';
 
 @NgModule({
 	declarations: [
@@ -97,7 +98,8 @@ import { PreviousUrlService } from './services/previous-url.service';
 		InputPercentDirective,
 		InputHyperlinkComponent,
 		AddHiddenAttributeDirective,
-		AddHrefAttributeDirective
+		AddHrefAttributeDirective,
+		InputTextareaComponent
 	],
 	imports: [
 		BrowserModule,

@@ -2,7 +2,8 @@ import { ValidatorFn } from '@angular/forms';
 
 export enum ConfirmDialogInputType {
   InputTypeText,
-  InputTypeCurrency
+  InputTypeCurrency,
+  InputTypeTextArea
 }
 
 export class ConfirmDialogModel {

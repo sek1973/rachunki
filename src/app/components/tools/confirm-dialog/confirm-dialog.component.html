@@ -19,6 +19,12 @@
                             [formGroup]="form">
         </app-input-currency>
       </div>
+      <div *ngSwitchCase="confirmDialogInputType.InputTypeTextArea">
+        <app-input-textarea [path]="['input']"
+                            [descriptionProvider]="descriptionProvider"
+                            [formGroup]="form">
+        </app-input-textarea>
+      </div>
     </ng-container>
 
     <div class="buttons-panel">

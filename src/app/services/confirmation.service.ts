@@ -28,6 +28,8 @@ export class ConfirmationService {
       inputType, inputValue, inputValidators, inputLabelText, inputPlaceholderText, inputTooltipText);
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       maxWidth: '600px',
+      minHeight: '400px',
+      maxHeight: '800px',
       data: dialogData
     });
     return dialogRef.afterClosed() as Observable<boolean | ConfirmDialogResponse>;

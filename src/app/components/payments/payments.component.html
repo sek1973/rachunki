@@ -4,12 +4,14 @@
            [expandable]="false"
            [editable]="true"
            [canAdd]="true"
+           [canPaste]="true"
            (rowActivated)="onRowActivated($event)"
            (refreshButtonClicked)="refresh()"
            (addButtonClicked)="addPayment()"
            (editButtonClicked)="editPayment()"
            (deleteButtonClicked)="deletePayment()"
-           (rowDblClick)="editPayment()">
+           (rowDblClick)="editPayment()"
+           (pasteButtonClicked)="pasteData()">
   <ng-template #tableTitleTemplate>
     <span class="table-title">Historia płatności</span>
   </ng-template>

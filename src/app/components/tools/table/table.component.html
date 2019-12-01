@@ -84,6 +84,15 @@
           <span class="material-icons"
                 inline=true>file_download</span>
         </button>
+
+        <button *ngIf="pasteButtonVisible"
+                #pasteButton
+                mat-icon-button
+                [disabled]="!canPaste"
+                matTooltip="Wklej"
+                (click)="onPasteClicked($event)">
+          <span class="material-icons">content_paste</span>
+        </button>
       </ng-container>
 
       <ng-container [ngTemplateOutlet]="rightToolbarPanelTemplate"

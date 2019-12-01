@@ -7,6 +7,8 @@ import { PaymentsDataSource } from './../../services/payments.datasource';
 import { PaymentsFirebaseService } from './../../services/payments.firebase.service';
 import { TableComponent } from './../tools/table/table.component';
 import { PaymentDialogComponent } from './payment-dialog/payment-dialog.component';
+import { ConfirmDialogInputType } from '../tools/confirm-dialog/confirm-dialog.model';
+import undefined = require('firebase/empty-import');
 
 @Component({
   selector: 'app-payments',
@@ -97,6 +99,18 @@ export class PaymentsComponent implements OnInit {
   onRowActivated(row: Payment) {
     this.table.canDelete = row ? true : false;
     this.table.canEdit = row ? true : false;
+  }
+
+  pasteData() {
+    this.confirmationService
+      .confirm('Importuj dane', 'Wklej ze schowka lub wpisz dane w poniższe pole a następnie naciśnij importuj.', 'Anuluj', 'Importuj',
+        ConfirmDialogInputType.InputTypeTextArea, undefined, [], 'Dane', 'Dane')
+      .subscribe((response) => {
+        if (response) {
+          this.snackBar.open('Dane zaimportowane!', 'Ukryj', { duration: 3000 });
+          // error => this.snackBar.open('Błąd usuwania płatności: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' }));
+        }
+      });
   }
 
 }

@@ -99,7 +99,7 @@ export class BillsFirebaseService {
   }
 
   private updateInTransaction(bill: Bill, transaction: firestore.Transaction): firestore.Transaction {
-    const ref = this.db.firestore.collection('bills').doc(bill.uid)
+    const ref = this.db.firestore.collection('bills').doc(bill.uid);
     return transaction.update(ref, bill);
   }
 
@@ -156,7 +156,7 @@ export class BillsFirebaseService {
       sum: paid * 1 / bill.share,
       share: paid,
       remarks: undefined
-    })
+    });
   }
 
   private adjustBillData(billCopy: Bill, schedule: Schedule): Bill {
