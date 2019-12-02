@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { InputComponentBase } from './../input-component-base';
 
@@ -8,6 +8,9 @@ import { InputComponentBase } from './../input-component-base';
   styleUrls: ['./input-textarea.component.scss']
 })
 export class InputTextareaComponent extends InputComponentBase implements OnInit {
+
+  @Input() inputMinRows: number = 10;
+  @Input() inputMaxRows: number = 10;
 
   constructor() { super(); }
 
