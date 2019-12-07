@@ -7,23 +7,23 @@ export interface Schedule {
   uid?: string;
   date: Timestamp;
   sum: number;
-  remarks: string;
+  remarks?: string;
 }
 
 export const ScheduleDescription = new Map<string, FieldDescription>([
   ['date', {
-    tooltipText: "Podaj termin dla planowanej płatności",
-    placeholderText: "Termin płatności",
+    tooltipText: 'Podaj termin dla planowanej płatności',
+    placeholderText: 'Termin płatności',
     labelText: 'Termin'
   }],
   ['sum', {
-    tooltipText: "Podaj kwotę do zapłacenia",
-    placeholderText: "Kwota do zapłacenia",
+    tooltipText: 'Podaj kwotę do zapłacenia',
+    placeholderText: 'Kwota do zapłacenia',
     labelText: 'Kwota'
   }],
   ['remarks', {
-    tooltipText: "Dodaj opcjonalny opis",
-    placeholderText: "Opis / uwagi",
+    tooltipText: 'Dodaj opcjonalny opis',
+    placeholderText: 'Opis / uwagi',
     labelText: 'Opis'
   }]
 ]);

@@ -105,7 +105,8 @@ export class PaymentsComponent implements OnInit {
 
   pasteData() {
     this.confirmationService
-      .confirm('Importuj dane', 'Wklej ze schowka lub wpisz dane w poniższe pole a następnie naciśnij importuj.', 'Anuluj', 'Importuj',
+      .confirm('Importuj historyczne płatności',
+        'Wklej ze schowka lub wpisz dane w poniższe pole a następnie naciśnij importuj.', 'Anuluj', 'Importuj',
         ConfirmDialogInputType.InputTypeTextArea, undefined, [Validators.required], 'Dane', 'Dane')
       .subscribe((response) => {
         if (response) {

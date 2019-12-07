@@ -1,8 +1,11 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { Schedule } from 'src/app/model/schedule';
 import { ConfirmationService } from 'src/app/services/confirmation.service';
 
+import { ConfirmDialogResponse } from '../tools/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogInputType } from '../tools/confirm-dialog/confirm-dialog.model';
 import { SchedulesDataSource } from './../../services/schedules.datasource';
 import { SchedulesFirebaseService } from './../../services/schedules.firebase.service';
 import { TableComponent } from './../tools/table/table.component';
@@ -23,6 +26,7 @@ export class SchedulesComponent implements OnInit {
     return this._builUid;
   }
   @ViewChild('table', { static: false, read: TableComponent }) table: TableComponent;
+  @Output() loading: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   activeRow: any;
 
@@ -96,6 +100,32 @@ export class SchedulesComponent implements OnInit {
   onRowActivated(row: Schedule) {
     this.table.canDelete = row ? true : false;
     this.table.canEdit = row ? true : false;
+  }
+
+  pasteData() {
+    this.confirmationService
+      .confirm('Importuj planowane płatności',
+        'Wklej ze schowka lub wpisz dane w poniższe pole a następnie naciśnij importuj.', 'Anuluj', 'Importuj',
+        ConfirmDialogInputType.InputTypeTextArea, undefined, [Validators.required], 'Dane', 'Dane')
+      .subscribe((response) => {
+        if (response) {
+          this.loading.emit(true);
+          const data = (response as ConfirmDialogResponse).value as string;
+          if (!data || data === null || data === undefined || data === '') {
+            this.loading.emit(false);
+            this.snackBar.open('Brak danych do zaimportowania', 'Ukryj', { panelClass: 'snackbar-style-error' });
+          } else {
+            this.schedulesFirebaseService.importSchedules(data, this.billUid).then(() => {
+              this.loading.emit(false);
+              this.snackBar.open('Dane zaimportowane!', 'Ukryj', { duration: 3000 });
+            },
+              error => {
+                this.loading.emit(false);
+                this.snackBar.open('Błąd importu danych: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' });
+              });
+          }
+        }
+      });
   }
 
 }

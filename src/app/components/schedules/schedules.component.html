@@ -4,12 +4,14 @@
            [expandable]="false"
            [editable]="true"
            [canAdd]="true"
+           [canPaste]="true"
            (rowActivated)="onRowActivated($event)"
            (refreshButtonClicked)="refresh()"
            (addButtonClicked)="addSchedule()"
            (editButtonClicked)="editSchedule()"
            (deleteButtonClicked)="deleteSchedule()"
-           (rowDblClick)="editSchedule()">
+           (rowDblClick)="editSchedule()"
+           (pasteButtonClicked)="pasteData()">
   <ng-template #tableTitleTemplate>
     <span class="table-title">Planowane płatności</span>
   </ng-template>

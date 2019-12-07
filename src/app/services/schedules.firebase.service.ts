@@ -7,6 +7,7 @@ import { Bill } from '../model/bill';
 import { Schedule } from '../model/schedule';
 
 import Timestamp = firestore.Timestamp;
+import { stringToTimestamp, currencyToNumber } from '../helpers';
 
 @Injectable({
   providedIn: 'root',
@@ -66,6 +67,44 @@ export class SchedulesFirebaseService {
   deleteInTransaction(schedule: Schedule, billUid: string, transaction: firestore.Transaction): firestore.Transaction {
     const ref = this.db.firestore.collection('bills').doc(billUid).collection('schedules').doc(schedule.uid);
     return transaction.delete(ref);
+  }
+
+  addInTransaction(schedule: Schedule, billUid: string, transaction: firestore.Transaction): firestore.Transaction {
+    const ref = this.db.firestore.collection('bills').doc(billUid).collection('schedules').doc();
+    return transaction.set(ref, schedule);
+  }
+
+  importSchedules(data: string, billUid: string, lineSeparator: string = '\n', columnSeparator: string = '\t'): Promise<void> {
+    return this.db.firestore.runTransaction(transaction => {
+      const errors = [];
+      for (const line of data.split(lineSeparator)) {
+        const payment = this.parseSchedule(line, columnSeparator);
+        if (payment) {
+          try {
+            this.addInTransaction(payment, billUid, transaction);
+          } catch (error) {
+            return Promise.reject(error);
+          }
+        } else {
+          errors.push('Nie można zaimportować wiersza: ' + line);
+        }
+        if (errors.length) { return Promise.reject(errors); }
+        return Promise.resolve();
+      }
+    });
+  }
+
+  private parseSchedule(text: string, columnSeparator: string = '\t'): Schedule {
+    const cells = text.split(columnSeparator);
+    const date: Timestamp = stringToTimestamp(cells[0]);
+    const sum: number = currencyToNumber(cells[1]);
+    const remarks: string = cells[2];
+    const schedule: Schedule = {
+      date: date,
+      sum: sum
+    };
+    if (remarks) { schedule.remarks = remarks; }
+    return (date && sum !== undefined) ? schedule : undefined;
   }
 
 }

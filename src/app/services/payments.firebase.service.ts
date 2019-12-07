@@ -59,7 +59,7 @@ export class PaymentsFirebaseService {
     return this.db.firestore.runTransaction(transaction => {
       const errors = [];
       for (const line of data.split(lineSeparator)) {
-        const payment = this.parsePayment(line);
+        const payment = this.parsePayment(line, columnSeparator);
         if (payment) {
           try {
             this.addInTransaction(payment, billUid, transaction);
