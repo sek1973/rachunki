@@ -8,6 +8,8 @@ import { Bill } from '../model/bill';
 import { Payment } from '../model/payment';
 
 import Timestamp = firestore.Timestamp;
+import { stringToTimestamp, currencyToNumber } from '../helpers';
+import { promise } from 'protractor';
 
 @Injectable({
   providedIn: 'root',
@@ -51,6 +53,43 @@ export class PaymentsFirebaseService {
 
   delete(payment: Payment, billUid: string): Promise<void> {
     return this.db.collection('bills').doc(billUid).collection('payments').doc(payment.uid).delete();
+  }
+
+  importPayments(data: string, billUid: string, lineSeparator: string = '\n', columnSeparator: string = '\t'): Promise<void> {
+    return this.db.firestore.runTransaction(transaction => {
+      const errors = [];
+      for (const line of data.split(lineSeparator)) {
+        const payment = this.parsePayment(line);
+        if (payment) {
+          try {
+            this.addInTransaction(payment, billUid, transaction);
+          } catch (error) {
+            return Promise.reject(error);
+          }
+        } else {
+          errors.push('Nie można zaimportować wiersza: ' + line);
+        }
+        if (errors.length) { return Promise.reject(errors); }
+        return Promise.resolve();
+      }
+    });
+  }
+
+  private parsePayment(text: string, columnSeparator: string = '\t'): Payment {
+    const cells = text.split(columnSeparator);
+    const deadline: Timestamp = stringToTimestamp(cells[0]);
+    const paiddate: Timestamp = stringToTimestamp(cells[1]);
+    const sum: number = currencyToNumber(cells[2]);
+    const share: number = currencyToNumber(cells[3]);
+    const remarks: string = cells[4];
+    const payment: Payment = {
+      deadline: deadline,
+      paiddate: paiddate,
+      sum: sum,
+      share: share
+    };
+    if (remarks) { payment.remarks = remarks; }
+    return (deadline && paiddate && sum !== undefined && share !== undefined) ? payment : undefined;
   }
 
 }

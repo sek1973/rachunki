@@ -1,13 +1,15 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Validators } from '@angular/forms';
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { ConfirmationService } from 'src/app/services/confirmation.service';
 
+import { ConfirmDialogResponse } from '../tools/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogInputType } from '../tools/confirm-dialog/confirm-dialog.model';
 import { Payment } from './../../model/payment';
 import { PaymentsDataSource } from './../../services/payments.datasource';
 import { PaymentsFirebaseService } from './../../services/payments.firebase.service';
 import { TableComponent } from './../tools/table/table.component';
 import { PaymentDialogComponent } from './payment-dialog/payment-dialog.component';
-import { ConfirmDialogInputType } from '../tools/confirm-dialog/confirm-dialog.model';
 
 @Component({
   selector: 'app-payments',
@@ -24,6 +26,7 @@ export class PaymentsComponent implements OnInit {
     return this._builUid;
   }
   @ViewChild('table', { static: false, read: TableComponent }) table: TableComponent;
+  @Output() loading: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   activeRow: any;
 
@@ -103,11 +106,24 @@ export class PaymentsComponent implements OnInit {
   pasteData() {
     this.confirmationService
       .confirm('Importuj dane', 'Wklej ze schowka lub wpisz dane w poniższe pole a następnie naciśnij importuj.', 'Anuluj', 'Importuj',
-        ConfirmDialogInputType.InputTypeTextArea, undefined, [], 'Dane', 'Dane')
+        ConfirmDialogInputType.InputTypeTextArea, undefined, [Validators.required], 'Dane', 'Dane')
       .subscribe((response) => {
         if (response) {
-          this.snackBar.open('Dane zaimportowane!', 'Ukryj', { duration: 3000 });
-          // error => this.snackBar.open('Błąd usuwania płatności: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' }));
+          this.loading.emit(true);
+          const data = (response as ConfirmDialogResponse).value as string;
+          if (!data || data === null || data === undefined || data === '') {
+            this.loading.emit(false);
+            this.snackBar.open('Brak danych do zaimportowania', 'Ukryj', { panelClass: 'snackbar-style-error' });
+          } else {
+            this.paymentsFirebaseService.importPayments(data, this.billUid).then(() => {
+              this.loading.emit(false);
+              this.snackBar.open('Dane zaimportowane!', 'Ukryj', { duration: 3000 });
+            },
+              error => {
+                this.loading.emit(false);
+                this.snackBar.open('Błąd importu danych: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' });
+              });
+          }
         }
       });
   }

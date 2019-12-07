@@ -28,7 +28,8 @@
                  [billUid]="bill.uid"></app-schedules>
 
   <app-payments class="bill-payments"
-                [billUid]="bill.uid"></app-payments>
+                [billUid]="bill.uid"
+                (loading)="onLoading($event)"></app-payments>
 </div>
 
 <app-spinner color="primary"

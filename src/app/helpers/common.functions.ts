@@ -1,7 +1,6 @@
 import { firestore } from 'firebase';
 
 import Timestamp = firestore.Timestamp;
-import { PercentPipe } from '@angular/common';
 
 export function getSafe(fn: () => any): any {
   try {
@@ -17,6 +16,29 @@ export function timestampToString(val: Timestamp): string | undefined {
 
 export function timestampToDate(val: Timestamp): Date | undefined {
   return val ? val.toDate() : undefined;
+}
+
+/** Tries to read formats:
+ * - yyyy-mm-dd
+ * - yyyy.mm.dd
+ * - dd.mm.yyyy
+ * - dd-mm-yyyy
+ */
+export function stringToTimestamp(val: string): Timestamp | undefined {
+  if (val === undefined || val === null || val === '') { return undefined; }
+  let date = val.split('-');
+  if (date.length !== 3) { date = val.split('.'); }
+  if (date.length !== 3) { return undefined; }
+  const date0: number = parseInt(date[0], 10);
+  const date1: number = parseInt(date[1], 10);
+  const date2: number = parseInt(date[2], 10);
+  if (date0 > 1900 && date0 < 9999 && date1 > 0 && date1 < 13 && date2 > 0 && date2 < 32) {
+    return Timestamp.fromDate(new Date(date0, date1 - 1, date2));
+  }
+  if (date2 > 1900 && date2 < 9999 && date1 > 0 && date1 < 13 && date0 > 0 && date0 < 32) {
+    return Timestamp.fromDate(new Date(date2, date1 - 1, date0));
+  }
+  return undefined;
 }
 
 export function currencyToString(val: number, NaNvalue: any = 0): string | undefined {
