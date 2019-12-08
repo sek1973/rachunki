@@ -5,6 +5,46 @@
   align-content: stretch;
 }
 
+@media(min-width: 800px) {
+  .form {
+    flex-direction: row;
+  }
+
+  .form-column-left {
+    width: 50%;
+  }
+}
+
+@media(min-width: 800px) {
+  .form {
+    flex-direction: row;
+  }
+
+  .form-column-right {
+    width: 50%;
+  }
+}
+
+@media(max-width: 799px) {
+  .form {
+    flex-direction: column;
+  }
+
+  .form-column-left {
+    width: 100%;
+  }
+}
+
+@media(max-width: 799px) {
+  .form {
+    flex-direction: column;
+  }
+
+  .form-column-right {
+    width: 100%;
+  }
+}
+
 .form-column-left {
   flex-grow: 1;
   display: flex;
@@ -12,7 +52,6 @@
   align-items: stretch;
   padding-left: 20px;
   padding-right: 20px;
-  width: 50%;
 }
 
 .form-column-right {
@@ -22,7 +61,6 @@
   align-items: stretch;
   padding-left: 20px;
   padding-right: 20px;
-  width: 50%;
 }
 
 .bill-toolbar {
