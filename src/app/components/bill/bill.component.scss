@@ -4,6 +4,7 @@
   flex-direction: row;
   align-content: stretch;
   align-items: stretch;
+  height: 60px;
 }
 
 .bill-title {
@@ -30,19 +31,18 @@
 }
 
 .bill-details {
-  max-height: 50%;
+  max-height: 420px;
 }
 
 .bill-schedules {
-  height: 20%;
+  max-height: 250px;
 }
 
 .bill-payments {
-  height: 30%;
+  max-height: 350px;
 }
 
 .bill-view {
   display: flex;
   flex-direction: column;
-  height: 100%;
 }
