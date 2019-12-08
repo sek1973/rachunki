@@ -32,63 +32,63 @@ export class Bill {
 
 export const BillDescription = new Map<string, FieldDescription>([
 	['name', {
-		tooltipText: "Podaj nazwę rachunku do opłacania, np. Gaz.",
-		placeholderText: "Nazwa rachunku do opłacania (np. gaz.)",
+		tooltipText: 'Podaj nazwę rachunku do opłacania, np. Gaz.',
+		placeholderText: 'Nazwa rachunku do opłacania (np. gaz.)',
 		labelText: 'Nazwa rachunku'
 	}],
 	['description', {
-		tooltipText: "Dodaj opcjonalny opis rachunku.",
-		placeholderText: "Opis / uwagi",
+		tooltipText: 'Dodaj opcjonalny opis rachunku.',
+		placeholderText: 'Opis / uwagi',
 		labelText: 'Opis'
 	}],
 	['active', {
-		tooltipText: "Odznacz, jeżeli rachunek (tymczasowo) nie ma być uwzględniany.",
-		placeholderText: "Aktywny",
+		tooltipText: 'Odznacz, jeżeli rachunek (tymczasowo) nie ma być uwzględniany.',
+		placeholderText: 'Aktywny',
 		labelText: 'Aktywny'
 	}],
 	['deadline', {
-		tooltipText: "Podaj termin dla najbliższej płatności",
-		placeholderText: "Termin płatności",
+		tooltipText: 'Podaj termin dla najbliższej płatności',
+		placeholderText: 'Termin płatności',
 		labelText: 'Termin płatności'
 	}],
 	['repeat', {
-		tooltipText: "Co ile jednostek (dni, miesięcy, lat) następuje rozliczenie",
-		placeholderText: "Co ile jednostek (np. co ile miesięcy)",
+		tooltipText: 'Co ile jednostek (dni, miesięcy, lat) następuje rozliczenie',
+		placeholderText: 'Co ile jednostek (np. co ile miesięcy)',
 		labelText: 'Każde'
 	}],
 	['unit', {
-		tooltipText: "Podaj jednostkę dla okresu rozliczania (dzień, miesiąc, rok...)",
-		placeholderText: "Jednostka okresu rozliczania np. miesiąc",
+		tooltipText: 'Podaj jednostkę dla okresu rozliczania (dzień, miesiąc, rok...)',
+		placeholderText: 'Jednostka okresu rozliczania np. miesiąc',
 		labelText: 'Jednostka'
 	}],
 	['reminder', {
-		tooltipText: "Podaj datę przypomnienia o płatności",
-		placeholderText: "Przypomnienie o płatności",
+		tooltipText: 'Podaj datę przypomnienia o płatności',
+		placeholderText: 'Przypomnienie o płatności',
 		labelText: 'Przypomnienie'
 	}],
 	['sum', {
-		tooltipText: "Podaj kwotę do zapłacenia",
-		placeholderText: "Kwota do zapłacenia",
+		tooltipText: 'Podaj kwotę do zapłacenia',
+		placeholderText: 'Kwota do zapłacenia',
 		labelText: 'Kwota'
 	}],
 	['share', {
-		tooltipText: "Jeżeli rachunek opłacasz wspólnie, podaj Twój udział",
-		placeholderText: "Udział w opłacie",
+		tooltipText: 'Jeżeli rachunek opłacasz wspólnie, podaj Twój udział',
+		placeholderText: 'Udział w opłacie',
 		labelText: 'Udział'
 	}],
 	['url', {
-		tooltipText: "Podaj adres www dla rachunku np. 24.energa.pl (strona do logowania)",
-		placeholderText: "Adres www rachunku - strona do logowania",
+		tooltipText: 'Podaj adres www dla rachunku np. 24.energa.pl (strona do logowania)',
+		placeholderText: 'Adres www rachunku - strona do logowania',
 		labelText: 'Strona WWW'
 	}],
 	['login', {
-		tooltipText: "Podaj login, którego używasz na stronie logowania dystrybutora",
-		placeholderText: "Login do konta u dystrybutora",
+		tooltipText: 'Podaj login, którego używasz na stronie logowania dystrybutora',
+		placeholderText: 'Login do konta u dystrybutora',
 		labelText: 'Login'
 	}],
 	['password', {
-		tooltipText: "Podaj hasło, którego używasz na stronie logowania dystrybutora",
-		placeholderText: "Hasło do konta u dystrybutora",
+		tooltipText: 'Podaj hasło, którego używasz na stronie logowania dystrybutora',
+		placeholderText: 'Hasło do konta u dystrybutora',
 		labelText: 'Hasło'
 	}]
 ]);

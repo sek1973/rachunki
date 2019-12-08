@@ -1,30 +1,28 @@
 <div class="parent">
   <div class="container">
-    <form (ngSubmit)="onLogIn(loginForm)"
-          [formGroup]="loginForm"
-          class="container form">
+    <form [formGroup]="loginForm"
+          class="container-form">
       <h2 class="message">Witamy w aplikacji Rachunki!</h2>
 
       <app-input-text [formGroup]="loginForm"
                       [path]="['email']"
                       [type]="'email'"
-                      tooltipText="Podaj adres email - login do aplikacji"
-                      placeholderText="Login (email)"
+                      [descriptionProvider]="getDescriptionProvider()"
                       class="full-width">
       </app-input-text>
 
       <app-input-password [formGroup]="loginForm"
                           [path]="['password']"
+                          [descriptionProvider]="getDescriptionProvider()"
                           tooltipText="Podaj hasło, którego używasz do logowania do aplikacji"
                           placeholderText="Hasło"
                           class="full-width">
       </app-input-password>
 
-      <br>
       <button mat-raised-button
               color="primary"
-              type="submit"
-              [disabled]="!loginForm.valid">Log In</button>
+              [disabled]="!loginForm.valid"
+              (click)="onLogIn()">Zaloguj</button>
       <span *ngIf="error"
             class="error">{{error}}</span>
     </form>

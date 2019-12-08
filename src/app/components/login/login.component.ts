@@ -5,6 +5,8 @@ import { BehaviorSubject } from 'rxjs';
 import { AuthService } from './../../services/auth.service';
 import { BillsFirebaseService } from './../../services/bills.firebase.service';
 import { NavigationService } from './../../services/navigation.service';
+import { FieldDescription } from 'src/app/model/field-description';
+import { DescriptionProvider } from '../tools/inputs/input-component-base';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +28,19 @@ export class LoginComponent implements OnInit {
   ]);
   loginForm = new FormGroup({ email: this.emailFormControl, password: this.passwordFormControl });
 
+  formDescription = new Map<string, FieldDescription>([
+    ['email', {
+      tooltipText: 'Podaj adres email - login do aplikacji.',
+      placeholderText: 'Adres email - login',
+      labelText: 'Adres email'
+    }],
+    ['password', {
+      tooltipText: 'Podaj hasło, którego używasz do logowania do aplikacji.',
+      placeholderText: 'Hasło',
+      labelText: 'Hasło'
+    }]
+  ]);
+
   constructor(private authService: AuthService,
     private navigationService: NavigationService,
     private billsFirebaseService: BillsFirebaseService) { }
@@ -33,11 +48,11 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  onLogIn(form: FormGroup) {
+  onLogIn() {
     this.error = undefined;
     this.loadingSubject.next(true);
-    const email = form.value.email;
-    const password = form.value.password;
+    const email = this.loginForm.value.email;
+    const password = this.loginForm.value.password;
     this.authService.login(email, password).then(
       () => {
         this.billsFirebaseService.load();
@@ -61,4 +76,11 @@ export class LoginComponent implements OnInit {
     }
     return errorMsg;
   }
+
+  getDescriptionProvider(): DescriptionProvider {
+    return {
+      getDescriptionObj: (...path: string[]) => this.formDescription.get(path[0])
+    };
+  }
+
 }
