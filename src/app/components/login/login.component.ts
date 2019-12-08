@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
   }
 
-  onLogIn(form: NgForm) {
+  onLogIn(form: FormGroup) {
     this.error = undefined;
     this.loadingSubject.next(true);
     const email = form.value.email;
