@@ -1,5 +1,7 @@
-import { BillsFirebaseService } from './services/bills.firebase.service';
 import { Component, OnInit } from '@angular/core';
+
+import { MessagingService } from './messaging.service';
+import { BillsFirebaseService } from './services/bills.firebase.service';
 
 @Component({
 	selector: 'app-root',
@@ -8,9 +10,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppComponent implements OnInit {
 
-	constructor(private billsFirebaseService: BillsFirebaseService) {
+	constructor(private billsFirebaseService: BillsFirebaseService,
+		private messagingService: MessagingService) {
 		this.billsFirebaseService.load();
 	}
 
-	ngOnInit() { }
+	ngOnInit() {
+		const userId = 'user001';
+		this.messagingService.requestPermission(userId);
+		this.messagingService.receiveMessage();
+		console.log(this.messagingService.currentMessage);
+	}
 }

@@ -1,3 +1,4 @@
+import { AngularFireMessaging } from '@angular/fire/messaging';
 import 'hammerjs';
 
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
@@ -6,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -54,17 +56,18 @@ import { InputPasswordComponent } from './components/tools/inputs/input-password
 import { InputPercentComponent } from './components/tools/inputs/input-percent/input-percent.component';
 import { InputSelectComponent } from './components/tools/inputs/input-select/input-select.component';
 import { InputTextComponent } from './components/tools/inputs/input-text/input-text.component';
+import { InputTextareaComponent } from './components/tools/inputs/input-textarea/input-textarea.component';
 import { InputToggleComponent } from './components/tools/inputs/input-toggle/input-toggle.component';
 import { TableCellDirective } from './components/tools/table/directives/table-cell.directive';
 import { TableComponent } from './components/tools/table/table.component';
 import { ViewFieldTextComponent } from './components/tools/view-fields/view-field-text/view-field-text.component';
 import { ViewFieldToggleComponent } from './components/tools/view-fields/view-field-toggle/view-field-toggle.component';
+import { MessagingService } from './messaging.service';
 import { CurrencyToStringPipe } from './pipes/currency-to-string.pipe';
 import { DynamicPipe } from './pipes/dynamic.pipe';
 import { TimespanToStringPipe } from './pipes/timespan-to-string.pipe';
 import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
-import { InputTextareaComponent } from './components/tools/inputs/input-textarea/input-textarea.component';
 
 @NgModule({
 	declarations: [
@@ -129,6 +132,8 @@ import { InputTextareaComponent } from './components/tools/inputs/input-textarea
 	],
 	providers: [
 		AngularFireAuth,
+		AngularFireDatabase,
+		AngularFireMessaging,
 		NavigationService,
 		PreviousUrlService,
 		TimespanToStringPipe,
@@ -141,7 +146,8 @@ import { InputTextareaComponent } from './components/tools/inputs/input-textarea
 			deps: [PreviousUrlService],
 			multi: true
 		},
-		{ provide: MAT_DATE_LOCALE, useValue: 'pl-PL' }
+		{ provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
+		MessagingService
 	],
 	exports: [
 		TableCellDirective
