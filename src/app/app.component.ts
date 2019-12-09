@@ -25,7 +25,6 @@ export class AppComponent implements OnInit {
 				this.authService.getUserName().subscribe(userId => {
 					this.messagingService.requestPermission(userId);
 					this.messagingService.receiveMessage();
-					console.log(this.messagingService.currentMessage);
 				});
 			}
 		});
