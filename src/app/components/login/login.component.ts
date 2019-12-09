@@ -1,3 +1,4 @@
+import { MessagingService } from './../../messaging.service';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
@@ -43,7 +44,8 @@ export class LoginComponent implements OnInit {
 
   constructor(private authService: AuthService,
     private navigationService: NavigationService,
-    private billsFirebaseService: BillsFirebaseService) { }
+    private billsFirebaseService: BillsFirebaseService,
+    private messagingService: MessagingService) { }
 
   ngOnInit() {
   }
@@ -57,6 +59,10 @@ export class LoginComponent implements OnInit {
       () => {
         this.billsFirebaseService.load();
         this.loadingSubject.next(false);
+        this.authService.getUserName().subscribe(userId => {
+          this.messagingService.requestPermission(userId);
+          this.messagingService.receiveMessage();
+        });
         setTimeout(() => this.navigationService.goToPreviousPage('/zestawienie'));
       },
       rejected => {

@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { auth, User } from 'firebase';
@@ -17,6 +18,12 @@ export class AuthService {
 
   login(email: string, password: string) {
     return this.angularFireAuth.auth.signInWithEmailAndPassword(email, password);
+  }
+
+  getUserName(): Observable<any> {
+    return this.angularFireAuth.user.pipe(map(user => {
+      return user.uid;
+    }));
   }
 
   register(email: string, password: string) {
