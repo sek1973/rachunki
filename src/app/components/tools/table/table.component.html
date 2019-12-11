@@ -1,3 +1,82 @@
+<mat-menu #tableMenu="matMenu"
+          xPosition="before"
+          yPosition="below"
+          [overlapTrigger]="false">
+
+  <button *ngIf="showRefreshButton"
+          mat-menu-item
+          matTooltip="Odśwież"
+          class="menu-button"
+          (click)="onRefreshClicked($event)">
+    <span class="material-icons menu-icon">refresh</span>
+    Odśwież
+  </button>
+
+  <button *ngIf="editButtonVisible"
+          mat-menu-item
+          [disabled]="!canEdit"
+          matTooltip="Edytuj"
+          class="menu-button"
+          (click)="onEditClicked($event)">
+    <span class="material-icons menu-icon">edit</span>
+    Edytuj
+  </button>
+
+  <button *ngIf="addButtonVisible"
+          mat-menu-item
+          [disabled]="!canAdd"
+          matTooltip="Dodaj"
+          class="menu-button"
+          (click)="onAddClicked($event)">
+    <span class="material-icons menu-icon">add</span>
+    Dodaj
+  </button>
+
+  <button *ngIf="removeButtonVisible"
+          mat-menu-item
+          [disabled]="!canDelete"
+          matTooltip="Usuń"
+          class="menu-button"
+          (click)="onDeleteClicked($event)">
+    <span class="material-icons menu-icon">remove</span>
+    Usuń
+  </button>
+
+  <ng-container *ngIf="exportable">
+    <button [disabled]="isDataSourceLoading() | async"
+            mat-menu-item
+            matTooltip="Drukuj"
+            class="menu-button"
+            (click)="onPrintClicked($event)">
+      <span class="material-icons menu-icon"
+            inline=true>print</span>
+      Drukuj
+    </button>
+
+    <button [disabled]="isDataSourceLoading() | async"
+            mat-menu-item
+            class="material-icons"
+            matTooltip="Eksportuj"
+            class="menu-button"
+            (click)="onExportClicked($event)">
+      <span class="material-icons menu-icon"
+            inline=true>file_download</span>
+      Eksportuj
+    </button>
+
+    <button *ngIf="pasteButtonVisible"
+            mat-menu-item
+            [disabled]="!canPaste"
+            matTooltip="Wklej"
+            class="menu-button"
+            (click)="onPasteClicked($event)">
+      <span class="material-icons menu-icon">content_paste</span>
+      Wklej
+    </button>
+  </ng-container>
+</mat-menu>
+
+
 <ng-template #defaultCellTemplate
              let-row="row"
              let-column="column">
@@ -30,74 +109,82 @@
     </mat-form-field>
 
     <div class="buttons-panel">
-      <button *ngIf="showRefreshButton"
-              #refreshButton
-              mat-icon-button
-              matTooltip="Odśwież"
-              (click)="onRefreshClicked($event)">
-        <span class="material-icons">refresh</span>
-      </button>
-
-      <button *ngIf="editButtonVisible"
-              #editButton
-              mat-icon-button
-              [disabled]="!canEdit"
-              matTooltip="Edytuj"
-              (click)="onEditClicked($event)">
-        <span class="material-icons">edit</span>
-      </button>
-
-      <button *ngIf="addButtonVisible"
-              #addButton
-              mat-icon-button
-              [disabled]="!canAdd"
-              matTooltip="Dodaj"
-              (click)="onAddClicked($event)">
-        <span class="material-icons">add</span>
-      </button>
-
-      <button *ngIf="removeButtonVisible"
-              #removeButton
-              mat-icon-button
-              [disabled]="!canDelete"
-              matTooltip="Usuń"
-              (click)="onDeleteClicked($event)">
-        <span class="material-icons">remove</span>
-      </button>
-
-      <ng-container *ngIf="exportable">
-        <button [disabled]="isDataSourceLoading() | async"
+      <div class="table-buttons-visible">
+        <button *ngIf="showRefreshButton"
+                #refreshButton
                 mat-icon-button
-                matTooltip="Drukuj"
-                [ngStyle]="{'cursor' : 'pointer'}"
-                (click)="onPrintClicked($event)">
-          <span class="material-icons"
-                inline=true>print</span>
+                matTooltip="Odśwież"
+                (click)="onRefreshClicked($event)">
+          <span class="material-icons">refresh</span>
         </button>
 
-        <button [disabled]="isDataSourceLoading() | async"
+        <button *ngIf="editButtonVisible"
+                #editButton
                 mat-icon-button
-                class="material-icons"
-                matTooltip="Eksportuj"
-                [ngStyle]="{'cursor' : 'pointer'}"
-                (click)="onExportClicked($event)">
-          <span class="material-icons"
-                inline=true>file_download</span>
+                [disabled]="!canEdit"
+                matTooltip="Edytuj"
+                (click)="onEditClicked($event)">
+          <span class="material-icons">edit</span>
         </button>
 
-        <button *ngIf="pasteButtonVisible"
-                #pasteButton
+        <button *ngIf="addButtonVisible"
+                #addButton
                 mat-icon-button
-                [disabled]="!canPaste"
-                matTooltip="Wklej"
-                (click)="onPasteClicked($event)">
-          <span class="material-icons">content_paste</span>
+                [disabled]="!canAdd"
+                matTooltip="Dodaj"
+                (click)="onAddClicked($event)">
+          <span class="material-icons">add</span>
         </button>
-      </ng-container>
+
+        <button *ngIf="removeButtonVisible"
+                #removeButton
+                mat-icon-button
+                [disabled]="!canDelete"
+                matTooltip="Usuń"
+                (click)="onDeleteClicked($event)">
+          <span class="material-icons">remove</span>
+        </button>
+
+        <ng-container *ngIf="exportable">
+          <button [disabled]="isDataSourceLoading() | async"
+                  mat-icon-button
+                  matTooltip="Drukuj"
+                  (click)="onPrintClicked($event)">
+            <span class="material-icons"
+                  inline=true>print</span>
+          </button>
+
+          <button [disabled]="isDataSourceLoading() | async"
+                  mat-icon-button
+                  matTooltip="Eksportuj"
+                  (click)="onExportClicked($event)">
+            <span class="material-icons"
+                  inline=true>file_download</span>
+          </button>
+
+          <button *ngIf="pasteButtonVisible"
+                  #pasteButton
+                  mat-icon-button
+                  [disabled]="!canPaste"
+                  matTooltip="Wklej"
+                  (click)="onPasteClicked($event)">
+            <span class="material-icons">content_paste</span>
+          </button>
+        </ng-container>
+      </div>
 
       <ng-container [ngTemplateOutlet]="rightToolbarPanelTemplate"
                     [ngTemplateOutletContext]="{dataSource: dataSource, activeRow: activeRow, $loading: isDataSourceLoading()}">
       </ng-container>
+
+      <div *ngIf="menuVisible"
+           class="menu-button-visible">
+        <button mat-icon-button
+                matTooltip="Menu"
+                [matMenuTriggerFor]="tableMenu">
+          <span class="material-icons">menu</span>
+        </button>
+      </div>
 
     </div>
 

@@ -175,6 +175,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.editable && this.showPasteButton;
   }
 
+  public get menuVisible() {
+    return this.addButtonVisible
+      || this.editButtonVisible
+      || this.removeButtonVisible
+      || this.pasteButtonVisible
+      || this.showRefreshButton
+      || this.exportable;
+  }
+
   constructor(private printService: PrintService) {
     this.dataReady = false;
   }

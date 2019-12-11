@@ -47,6 +47,10 @@ span.material-icons {
   font-size: 24px;
 }
 
+.menu-icon {
+  padding-right: 5px;
+}
+
 tr.mat-header-row {
   height: 30px;
   border-bottom: 1px solid rgba(darkgray, 0.65);
@@ -258,4 +262,28 @@ tr.row-row {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+}
+
+.menu-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.menu-button-visible {
+  @media(min-width: 640px) {
+    display: none;
+  }
+}
+
+.table-buttons-visible {
+  align-items: center;
+
+  @media(min-width: 640px) {
+    display: flex;
+  }
+
+  @media(max-width: 639px) {
+    display: none;
+  }
 }

@@ -27,6 +27,7 @@ import {
 	MatSortModule,
 	MatTableModule,
 	MatTooltipModule,
+	MatMenuModule,
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -128,7 +129,8 @@ import { PreviousUrlService } from './services/previous-url.service';
 		MatDatepickerModule,
 		MatNativeDateModule,
 		MatSelectModule,
-		MatSnackBarModule
+		MatSnackBarModule,
+		MatMenuModule
 	],
 	providers: [
 		AngularFireAuth,
