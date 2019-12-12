@@ -29,7 +29,7 @@ import { TableDataSource } from './table-data-source';
   styleUrls: ['./table.component.scss'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed, void', style({ height: '0px', minHeight: '0', display: 'none' })),
+      state('collapsed, void', style({ height: '0px', minHeight: '0' })),
       state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
     ])
@@ -61,11 +61,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() pasteButtonClicked: EventEmitter<null> = new EventEmitter<null>();
 
   @ViewChild(MatTable, { static: false }) table: MatTable<any>;
-  @ViewChild('table', { static: false, read: ElementRef }) tableElement: ElementRef;
-  @ViewChild('addButton', { static: false }) addButton: MatButton;
-  @ViewChild('removeButton', { static: false }) removeButton: MatButton;
-  @ViewChild('editButton', { static: false }) editButton: MatButton;
-  @ViewChild('pasteButton', { static: false }) pasteButton: MatButton;
+  @ViewChild('table', { static: false, read: ElementRef }) tableElementRef: ElementRef;
 
   @ViewChild(MatSort, { static: false })
   set matSort(ms: MatSort) {
@@ -306,7 +302,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onPrintClicked(event: Event) {
-    const tableElement = this.tableElement.nativeElement as HTMLElement;
+    const tableElement = this.tableElementRef.nativeElement as HTMLElement;
     this.printService.printPreviewElement(tableElement);
   }
 
@@ -320,15 +316,11 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private disableEditButton() {
-    if (this.editButton) {
-      this.editButton.disabled = true;
-    }
+    this.canEdit = false;
   }
 
   private disableRemoveButton() {
-    if (this.removeButton) {
-      this.removeButton.disabled = true;
-    }
+    this.canDelete = false;
   }
 
   private getExportData(): string {
