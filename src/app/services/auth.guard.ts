@@ -21,7 +21,7 @@ export class AuthGuard implements CanActivate {
       this.previousUrlService.previousUrl = state.url;
     }
     return this.authService.authState$.pipe(map(authState => {
-      if (authState !== null) { return true; }
+      if (authState) { return true; }
 
       this.router.navigate(['/login']);
       return false;
