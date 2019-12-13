@@ -30,7 +30,6 @@ export class SchedulesDataSource extends TableDataSource<Schedule> {
       .subscribe((schedules) => {
         this.schedulesSubject.next(schedules);
         this.loadingSubject.next(false);
-        console.log('schedules data:', schedules);
       });
   }
 }

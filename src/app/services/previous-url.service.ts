@@ -5,7 +5,6 @@ export class PreviousUrlService {
   private _previousUrl: string;
   set previousUrl(val: string) {
     this._previousUrl = val;
-    console.log('Got previous url:', val);
   }
   get previousUrl(): string {
     return this._previousUrl;
@@ -15,7 +14,6 @@ export class PreviousUrlService {
 
   init() {
     return new Promise((resolve, reject) => {
-      console.log('Previous Url service loaded.');
       resolve();
     });
   }

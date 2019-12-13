@@ -157,7 +157,6 @@ export class BillEditComponent implements OnInit {
   }
 
   cancel() {
-    console.log('form value: ', this.form.value);
     if (this.newBill) {
       this.router.navigate(['/zestawienie']);
     } else {

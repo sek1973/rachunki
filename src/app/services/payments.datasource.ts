@@ -30,7 +30,6 @@ export class PaymentsDataSource extends TableDataSource<Payment> {
       .subscribe((payments) => {
         this.paymentsSubject.next(payments);
         this.loadingSubject.next(false);
-        console.log('payments data:', payments);
       });
   }
 }
