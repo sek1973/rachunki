@@ -15,8 +15,13 @@ export class BillsDataSource extends TableDataSource<Bill> {
 		this.billsFirebaseService
 			.billsObservable
 			.subscribe((bills) => {
-				this.data = bills;
-				this.billsSubject.next(bills);
+				this.data = bills.sort((a, b) => {
+					if (!a.active && b.active) { return 1; }
+					if (a.active && !b.active) { return -1; }
+					if (a.name > b.name) { return 1; }
+					if (a.name < b.name) { return -1; }
+				});
+				this.billsSubject.next(this.data);
 			});
 	}
 

@@ -42,12 +42,7 @@ export class BillsFirebaseService {
         }),
         catchError(() => of(new Array<Bill>())))
       .subscribe((bills) => {
-        this.bills = bills.sort((a, b) => {
-          if (!a.active && b.active) { return 1; }
-          if (a.active && !b.active) { return -1; }
-          if (a.name > b.name) { return 1; }
-          if (a.name < b.name) { return -1; }
-        });
+        this.bills = bills;
         this.billsSubject.next(bills);
       });
   }
