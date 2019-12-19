@@ -13,16 +13,14 @@
                       [path]="['paiddate']"
                       [descriptionProvider]="getDescriptionProvider()">
       </app-input-date>
-      <app-input-text [formGroup]="form"
-                      type="number"
-                      [path]="['sum']"
-                      [descriptionProvider]="getDescriptionProvider()">
-      </app-input-text>
-      <app-input-text [formGroup]="form"
-                      type="number"
-                      [path]="['share']"
-                      [descriptionProvider]="getDescriptionProvider()">
-      </app-input-text>
+      <app-input-currency [formGroup]="form"
+                          [path]="['sum']"
+                          [descriptionProvider]="getDescriptionProvider()">
+      </app-input-currency>
+      <app-input-currency [formGroup]="form"
+                          [path]="['share']"
+                          [descriptionProvider]="getDescriptionProvider()">
+      </app-input-currency>
       <app-input-text [formGroup]="form"
                       [path]="['remarks']"
                       [descriptionProvider]="getDescriptionProvider()">
