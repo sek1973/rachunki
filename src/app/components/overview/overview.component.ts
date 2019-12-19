@@ -99,4 +99,19 @@ export class OverviewComponent implements OnInit {
 		this.billsFirebaseService.load();
 	}
 
+	formatLinkColor(row: Bill): string {
+		if (!row.active) { return 'lighgray'; }
+		return '';
+	}
+
+	formatColor(row: Bill): string {
+		if (!row.active) { return 'lighgray'; }
+		if (row.deadline && row.deadline.toDate() < new Date()) { return 'red'; }
+		const inAWeek = new Date();
+		inAWeek.setDate(inAWeek.getDate() + 7);
+		if (row.deadline && row.deadline.toDate() < inAWeek) { return 'darkgoldenrod'; }
+		console.log(new Date(new Date().getDate() + 7));
+		return '';
+	}
+
 }

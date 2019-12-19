@@ -18,6 +18,8 @@ export class BillsDataSource extends TableDataSource<Bill> {
 				this.data = bills.sort((a, b) => {
 					if (!a.active && b.active) { return 1; }
 					if (a.active && !b.active) { return -1; }
+					if (a.deadline.toDate() > b.deadline.toDate()) { return 1; }
+					if (a.deadline.toDate() < b.deadline.toDate()) { return -1; }
 					if (a.name > b.name) { return 1; }
 					if (a.name < b.name) { return -1; }
 				});

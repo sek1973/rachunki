@@ -16,14 +16,21 @@
                let-row="row"
                let-column="column">
     <a [routerLink]="['/rachunek', getId(row)]"
-       routerLinkActive="active">{{getValue(row, column)}}</a>
+       routerLinkActive="active"
+       [ngStyle]="{'color': formatLinkColor(row) }">{{getValue(row, column)}}</a>
   </ng-template>
 
   <ng-template cellTemplateForColumn="deadline"
-               let-row="row">{{row.deadline | timespanToString}}</ng-template>
+               let-row="row"><span [ngStyle]="{'color': formatColor(row) }">
+      {{row.deadline | timespanToString}}
+    </span>
+  </ng-template>
 
   <ng-template cellTemplateForColumn="sum"
-               let-row="row">{{row.sum | currencyToString}}</ng-template>
+               let-row="row"><span [ngStyle]="{'color': formatColor(row) }">
+      {{row.sum | currencyToString}}
+    </span>
+  </ng-template>
 
   <ng-template #rightToolbarPanelTemplate>
     <button mat-raised-button
