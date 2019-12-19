@@ -1,3 +1,8 @@
+$active-row-background: rgba(lightgray, 0.2);
+$even-row-background: rgba(lightgray, 0.1);
+$odd-row-background: white;
+$hover-row-background: rgba(lightgray, 0.5);
+
 .table-container {
   overflow-x: auto;
 }
@@ -81,12 +86,12 @@ tr.expanded-row {
 }
 
 tr.active-row {
-  background: rgba(lightgray, 0.2);
+  background: $active-row-background;
   font-weight: 500;
 }
 
 tr.active-row-expanded {
-  background: rgba(lightgray, 0.2);
+  background: $active-row-background;
   border-bottom: none;
   font-weight: 500;
 }
@@ -94,7 +99,7 @@ tr.active-row-expanded {
 .active-row-detail {
   overflow: hidden;
   display: flex;
-  background-color: rgba(lightgray, 0.2);
+  background-color: $active-row-background;
   color: black;
 }
 
@@ -194,11 +199,11 @@ tr.row-row>td.mat-cell {
 }
 
 .even-row {
-  background-color: rgba(lightgray, 0.1);
+  background-color: $even-row-background;
 }
 
 .odd-row {
-  background-color: white;
+  background-color: $odd-row-background;
 }
 
 tr.row-row {
@@ -207,11 +212,11 @@ tr.row-row {
   }
 
   &:hover {
-    background-color: rgba(lightgray, 0.5);
+    background-color: $hover-row-background;
   }
 
   &.active-row:hover {
-    background-color: rgba(lightgray, 0.5);
+    background-color: $hover-row-background;
   }
 }
 
