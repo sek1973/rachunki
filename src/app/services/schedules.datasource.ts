@@ -28,7 +28,12 @@ export class SchedulesDataSource extends TableDataSource<Schedule> {
     this.schedulesFirebaseService
       .fetch(this.uid)
       .subscribe((schedules) => {
-        this.schedulesSubject.next(schedules);
+        const result = schedules.sort((a, b) => {
+          if (a.date.toDate() > b.date.toDate()) {
+            return 1;
+          } else { return -1; }
+        });
+        this.schedulesSubject.next(result);
         this.loadingSubject.next(false);
       });
   }
