@@ -82,13 +82,13 @@ tr.expanded-row {
 
 tr.active-row {
   background: rgba(lightgray, 0.1);
-  font-weight: bold;
+  font-weight: 500;
 }
 
 tr.active-row-expanded {
   background: rgba(lightgray, 0.1);
   border-bottom: none;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .active-row-detail {
@@ -208,34 +208,10 @@ tr.row-row {
 
   &:hover {
     background-color: rgba(lightgray, 0.5);
-
-    >td.mat-cell {
-      color: white;
-    }
-
-    >td>span.expand-column {
-      color: white;
-    }
-
-    >td>span.expand-column-disabled {
-      color: rgba(white, 0.2);
-    }
   }
 
   &.active-row:hover {
     background-color: rgba(lightgray, 0.5);
-
-    >td.mat-cell {
-      color: white;
-    }
-
-    >td>span.expand-column {
-      color: white;
-    }
-
-    >td>span.expand-column-disabled {
-      color: rgba(white, 0.2);
-    }
   }
 }
 
