@@ -27,7 +27,7 @@
   </ng-template>
 
   <ng-template cellTemplateForColumn="sum"
-               let-row="row"><span [ngStyle]="{'color': formatColor(row) }">
+               let-row="row"><span>
       {{row.sum | currencyToString}}
     </span>
   </ng-template>
