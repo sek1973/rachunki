@@ -81,12 +81,12 @@ tr.expanded-row {
 }
 
 tr.active-row {
-  background: rgba(lightgray, 0.1);
+  background: rgba(lightgray, 0.2);
   font-weight: 500;
 }
 
 tr.active-row-expanded {
-  background: rgba(lightgray, 0.1);
+  background: rgba(lightgray, 0.2);
   border-bottom: none;
   font-weight: 500;
 }
@@ -94,7 +94,7 @@ tr.active-row-expanded {
 .active-row-detail {
   overflow: hidden;
   display: flex;
-  background-color: rgba(lightgray, 0.1);
+  background-color: rgba(lightgray, 0.2);
   color: black;
 }
 
@@ -194,7 +194,7 @@ tr.row-row>td.mat-cell {
 }
 
 .even-row {
-  background-color: rgba(lightgray, 0.2);
+  background-color: rgba(lightgray, 0.1);
 }
 
 .odd-row {
