@@ -28,7 +28,12 @@ export class PaymentsDataSource extends TableDataSource<Payment> {
     this.paymentsFirebaseService
       .fetch(this.uid)
       .subscribe((payments) => {
-        this.paymentsSubject.next(payments);
+        const result = payments.sort((a, b) => {
+          if (a.deadline.toDate() < b.deadline.toDate()) {
+            return 1;
+          } else { return -1; }
+        });
+        this.paymentsSubject.next(result);
         this.loadingSubject.next(false);
       });
   }
