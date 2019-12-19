@@ -33,16 +33,21 @@ export class BillsFirebaseService {
 
   load() {
     this.billsSubscription.unsubscribe();
-    this.billsSubscription = of({})
+    this.billsSubscription = of(new Array<Bill>())
       .pipe(map(() => this.billsLoadingSubject.next(true)),
         mergeMap(() => this.fetch()),
         map(bills => {
           this.billsLoadingSubject.next(false);
           return bills;
         }),
-        catchError(() => of([])))
+        catchError(() => of(new Array<Bill>())))
       .subscribe((bills) => {
-        this.bills = bills;
+        this.bills = bills.sort((a, b) => {
+          if (!a.active && b.active) { return 1; }
+          if (a.active && !b.active) { return -1; }
+          if (a.name > b.name) { return 1; }
+          if (a.name < b.name) { return -1; }
+        });
         this.billsSubject.next(bills);
       });
   }
