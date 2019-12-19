@@ -81,12 +81,12 @@ tr.expanded-row {
 }
 
 tr.active-row {
-  background: rgba(lightblue, 0.5);
+  background: rgba(lightgray, 0.5);
   font-weight: bold;
 }
 
 tr.active-row-expanded {
-  background: rgba(lightblue, 0.5);
+  background: rgba(lightgray, 0.5);
   border-bottom: none;
   font-weight: bold;
 }
@@ -94,7 +94,7 @@ tr.active-row-expanded {
 .active-row-detail {
   overflow: hidden;
   display: flex;
-  background-color: rgba(lightblue, 0.5);
+  background-color: rgba(lightgray, 0.5);
   color: black;
 }
 
@@ -207,7 +207,7 @@ tr.row-row {
   }
 
   &:hover {
-    background-color: rgba(blue, 0.5);
+    background-color: rgba(gray, 0.5);
 
     >td.mat-cell {
       color: white;
@@ -223,7 +223,7 @@ tr.row-row {
   }
 
   &.active-row:hover {
-    background-color: rgba(blue, 0.5);
+    background-color: rgba(gray, 0.5);
 
     >td.mat-cell {
       color: white;
