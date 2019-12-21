@@ -3,7 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router';
-import { getSafe } from 'src/app/helpers';
+import { getSafe, addDays } from 'src/app/helpers';
 import { Bill } from 'src/app/model/bill';
 import { ConfirmationService } from 'src/app/services/confirmation.service';
 
@@ -109,10 +109,7 @@ export class OverviewComponent implements OnInit {
 	formatColor(row: Bill): string {
 		if (!row.active) { return 'lighgray'; }
 		if (row.deadline && row.deadline.toDate() < new Date()) { return 'red'; }
-		const inAWeek = new Date();
-		inAWeek.setDate(inAWeek.getDate() + 7);
-		if (row.deadline && row.deadline.toDate() < inAWeek) { return 'darkgoldenrod'; }
-		console.log(new Date(new Date().getDate() + 7));
+		if (row.deadline && row.deadline.toDate() < addDays()) { return 'darkgoldenrod'; }
 		return '';
 	}
 

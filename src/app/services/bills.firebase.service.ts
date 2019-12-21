@@ -1,3 +1,4 @@
+import { addDays } from 'src/app/helpers';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { firestore } from 'firebase';
@@ -167,6 +168,7 @@ export class BillsFirebaseService {
     const deadline = schedule ? schedule.date : this.calculateNextDeadline(billCopy);
     const sum = schedule ? schedule.sum : billCopy.sum; // consider remarks
     billCopy.deadline = deadline;
+    billCopy.reminder = Timestamp.fromDate(addDays(7, deadline.toDate()));
     billCopy.sum = sum;
     return billCopy;
   }

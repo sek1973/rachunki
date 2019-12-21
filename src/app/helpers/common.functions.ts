@@ -76,3 +76,9 @@ export function percentToNumber(val: string): number | undefined {
   }
   return null;
 }
+
+export function addDays(days: number = 7, date: Date = new Date()): Date {
+  const result = new Date(date);
+  result.setDate(result.getDate() + days);
+  return result;
+}
