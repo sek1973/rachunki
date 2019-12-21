@@ -1,16 +1,13 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { firestore } from 'firebase';
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 
+import { currencyToNumber, stringToTimestamp } from '../helpers';
 import { Bill } from '../model/bill';
 import { Payment } from '../model/payment';
 
 import Timestamp = firestore.Timestamp;
-import { stringToTimestamp, currencyToNumber } from '../helpers';
-import { promise } from 'protractor';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -58,7 +55,7 @@ export class PaymentsFirebaseService {
   importPayments(data: string, billUid: string, lineSeparator: string = '\n', columnSeparator: string = '\t'): Promise<void> {
     return this.db.firestore.runTransaction(transaction => {
       const errors = [];
-      for (const line of data.split(lineSeparator)) {
+      data.split(lineSeparator).forEach((line, index) => {
         const payment = this.parsePayment(line, columnSeparator);
         if (payment) {
           try {
@@ -67,11 +64,11 @@ export class PaymentsFirebaseService {
             return Promise.reject(error);
           }
         } else {
-          errors.push('Nie można zaimportować wiersza: ' + line);
+          errors.push(`Nie można zaimportować wiersza (${index + 1}): ${line}`);
         }
-        if (errors.length) { return Promise.reject(errors); }
-        return Promise.resolve();
-      }
+      });
+      if (errors.length) { return Promise.reject(errors); }
+      return Promise.resolve();
     });
   }
 

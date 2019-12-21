@@ -80,15 +80,15 @@ export class BillsFirebaseService {
       sum: bill.sum || 0,
       share: bill.share || 1,
       deadline: Timestamp.fromDate(bill.deadline || new Date()),
-      reminder: Timestamp.fromDate(bill.reminder || new Date()),
+      reminder: Timestamp.fromDate(bill.reminder || addDays(-7, bill.deadline)),
       repeat: bill.repeat || 1,
       unit: bill.unit || Unit.Month,
       url: bill.url || '',
       login: bill.login || '',
       password: bill.password || ''
     };
-    if (result.reminder < result.deadline) {
-      result.reminder = Timestamp.fromDate(addDays(7, result.deadline.toDate()));
+    if (result.reminder > result.deadline) {
+      result.reminder = Timestamp.fromDate(addDays(-7, result.deadline.toDate()));
     }
     if (bill.uid) { result.uid = bill.uid; }
     return result;

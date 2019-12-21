@@ -77,7 +77,7 @@ export class SchedulesFirebaseService {
   importSchedules(data: string, billUid: string, lineSeparator: string = '\n', columnSeparator: string = '\t'): Promise<void> {
     return this.db.firestore.runTransaction(transaction => {
       const errors = [];
-      for (const line of data.split(lineSeparator)) {
+      data.split(lineSeparator).forEach((line, index) => {
         const payment = this.parseSchedule(line, columnSeparator);
         if (payment) {
           try {
@@ -86,11 +86,11 @@ export class SchedulesFirebaseService {
             return Promise.reject(error);
           }
         } else {
-          errors.push('Nie można zaimportować wiersza: ' + line);
+          errors.push(`Nie można zaimportować wiersza (${index + 1}): ${line}`);
         }
-        if (errors.length) { return Promise.reject(errors); }
-        return Promise.resolve();
-      }
+      });
+      if (errors.length) { return Promise.reject(errors); }
+      return Promise.resolve();
     });
   }
 

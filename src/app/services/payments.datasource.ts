@@ -29,6 +29,8 @@ export class PaymentsDataSource extends TableDataSource<Payment> {
       .fetch(this.uid)
       .subscribe((payments) => {
         const result = payments.sort((a, b) => {
+          if (a.deadline === null || a.deadline === undefined) { return 1; }
+          if (b.deadline === null || b.deadline === undefined) { return -1; }
           if (a.deadline.toDate() < b.deadline.toDate()) {
             return 1;
           } else { return -1; }
