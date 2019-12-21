@@ -55,7 +55,7 @@ export class BillEditComponent implements OnInit {
     deadline: new FormControl(new Date(), Validators.required),
     repeat: new FormControl(1),
     unit: new FormControl(Unit.Month),
-    reminder: new FormControl(new Date(), Validators.required),
+    reminder: new FormControl(new Date()),
     sum: new FormControl(),
     share: new FormControl(1, Validators.required),
     url: new FormControl(),

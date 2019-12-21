@@ -96,7 +96,7 @@ export class BillsFirebaseService {
 
   update(bill: Bill): Promise<void> {
     try {
-      return this.db.collection('bills').doc(bill.uid).set(bill);
+      return this.db.collection('bills').doc(bill.uid).set(this.createBillData(bill));
     } catch (error) {
       return Promise.reject(error);
     }

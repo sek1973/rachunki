@@ -63,15 +63,6 @@ export class BillComponent implements OnInit, OnDestroy {
 		return title || 'Rachunek bez nazwy';
 	}
 
-	logout() {
-		this.authService.logout().then(
-			() => {
-				this.router.navigate(['/login']);
-				console.log('logged out');
-			},
-			rejected => console.error('logout:', rejected));
-	}
-
 	onLoading(event: boolean): void {
 		this.loading = event;
 	}

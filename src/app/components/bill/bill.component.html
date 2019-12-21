@@ -6,15 +6,14 @@
       </span>
     </div>
     <div class="bill-toolbar">
-      <button mat-raised-button
-              color="warn"
-              class="toolbar-button"
-              (click)="logout()">Wyloguj</button>
-      <a mat-raised-button
-         color="primary"
-         class="toolbar-button"
-         [routerLink]="['/zestawienie']"
-         routerLinkActive="active">Zestawienie</a>
+      <button mat-icon-button
+              matTooltip="Zestawienie"
+              [routerLink]="['/zestawienie']"
+              routerLinkActive="active">
+        <span class="material-icons"
+              inline=true>view_list
+        </span>
+      </button>
     </div>
   </div>
 
