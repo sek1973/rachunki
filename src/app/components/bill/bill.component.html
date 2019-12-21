@@ -23,10 +23,12 @@
                  [newBill]="newBill"
                  (loading)="onLoading($event)"></app-bill-edit>
 
-  <app-schedules class="bill-schedules"
+  <app-schedules *ngIf="!newBill"
+                 class="bill-schedules"
                  [billUid]="bill.uid"></app-schedules>
 
-  <app-payments class="bill-payments"
+  <app-payments *ngIf="!newBill"
+                class="bill-payments"
                 [billUid]="bill.uid"
                 (loading)="onLoading($event)"></app-payments>
 </div>
