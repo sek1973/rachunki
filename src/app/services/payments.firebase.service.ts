@@ -26,10 +26,10 @@ export class PaymentsFirebaseService {
     return of([]);
   }
 
-  createPaymentData(payment: Payment): Payment {
+  createPaymentData(payment: any): Payment {
     const result: Payment = {
-      deadline: payment.deadline || Timestamp.fromDate(new Date()),
-      paiddate: payment.paiddate || undefined,
+      deadline: Timestamp.fromDate(payment.deadline || new Date()),
+      paiddate: Timestamp.fromDate(payment.paiddate) || undefined,
       sum: payment.sum,
       share: payment.share,
       remarks: payment.remarks || ''

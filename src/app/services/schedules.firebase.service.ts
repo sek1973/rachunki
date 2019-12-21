@@ -42,9 +42,9 @@ export class SchedulesFirebaseService {
     return ref.where('date', '==', date).get();
   }
 
-  private createScheduleData(schedule: Schedule): Schedule {
+  private createScheduleData(schedule: any): Schedule {
     const result: Schedule = {
-      date: schedule.date || Timestamp.fromDate(new Date()),
+      date: Timestamp.fromDate(schedule.date || new Date()),
       sum: schedule.sum || 0,
       remarks: schedule.remarks || '',
     };

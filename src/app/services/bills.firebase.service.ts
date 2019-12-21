@@ -1,9 +1,9 @@
-import { addDays } from 'src/app/helpers';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { firestore } from 'firebase';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
+import { addDays } from 'src/app/helpers';
 
 import { Bill } from '../model/bill';
 import { Payment } from '../model/payment';
@@ -65,7 +65,7 @@ export class BillsFirebaseService {
     return of(null);
   }
 
-  private createBillData(bill: Bill): Bill {
+  private createBillData(bill: any): Bill {
     if (bill.id === undefined) {
       if (this.bills && this.bills.length) {
         bill.id = Math.max(...this.bills.map(b => b.id)) + 1;
@@ -79,14 +79,17 @@ export class BillsFirebaseService {
       active: bill.active || false,
       sum: bill.sum || 0,
       share: bill.share || 1,
-      deadline: bill.deadline || Timestamp.fromDate(new Date()),
-      reminder: bill.reminder || Timestamp.fromDate(new Date()),
+      deadline: Timestamp.fromDate(bill.deadline || new Date()),
+      reminder: Timestamp.fromDate(bill.reminder || new Date()),
       repeat: bill.repeat || 1,
       unit: bill.unit || Unit.Month,
       url: bill.url || '',
       login: bill.login || '',
       password: bill.password || ''
     };
+    if (result.reminder < result.deadline) {
+      result.reminder = Timestamp.fromDate(addDays(7, result.deadline.toDate()));
+    }
     if (bill.uid) { result.uid = bill.uid; }
     return result;
   }
