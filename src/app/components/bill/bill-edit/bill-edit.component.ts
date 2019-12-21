@@ -130,7 +130,13 @@ export class BillEditComponent implements OnInit {
   }
 
   saveBill() {
-    this.setBill(this.form.value);
+    this.loading.emit(true);
+    const bill = this.form.value;
+    if (bill.uid) {
+      this.setBill(bill);
+    } else {
+      this.addBill(bill);
+    }
   }
 
   deleteBill() {
@@ -166,22 +172,29 @@ export class BillEditComponent implements OnInit {
   }
 
   private setBill(bill: Bill) {
-    this.loading.emit(true);
-    if (bill.uid) {
-      this.billsFirebaseService.update(bill).then(() => {
+    this.billsFirebaseService.update(bill)
+      .then(() => {
         this.editMode = false;
         this.loading.emit(false);
         this.snackBar.open('Dane zapisane!', 'Ukryj', { duration: 3000 });
-      },
-        error => this.snackBar.open('Błąd zapisu danych: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' }));
-    } else {
-      this.billsFirebaseService.add(bill)
-        .then((ref) => {
-          this.loading.emit(false);
-          this.snackBar.open('Dodano rachunek!', 'Ukryj', { duration: 3000 });
-          this.router.navigate([bill.id], { relativeTo: this.route });
-        }).catch((error) => this.snackBar.open('Błąd zapisu danych: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' }));
-    }
+      })
+      .catch((error) => {
+        this.loading.emit(false);
+        this.snackBar.open('Błąd zapisu danych: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' });
+      });
+  }
+
+  private addBill(bill: Bill) {
+    this.billsFirebaseService.add(bill)
+      .then((ref) => {
+        this.loading.emit(false);
+        this.snackBar.open('Dodano rachunek!', 'Ukryj', { duration: 3000 });
+        this.router.navigate([bill.id], { relativeTo: this.route });
+      })
+      .catch((error) => {
+        this.loading.emit(false);
+        this.snackBar.open('Błąd zapisu danych: ' + error, 'Ukryj', { panelClass: 'snackbar-style-error' });
+      });
   }
 
   getErrorMessage(...path: string[]): string {

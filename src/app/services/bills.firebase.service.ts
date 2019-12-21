@@ -95,7 +95,11 @@ export class BillsFirebaseService {
   }
 
   update(bill: Bill): Promise<void> {
-    return this.db.collection('bills').doc(bill.uid).set(bill);
+    try {
+      return this.db.collection('bills').doc(bill.uid).set(bill);
+    } catch (error) {
+      return Promise.reject(error);
+    }
   }
 
   private updateInTransaction(bill: Bill, transaction: firestore.Transaction): firestore.Transaction {
