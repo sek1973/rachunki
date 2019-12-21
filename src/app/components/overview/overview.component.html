@@ -33,10 +33,18 @@
   </ng-template>
 
   <ng-template #rightToolbarPanelTemplate>
-    <button mat-raised-button
-            color="warn"
-            class="toolbar-button"
-            (click)="logout()">Wyloguj</button>
+    <button mat-icon-button
+            matTooltip="Wyloguj"
+            (click)="logout()">
+      <span class="material-icons"
+            inline=true>power_settings_new</span>
+    </button>
+    <button mat-icon-button
+            matTooltip="Zapłacony"
+            (click)="payBill()">
+      <span class="material-icons"
+            inline=true>check</span>
+    </button>
   </ng-template>
 
   <ng-template #expandedRowTemplate
@@ -48,3 +56,11 @@
   </ng-template>
 
 </app-table>
+
+<app-spinner color="primary"
+             mode="indeterminate"
+             [value]="50"
+             [backdropEnabled]="true"
+             [positionGloballyCenter]="true"
+             [displayProgressSpinner]="loading">
+</app-spinner>

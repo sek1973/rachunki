@@ -1,3 +1,4 @@
+import { ConfirmDialogResponse } from './../tools/confirm-dialog/confirm-dialog.component';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
@@ -30,6 +31,7 @@ export class OverviewComponent implements OnInit {
 		{ name: 'deadline', header: 'Termin' },
 		{ name: 'sum', header: 'Kwota' }
 	];
+	loading: boolean = false;
 
 	@ViewChild('table', { static: false }) table: TableComponent;
 
@@ -112,6 +114,32 @@ export class OverviewComponent implements OnInit {
 		if (row.deadline && row.deadline.toDate() < inAWeek) { return 'darkgoldenrod'; }
 		console.log(new Date(new Date().getDate() + 7));
 		return '';
+	}
+
+	payBill() {
+		if (this.table.activeRow) {
+			const bill = this.table.activeRow;
+			this.confirmationService
+				.confirm('Rachunek opłacony',
+					'Podaj kwotę jaka została zapłacona:', 'Anuluj', 'OK',
+					ConfirmDialogInputType.InputTypeCurrency, bill.sum * bill.share, [Validators.required], 'Kwota', 'Kwota')
+				.subscribe((response) => {
+					if (response) {
+						this.loading = true;
+						this.billsFirebaseService.pay(bill, (response as ConfirmDialogResponse).value)
+							.then(() => {
+								this.loading = false;
+								this.snackBar.open('Opłacenie rachunku zapisane!', 'Ukryj', { duration: 3000 });
+							},
+								error => {
+									this.loading = false;
+									this.snackBar.open('Błąd zapisania opłacenia rachunku: ' + error,
+										'Ukryj', { panelClass: 'snackbar-style-error' });
+								}
+							);
+					}
+				});
+		}
 	}
 
 }
