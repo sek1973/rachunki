@@ -10,7 +10,7 @@ export interface SelectItem {
 export function enumToSelectItems(enumStructure: any): SelectItem[] {
   const result = Object.keys(enumStructure)
     .filter(value => isNaN(Number(value)) === false)
-    .map(key => ({ text: enumStructure[key], value: key }));
+    .map(key => ({ text: enumStructure[key], value: +key }));
   return result;
 }
 
