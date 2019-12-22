@@ -1,4 +1,3 @@
-import { AngularFireMessaging } from '@angular/fire/messaging';
 import 'hammerjs';
 
 import { MatPasswordStrengthModule } from '@angular-material-extensions/password-strength';
@@ -9,6 +8,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFireDatabase } from '@angular/fire/database';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireMessaging } from '@angular/fire/messaging';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
 	MAT_DATE_LOCALE,
@@ -16,7 +16,9 @@ import {
 	MatDatepickerModule,
 	MatDialogModule,
 	MatInputModule,
+	MatMenuModule,
 	MatNativeDateModule,
+	MatPaginatorIntl,
 	MatPaginatorModule,
 	MatProgressBarModule,
 	MatProgressSpinnerModule,
@@ -27,7 +29,6 @@ import {
 	MatSortModule,
 	MatTableModule,
 	MatTooltipModule,
-	MatMenuModule,
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -63,6 +64,7 @@ import { TableCellDirective } from './components/tools/table/directives/table-ce
 import { TableComponent } from './components/tools/table/table.component';
 import { ViewFieldTextComponent } from './components/tools/view-fields/view-field-text/view-field-text.component';
 import { ViewFieldToggleComponent } from './components/tools/view-fields/view-field-toggle/view-field-toggle.component';
+import { MatPaginatorIntlPL } from './helpers/mat-paginator-intl-pl';
 import { MessagingService } from './messaging.service';
 import { CurrencyToStringPipe } from './pipes/currency-to-string.pipe';
 import { DynamicPipe } from './pipes/dynamic.pipe';
@@ -149,7 +151,8 @@ import { PreviousUrlService } from './services/previous-url.service';
 			multi: true
 		},
 		{ provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
-		MessagingService
+		MessagingService,
+		{ provide: MatPaginatorIntl, useClass: MatPaginatorIntlPL }
 	],
 	exports: [
 		TableCellDirective
