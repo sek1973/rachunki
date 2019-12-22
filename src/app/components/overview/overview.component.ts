@@ -101,13 +101,14 @@ export class OverviewComponent implements OnInit {
 		this.billsFirebaseService.load();
 	}
 
-	formatLinkColor(row: Bill): string {
-		if (!row.active) { return 'lighgray'; }
+	formatActiveColor(row: Bill): string {
+		if (!row.active) { return 'lightgray'; }
 		return '';
 	}
 
 	formatColor(row: Bill): string {
-		if (!row.active) { return 'lighgray'; }
+		const color = this.formatActiveColor(row);
+		if (color !== '') { return color; }
 		if (row.deadline && row.deadline.toDate() < new Date()) { return 'red'; }
 		if (row.deadline && row.deadline.toDate() < addDays()) { return 'darkgoldenrod'; }
 		return '';
