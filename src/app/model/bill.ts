@@ -27,6 +27,8 @@ export class Bill {
 		this.sum = 0;
 		this.share = 1;
 		this.deadline = Timestamp.fromDate(new Date());
+		this.repeat = 1;
+		this.unit = Unit.Month;
 	}
 }
 
