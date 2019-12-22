@@ -14,7 +14,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatButton, MatSort, MatTable, SortDirection } from '@angular/material';
+import { MatPaginator, MatSort, MatTable, SortDirection } from '@angular/material';
 import { fromEvent, Observable, of, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
@@ -42,6 +42,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   index = 0;
   private sort: MatSort;
+  private paginator: MatPaginator;
   private _columnsDefinition: TableColumn[];
   private subscription = Subscription.EMPTY;
   private loadingSubscription = Subscription.EMPTY;
@@ -66,6 +67,14 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort, { static: false })
   set matSort(ms: MatSort) {
     if (this.sort !== ms) { this.sort = ms; }
+  }
+
+  @ViewChild(MatPaginator, { static: false })
+  set matPaginator(mp: MatPaginator) {
+    if (this.paginator !== mp) {
+      this.paginator = mp;
+      this.initDataSource();
+    }
   }
 
   @ViewChild('filterInput', { static: false }) filterInput;
@@ -102,6 +111,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() showFilter = false;
   @Input() sortable = true;
   @Input() expandable = true;
+  @Input() pageable = true;
 
   @Input() editable = false;
   @Input() showAddButton = true;
@@ -195,6 +205,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     });
     if (this.sort !== undefined) {
       this.dataSource.sort = this.sort;
+    }
+    if (this.pageable && this.paginator !== undefined) {
+      this.dataSource.paginator = this.paginator;
     }
     // workaround for mixed context (numbers & strings) sorting - see: https://github.com/angular/material2/issues/9966:
     this.dataSource.sortingDataAccessor = (data, header) => data[header];

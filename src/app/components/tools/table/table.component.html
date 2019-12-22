@@ -267,4 +267,6 @@
       </tr>
     </table>
   </div>
+  <mat-paginator *ngIf="pageable"
+                 [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>

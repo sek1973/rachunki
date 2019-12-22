@@ -5,37 +5,31 @@ import { Payment } from '../model/payment';
 import { PaymentsFirebaseService } from './payments.firebase.service';
 
 export class PaymentsDataSource extends TableDataSource<Payment> {
-  private paymentsSubject = new BehaviorSubject<Payment[]>([]);
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
-  public loading$ = this.loadingSubject.asObservable();
-
   constructor(private paymentsFirebaseService: PaymentsFirebaseService, private uid: string) {
-    super();
-  }
-
-  connect(): BehaviorSubject<Payment[]> {
-    return this.paymentsSubject;
+    super([]);
+    this.loading$ = this.loadingSubject.asObservable();
   }
 
   disconnect(): void {
-    this.paymentsSubject.complete();
     this.loadingSubject.complete();
+    super.disconnect();
   }
 
   load() {
+    this.subscription.unsubscribe();
     this.loadingSubject.next(true);
-    this.paymentsFirebaseService
+    this.subscription = this.paymentsFirebaseService
       .fetch(this.uid)
       .subscribe((payments) => {
-        const result = payments.sort((a, b) => {
+        this.data = payments.sort((a, b) => {
           if (a.deadline === null || a.deadline === undefined) { return 1; }
           if (b.deadline === null || b.deadline === undefined) { return -1; }
           if (a.deadline.toDate() < b.deadline.toDate()) {
             return 1;
           } else { return -1; }
         });
-        this.paymentsSubject.next(result);
         this.loadingSubject.next(false);
       });
   }
