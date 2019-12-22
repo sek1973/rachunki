@@ -11,7 +11,6 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-	MAT_DATE_LOCALE,
 	MatButtonModule,
 	MatDatepickerModule,
 	MatDialogModule,
@@ -30,6 +29,8 @@ import {
 	MatTableModule,
 	MatTooltipModule,
 } from '@angular/material';
+import { MAT_MOMENT_DATE_FORMATS, MatMomentDateModule, MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -130,6 +131,7 @@ import { PreviousUrlService } from './services/previous-url.service';
 		MatDialogModule,
 		MatDatepickerModule,
 		MatNativeDateModule,
+		MatMomentDateModule,
 		MatSelectModule,
 		MatSnackBarModule,
 		MatMenuModule
@@ -151,6 +153,8 @@ import { PreviousUrlService } from './services/previous-url.service';
 			multi: true
 		},
 		{ provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
+		{ provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
+		{ provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
 		MessagingService,
 		{ provide: MatPaginatorIntl, useClass: MatPaginatorIntlPL }
 	],
