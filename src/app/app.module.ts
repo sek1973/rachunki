@@ -72,6 +72,7 @@ import { DynamicPipe } from './pipes/dynamic.pipe';
 import { TimespanToStringPipe } from './pipes/timespan-to-string.pipe';
 import { NavigationService } from './services/navigation.service';
 import { PreviousUrlService } from './services/previous-url.service';
+import { ReminderService } from './services/reminder.service';
 
 @NgModule({
 	declarations: [
@@ -155,8 +156,9 @@ import { PreviousUrlService } from './services/previous-url.service';
 		{ provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
 		{ provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] },
 		{ provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS },
+		{ provide: MatPaginatorIntl, useClass: MatPaginatorIntlPL },
 		MessagingService,
-		{ provide: MatPaginatorIntl, useClass: MatPaginatorIntlPL }
+		ReminderService
 	],
 	exports: [
 		TableCellDirective

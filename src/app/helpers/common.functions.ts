@@ -1,4 +1,6 @@
 import { firestore } from 'firebase';
+import { Moment } from 'moment';
+import * as moment from 'moment';
 
 import Timestamp = firestore.Timestamp;
 
@@ -16,6 +18,12 @@ export function timestampToString(val: Timestamp): string | undefined {
 
 export function timestampToDate(val: Timestamp): Date | undefined {
   return val ? val.toDate() : undefined;
+}
+
+export function dateToTimestamp(val: Date | Moment): Timestamp | null {
+  if (val === null || val === undefined) { return null; }
+  const tmp = val instanceof Date ? val : (val as Moment).toDate();
+  return Timestamp.fromDate(tmp);
 }
 
 /** Tries to read formats:
@@ -78,7 +86,6 @@ export function percentToNumber(val: string): number | undefined {
 }
 
 export function addDays(days: number = 7, date: Date = new Date()): Date {
-  const result = new Date(date);
-  result.setDate(result.getDate() + days);
-  return result;
+  const result = moment(date);
+  return result.add(days, 'day').toDate();
 }

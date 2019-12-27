@@ -1,5 +1,6 @@
+import { ReminderService } from './services/reminder.service';
 import { AuthService } from './services/auth.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { MessagingService } from './messaging.service';
 import { BillsFirebaseService } from './services/bills.firebase.service';
@@ -10,12 +11,14 @@ import { AuthGuard } from './services/auth.guard';
 	templateUrl: './app.component.html',
 	styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
 
 	constructor(private billsFirebaseService: BillsFirebaseService,
 		private messagingService: MessagingService,
 		private authGuard: AuthGuard,
-		private authService: AuthService) {
+		private authService: AuthService,
+		private reminderService: ReminderService) {
+		this.reminderService.start();
 	}
 
 	ngOnInit() {
@@ -28,6 +31,10 @@ export class AppComponent implements OnInit {
 				});
 			}
 		});
-
 	}
+
+	ngOnDestroy() {
+		this.reminderService.stop();
+	}
+
 }

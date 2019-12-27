@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { firestore } from 'firebase';
+import { Moment } from 'moment';
+import * as moment from 'moment';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { addDays } from 'src/app/helpers';
+import { addDays, dateToTimestamp } from 'src/app/helpers';
 
 import { Bill } from '../model/bill';
 import { Payment } from '../model/payment';
@@ -11,7 +13,6 @@ import { Schedule } from '../model/schedule';
 import { Unit } from '../model/unit';
 import { PaymentsFirebaseService } from './payments.firebase.service';
 import { SchedulesFirebaseService } from './schedules.firebase.service';
-
 
 import Timestamp = firestore.Timestamp;
 @Injectable({
@@ -79,8 +80,8 @@ export class BillsFirebaseService {
       active: bill.active || false,
       sum: bill.sum || 0,
       share: bill.share || 1,
-      deadline: Timestamp.fromDate(bill.deadline || new Date()),
-      reminder: Timestamp.fromDate(bill.reminder || addDays(-7, bill.deadline)),
+      deadline: dateToTimestamp(bill.deadline || new Date()),
+      reminder: dateToTimestamp(bill.reminder || addDays(-7, bill.deadline)),
       repeat: bill.repeat || 1,
       unit: bill.unit || Unit.Month,
       url: bill.url || '',
@@ -88,7 +89,7 @@ export class BillsFirebaseService {
       password: bill.password || ''
     };
     if (result.reminder > result.deadline) {
-      result.reminder = Timestamp.fromDate(addDays(-7, result.deadline.toDate()));
+      result.reminder = dateToTimestamp(addDays(-7, result.deadline.toDate()));
     }
     if (bill.uid) { result.uid = bill.uid; }
     return result;
@@ -121,24 +122,25 @@ export class BillsFirebaseService {
   }
 
   calculateNextDeadline(bill: Bill): firestore.Timestamp {
-    const deadline = bill.deadline.toDate();
+    const deadline = moment(bill.deadline.toDate());
+    let result: Moment;
     switch (bill.unit) {
       case Unit.Day:
-        deadline.setDate(deadline.getDate() + bill.repeat);
+        result = deadline.add(bill.repeat, 'day');
         break;
       case Unit.Month:
-        deadline.setMonth(deadline.getMonth() + bill.repeat);
+        result = deadline.add(bill.repeat, 'month');
         break;
       case Unit.Week:
-        deadline.setDate(deadline.getDate() + (bill.repeat * 7));
+        result = deadline.add(bill.repeat, 'week');
         break;
       case Unit.Year:
-        deadline.setFullYear(deadline.getFullYear() + bill.repeat);
+        deadline.add(bill.repeat, 'year');
         break;
       default:
         break;
     }
-    return Timestamp.fromDate(deadline);
+    return Timestamp.fromDate(result.toDate());
   }
 
   pay(bill: Bill, paid: number) {
@@ -161,8 +163,8 @@ export class BillsFirebaseService {
     return this.paymentsService.createPaymentData({
       deadline: bill.deadline,
       paiddate: Timestamp.fromDate(new Date()),
-      sum: paid * 1 / bill.share,
-      share: paid,
+      sum: paid,
+      share: paid * bill.share,
       remarks: undefined
     });
   }
@@ -171,7 +173,7 @@ export class BillsFirebaseService {
     const deadline = schedule ? schedule.date : this.calculateNextDeadline(billCopy);
     const sum = schedule ? schedule.sum : billCopy.sum; // consider remarks
     billCopy.deadline = deadline;
-    billCopy.reminder = Timestamp.fromDate(addDays(7, deadline.toDate()));
+    billCopy.reminder = Timestamp.fromDate(addDays(-7, deadline.toDate()));
     billCopy.sum = sum;
     return billCopy;
   }

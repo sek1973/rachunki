@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { firestore } from 'firebase';
 import { Observable, of } from 'rxjs';
 
-import { currencyToNumber, stringToTimestamp } from '../helpers';
+import { currencyToNumber, dateToTimestamp, stringToTimestamp } from '../helpers';
 import { Bill } from '../model/bill';
 import { Payment } from '../model/payment';
 
@@ -25,8 +25,8 @@ export class PaymentsFirebaseService {
 
   createPaymentData(payment: any): Payment {
     const result: Payment = {
-      deadline: Timestamp.fromDate(payment.deadline || new Date()),
-      paiddate: Timestamp.fromDate(payment.paiddate) || undefined,
+      deadline: dateToTimestamp(payment.deadline || new Date()),
+      paiddate: dateToTimestamp(payment.paiddate) || undefined,
       sum: payment.sum,
       share: payment.share,
       remarks: payment.remarks || ''

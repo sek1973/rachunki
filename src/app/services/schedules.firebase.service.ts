@@ -3,12 +3,11 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { firestore } from 'firebase';
 import { Observable, of } from 'rxjs';
 
+import { currencyToNumber, dateToTimestamp, stringToTimestamp } from '../helpers';
 import { Bill } from '../model/bill';
 import { Schedule } from '../model/schedule';
 
 import Timestamp = firestore.Timestamp;
-import { stringToTimestamp, currencyToNumber } from '../helpers';
-
 @Injectable({
   providedIn: 'root',
 })
@@ -44,7 +43,7 @@ export class SchedulesFirebaseService {
 
   private createScheduleData(schedule: any): Schedule {
     const result: Schedule = {
-      date: Timestamp.fromDate(schedule.date || new Date()),
+      date: dateToTimestamp(schedule.date || new Date()),
       sum: schedule.sum || 0,
       remarks: schedule.remarks || '',
     };

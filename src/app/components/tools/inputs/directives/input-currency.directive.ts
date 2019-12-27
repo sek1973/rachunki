@@ -15,19 +15,25 @@ export const APP_CURRENCY_VALUE_ACCESSOR: any = {
 })
 export class InputCurrencyDirective implements ControlValueAccessor {
 
+  inputElement: HTMLInputElement;
   isDisabled: boolean;
   onChange: any = () => { };
   onTouched: any = () => { };
 
   @HostListener('input', ['$event.target.value'])
   input(value) {
+    if (value !== undefined && value !== null) {
+      value = value.replace(/[^0-9,.]/g, '')
+        .replace(',', '.');
+    }
     this.onChange(value);
   }
 
   @HostListener('blur', ['$event.target.value'])
   blur(value) {
     if (value !== undefined && value !== null) {
-      value = value.replace(',', '.');
+      value = value.replace(/[^0-9,.]/g, '')
+        .replace(',', '.');
     }
     this.renderer.setProperty(this.element.nativeElement, 'value', currencyToString(value));
   }
@@ -38,7 +44,7 @@ export class InputCurrencyDirective implements ControlValueAccessor {
   }
 
   @HostListener('keydown', ['$event']) onKeyDown(event) {
-    let e = <KeyboardEvent>event;
+    const e = <KeyboardEvent>event;
     if ([46, 8, 9, 27, 13, 110, 188, 190].indexOf(e.keyCode) !== -1 ||
       // Allow: Ctrl+A
       (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) ||
@@ -59,8 +65,28 @@ export class InputCurrencyDirective implements ControlValueAccessor {
     }
   }
 
+  @HostListener('paste', ['$event']) onPaste(event: ClipboardEvent) {
+    event.preventDefault();
+    const pastedInput: string = event.clipboardData
+      .getData('text/plain')
+      .replace(/[^0-9,.]/g, '')
+      .replace(',', '.');
+    document.execCommand('insertText', false, pastedInput);
+  }
+
+  @HostListener('drop', ['$event']) onDrop(event: DragEvent) {
+    event.preventDefault();
+    const textData = event.dataTransfer
+      .getData('text')
+      .replace(/[^0-9,.]/g, '')
+      .replace(',', '.');
+    this.inputElement.focus();
+    document.execCommand('insertText', false, textData);
+  }
+
   constructor(private renderer: Renderer2,
     private element: ElementRef) {
+    this.inputElement = element.nativeElement;
   }
 
   registerOnTouched(fn: any): void {

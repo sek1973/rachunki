@@ -112,12 +112,12 @@ export class BillEditComponent implements OnInit {
   payBill() {
     this.confirmationService
       .confirm('Rachunek opłacony',
-        'Podaj kwotę jaka została zapłacona:', 'Anuluj', 'OK',
-        ConfirmDialogInputType.InputTypeCurrency, this.bill.sum * this.bill.share, [Validators.required], 'Kwota', 'Kwota')
+        'Podaj kwotę do zapłacenia (udział zostanie wyliczony automatycznie):', 'Anuluj', 'OK',
+        ConfirmDialogInputType.InputTypeCurrency, this.bill.sum, [Validators.required], 'Kwota', 'Kwota')
       .subscribe((response) => {
         if (response) {
           this.loading.emit(true);
-          this.billsFirebaseService.pay(this.bill, (response as ConfirmDialogResponse).value)
+          this.billsFirebaseService.pay(this.bill, Number((response as ConfirmDialogResponse).value))
             .then(() => {
               this.loading.emit(false);
               this.snackBar.open('Opłacenie rachunku zapisane!', 'Ukryj', { duration: 3000 });
