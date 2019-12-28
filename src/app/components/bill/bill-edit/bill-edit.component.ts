@@ -9,7 +9,7 @@ import { ConfirmationService } from 'src/app/services/confirmation.service';
 import { ConfirmDialogResponse } from '../../tools/confirm-dialog/confirm-dialog.component';
 import { ConfirmDialogInputType } from '../../tools/confirm-dialog/confirm-dialog.model';
 import { DescriptionProvider } from '../../tools/inputs/input-component-base';
-import { enumToSelectItems } from '../../tools/inputs/input-select/input-select.component';
+import { unitsToSelectItems } from '../../tools/inputs/input-select/input-select.component';
 import { validateBillName, validateDistinctBillName } from '../../tools/inputs/validators/validators';
 import { BillDescription } from './../../../model/bill';
 import { Unit } from './../../../model/unit';
@@ -42,7 +42,7 @@ export class BillEditComponent implements OnInit {
   @Output() loading: EventEmitter<boolean> = new EventEmitter<boolean>();
   canSave = false;
 
-  unitEnumItems: SelectItem[] = [];
+  unitEnumItems: SelectItem<Unit>[] = [];
 
   private subscription = Subscription.EMPTY;
 
@@ -215,7 +215,7 @@ export class BillEditComponent implements OnInit {
   }
 
   private setUnitEnumItems() {
-    this.unitEnumItems = enumToSelectItems(Unit);
+    this.unitEnumItems = unitsToSelectItems();
   }
 
   private setEditStatus(status: string) {

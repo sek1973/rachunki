@@ -1,16 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { Unit, UnitDescription } from './../../../../model/unit';
 import { InputComponentBase } from './../input-component-base';
 
-export interface SelectItem {
-  value: any;
+export interface SelectItem<T> {
+  value: T;
   text: string;
 }
 
-export function enumToSelectItems(enumStructure: any): SelectItem[] {
-  const result = Object.keys(enumStructure)
-    .filter(value => isNaN(Number(value)) === false)
-    .map(key => ({ text: enumStructure[key], value: +key }));
+export function unitsToSelectItems(): SelectItem<Unit>[] {
+  const result: SelectItem<Unit>[] =
+    Array.from(UnitDescription.keys())
+      .map(key => ({ value: key, text: UnitDescription.get(key) }));
   return result;
 }
 
@@ -21,7 +22,7 @@ export function enumToSelectItems(enumStructure: any): SelectItem[] {
 })
 export class InputSelectComponent extends InputComponentBase implements OnInit {
 
-  @Input() selectItems: SelectItem[];
+  @Input() selectItems: SelectItem<Unit>[];
 
   constructor() { super(); }
 
