@@ -1,10 +1,10 @@
-import { ReminderService } from './services/reminder.service';
-import { AuthService } from './services/auth.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { MessagingService } from './messaging.service';
-import { BillsFirebaseService } from './services/bills.firebase.service';
 import { AuthGuard } from './services/auth.guard';
+import { AuthService } from './services/auth.service';
+import { BillsFirebaseService } from './services/bills.firebase.service';
+import { MessagingService } from './services/messaging.service';
+import { ReminderService } from './services/reminder.service';
 
 @Component({
 	selector: 'app-root',

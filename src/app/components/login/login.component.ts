@@ -1,13 +1,13 @@
-import { MessagingService } from './../../messaging.service';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
+import { FieldDescription } from 'src/app/model/field-description';
 
+import { MessagingService } from '../../services/messaging.service';
+import { DescriptionProvider } from '../tools/inputs/input-component-base';
 import { AuthService } from './../../services/auth.service';
 import { BillsFirebaseService } from './../../services/bills.firebase.service';
 import { NavigationService } from './../../services/navigation.service';
-import { FieldDescription } from 'src/app/model/field-description';
-import { DescriptionProvider } from '../tools/inputs/input-component-base';
 
 @Component({
   selector: 'app-login',
