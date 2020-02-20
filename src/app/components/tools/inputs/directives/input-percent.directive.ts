@@ -1,6 +1,6 @@
 import { PercentPipe } from '@angular/common';
 import { Directive, ElementRef, forwardRef, HostListener, Renderer2 } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { percentToNumber, percentToString } from 'src/app/helpers';
 
 export const APP_PERCENT_VALUE_ACCESSOR: any = {
@@ -14,7 +14,7 @@ export const APP_PERCENT_VALUE_ACCESSOR: any = {
   selector: '[appInputPercent]',
   providers: [APP_PERCENT_VALUE_ACCESSOR]
 })
-export class InputPercentDirective {
+export class InputPercentDirective implements ControlValueAccessor {
 
   isDisabled: boolean;
   percentPipe: PercentPipe;
@@ -40,7 +40,7 @@ export class InputPercentDirective {
   }
 
   @HostListener('keydown', ['$event']) onKeyDown(event) {
-    let e = <KeyboardEvent>event;
+    const e = <KeyboardEvent>event;
     if ([46, 8, 9, 27, 13, 110, 188, 190].indexOf(e.keyCode) !== -1 ||
       // Allow: Ctrl+A
       (e.keyCode === 65 && (e.ctrlKey || e.metaKey)) ||
