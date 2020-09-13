@@ -61,15 +61,15 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   @Output() refreshButtonClicked: EventEmitter<null> = new EventEmitter<null>();
   @Output() pasteButtonClicked: EventEmitter<null> = new EventEmitter<null>();
 
-  @ViewChild(MatTable, { static: false }) table: MatTable<any>;
-  @ViewChild('table', { static: false, read: ElementRef }) tableElementRef: ElementRef;
+  @ViewChild(MatTable) table: MatTable<any>;
+  @ViewChild('table', { read: ElementRef }) tableElementRef: ElementRef;
 
-  @ViewChild(MatSort, { static: false })
+  @ViewChild(MatSort)
   set matSort(ms: MatSort) {
     if (this.sort !== ms) { this.sort = ms; }
   }
 
-  @ViewChild(MatPaginator, { static: false })
+  @ViewChild(MatPaginator)
   set matPaginator(mp: MatPaginator) {
     if (this.paginator !== mp) {
       this.paginator = mp;
@@ -77,7 +77,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  @ViewChild('filterInput', { static: false }) filterInput;
+  @ViewChild('filterInput') filterInput;
   cellTemplates: Map<string, TemplateRef<any>> = new Map<string, TemplateRef<any>>();
   @ContentChildren(TableCellDirective) set dataTableCellDirectives(val: QueryList<TableCellDirective>) {
     this.cellTemplates = new Map<string, TemplateRef<any>>();
@@ -86,10 +86,10 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  @ContentChild('tableTitleTemplate', { static: false }) tableTitleTemplate: TemplateRef<Component>;
-  @ContentChild('expandedRowTemplate', { static: false }) expandedRowTemplate: TemplateRef<Component>;
-  @ContentChild('middleToolbarPanelTemplate', { static: false }) middleToolbarPanelTemplate: TemplateRef<Component>;
-  @ContentChild('rightToolbarPanelTemplate', { static: false }) rightToolbarPanelTemplate: TemplateRef<Component>;
+  @ContentChild('tableTitleTemplate') tableTitleTemplate: TemplateRef<Component>;
+  @ContentChild('expandedRowTemplate') expandedRowTemplate: TemplateRef<Component>;
+  @ContentChild('middleToolbarPanelTemplate') middleToolbarPanelTemplate: TemplateRef<Component>;
+  @ContentChild('rightToolbarPanelTemplate') rightToolbarPanelTemplate: TemplateRef<Component>;
 
   @Input() sortActive: string;
   @Input() sortDirection: SortDirection;

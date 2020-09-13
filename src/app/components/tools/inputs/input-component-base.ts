@@ -1,11 +1,12 @@
 import { getSafe } from 'src/app/helpers';
-import { Input, OnInit } from '@angular/core';
+import { Input, OnInit, Directive } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FieldDescription } from 'src/app/model/field-description';
 
 export interface DescriptionProvider {
   getDescriptionObj: (...path: string[]) => FieldDescription;
 }
+@Directive()
 export class InputComponentBase implements OnInit {
   tooltipShowDelayValue = 1000;
   tooltipHideDelayValue = 2000;

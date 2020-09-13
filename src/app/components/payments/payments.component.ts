@@ -25,7 +25,7 @@ export class PaymentsComponent implements OnInit {
   get billUid(): string {
     return this._builUid;
   }
-  @ViewChild('table', { static: false, read: TableComponent }) table: TableComponent;
+  @ViewChild('table', { read: TableComponent }) table: TableComponent;
   @Output() loading: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   activeRow: any;
