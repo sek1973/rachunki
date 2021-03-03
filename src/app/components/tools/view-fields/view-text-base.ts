@@ -1,4 +1,4 @@
-import { Input, OnInit, PipeTransform } from '@angular/core';
+import { Input, OnInit, PipeTransform, Directive } from '@angular/core';
 import { getSafe } from 'src/app/helpers';
 
 import { DescriptionProvider } from '../inputs/input-component-base';
@@ -11,6 +11,7 @@ export interface LabelProvider {
   getLabelText(...path: string[]): string;
 }
 
+@Directive()
 export class ViewFieldComponentBase implements OnInit {
   @Input() valueProvider: ValueProvider;
   @Input() descriptionProvider: DescriptionProvider;

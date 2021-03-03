@@ -33,7 +33,7 @@ export class OverviewComponent implements OnInit {
 	];
 	loading: boolean = false;
 
-	@ViewChild('table', { static: false }) table: TableComponent;
+	@ViewChild('table') table: TableComponent;
 
 	constructor(private billsFirebaseService: BillsFirebaseService,
 		private authService: AuthService,
